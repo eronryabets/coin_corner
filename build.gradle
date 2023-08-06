@@ -26,6 +26,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.postgresql:postgresql'
 	implementation "org.mapstruct:mapstruct:${versions.mapstruct}"
+	implementation 'org.liquibase:liquibase-core'
 
 	annotationProcessor "org.mapstruct:mapstruct-processor:${versions.mapstruct}"
 
@@ -34,7 +35,7 @@ dependencies {
 
 }
 
-tasks.named('test') {
+test {
 	useJUnitPlatform()
 }
 
