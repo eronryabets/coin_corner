@@ -25,7 +25,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.postgresql:postgresql'
-//	implementation 'org.liquibase:liquibase-core'
+	implementation "org.mapstruct:mapstruct:${versions.mapstruct}"
+
+	annotationProcessor "org.mapstruct:mapstruct-processor:${versions.mapstruct}"
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation "org.testcontainers:postgresql:${versions.testcontainers}"

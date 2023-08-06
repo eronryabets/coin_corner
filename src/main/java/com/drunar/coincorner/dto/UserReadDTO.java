@@ -5,7 +5,7 @@ import lombok.Value;
 import java.time.LocalDate;
 
 @Value
-public class UserReadDto {
+public class UserReadDTO {
     Long id;
     String email;
     String username;
