@@ -1,6 +1,5 @@
 package com.drunar.coincorner.service;
 
-import com.drunar.coincorner.database.entity.User;
 import com.drunar.coincorner.database.repository.UserRepository;
 import com.drunar.coincorner.dto.UserCreateEditDTO;
 import com.drunar.coincorner.dto.UserReadDTO;
@@ -22,8 +21,8 @@ public class UserService {
 
     public List<UserReadDTO> findAll(){
         //TODO: UserFilter filter, Pageable pageable
-       return userRepository.findAll().stream()
-               .map(userMapper::userToUserReadDTO).toList();
+        return userRepository.findAll().stream()
+                .map(userMapper::userToUserReadDTO).toList();
     }
 
     public Optional<UserReadDTO> findById(Long id){
