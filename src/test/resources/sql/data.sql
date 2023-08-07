@@ -11,3 +11,21 @@ VALUES
     (9, 'user9@example.com', 'user9', 'Chris', 'Anderson', '1986-06-12'),
     (10, 'user10@example.com', 'user10', 'Laura', 'Harris', '1991-04-08');
 SELECT SETVAL('users_id_seq', (SELECT MAX(id) FROM users));
+
+INSERT INTO wallets (id, wallet_name, wallet_type, currency, balance, owner_user_id)
+VALUES
+    (1, 'Wallet 1', 'DEBIT', 'USD', 1000.00, 1),
+    (2, 'Wallet 2', 'CREDIT', 'EUR', 1500.00, 2),
+    (3, 'Wallet 3', 'DEBIT', 'USD', 2000.00, 3),
+    (4, 'Wallet 4', 'CREDIT', 'USD', 500.00, 4),
+    (5, 'Wallet 5', 'DEBIT', 'EUR', 800.00, 5);
+SELECT SETVAL('wallets_id_seq', (SELECT MAX(id) FROM wallets));
+
+INSERT INTO wallet_transactions (id, wallet_id, previous_balance, operation_type, transaction_date, amount)
+VALUES
+    (1, 1, 1000.00, 'INCOME', now(), 200.00),
+    (2, 2, 1500.00, 'EXPENSE', now(), -100.00),
+    (3, 3, 2000.00, 'INCOME', now(), 300.00),
+    (4, 4, 500.00, 'EXPENSE', now(), -50.00),
+    (5, 5, 800.00, 'INCOME', now(), 100.00);
+SELECT SETVAL('wallet_transactions_id_seq', (SELECT MAX(id) FROM wallet_transactions));

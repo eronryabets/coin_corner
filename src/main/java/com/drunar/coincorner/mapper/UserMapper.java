@@ -19,6 +19,7 @@ public interface UserMapper {
     User userDTOtoUser(UserReadDTO userReadDTO);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "wallets", ignore = true)
     User userCreateEditDTOtoUser(UserCreateEditDTO userCreateEditDTO);
 
      default User userCreateEditDTOCopyToUser(UserCreateEditDTO object, User user){

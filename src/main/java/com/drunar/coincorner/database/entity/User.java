@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -31,5 +32,8 @@ public class User {
     private String lastname;
 
     private LocalDate birthDate;
+
+    @OneToMany(mappedBy = "ownerUser", cascade = CascadeType.ALL)
+    private List<Wallet> wallets;
 
 }

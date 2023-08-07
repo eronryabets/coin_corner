@@ -1,8 +1,7 @@
-package com.drunar.coincorner;
+package com.drunar.coincorner.mapper;
 
 import com.drunar.coincorner.database.entity.User;
 import com.drunar.coincorner.dto.UserReadDTO;
-import com.drunar.coincorner.mapper.UserMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
