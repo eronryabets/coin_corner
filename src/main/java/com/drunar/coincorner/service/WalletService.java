@@ -1,7 +1,6 @@
 package com.drunar.coincorner.service;
 
 import com.drunar.coincorner.database.repository.WalletRepository;
-import com.drunar.coincorner.database.repository.WalletTransactionRepository;
 import com.drunar.coincorner.dto.UserReadDTO;
 import com.drunar.coincorner.dto.WalletCreateEditDTO;
 import com.drunar.coincorner.dto.WalletReadDTO;
@@ -21,7 +20,6 @@ import java.util.stream.Collectors;
 public class WalletService {
 
     private final WalletRepository walletRepository;
-    private final WalletTransactionRepository walletTransactionRepository;
     private final WalletMapper walletMapper;
     private final UserMapper userMapper;
 

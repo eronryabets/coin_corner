@@ -21,11 +21,11 @@ VALUES
     (5, 'Wallet 5', 'DEBIT', 'EUR', 800.00, 5);
 SELECT SETVAL('wallets_id_seq', (SELECT MAX(id) FROM wallets));
 
-INSERT INTO wallet_transactions (id, wallet_id, previous_balance, operation_type, transaction_date, amount)
+INSERT INTO wallet_transactions (id, wallet_id, previous_balance, operation_type, transaction_date, amount, current_balance)
 VALUES
-    (1, 1, 1000.00, 'INCOME', now(), 200.00),
-    (2, 2, 1500.00, 'EXPENSE', now(), -100.00),
-    (3, 3, 2000.00, 'INCOME', now(), 300.00),
-    (4, 4, 500.00, 'EXPENSE', now(), -50.00),
-    (5, 5, 800.00, 'INCOME', now(), 100.00);
+    (1, 1, 1000.00, 'INCOME', now(), 200.00, 1200.00),
+    (2, 2, 1500.00, 'EXPENSE', now(), -100.00, 1400.00),
+    (3, 3, 2000.00, 'INCOME', now(), 300.00, 2300.00),
+    (4, 4, 500.00, 'EXPENSE', now(), -50.00, 450.00),
+    (5, 5, 800.00, 'INCOME', now(), 100.00, 900.00);
 SELECT SETVAL('wallet_transactions_id_seq', (SELECT MAX(id) FROM wallet_transactions));

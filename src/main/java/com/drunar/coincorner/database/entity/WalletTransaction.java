@@ -29,6 +29,9 @@ public class WalletTransaction {
     private BigDecimal previousBalance;
 
     @Column(nullable = false)
+    private BigDecimal currentBalance;
+
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private OperationType operationType;
 

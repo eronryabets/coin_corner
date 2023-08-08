@@ -49,7 +49,6 @@ public class Wallet {
 
     @OneToMany(mappedBy = "wallet",
             fetch = FetchType.LAZY,
-//            optional = false,
             cascade = CascadeType.REMOVE,
             orphanRemoval = true)
     @Builder.Default
