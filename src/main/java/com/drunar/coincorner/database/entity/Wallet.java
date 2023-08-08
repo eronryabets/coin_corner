@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -27,8 +29,8 @@ public class Wallet {
     @Enumerated(EnumType.STRING)
     private WalletType walletType;
 
-    @Column(nullable = false)
-    private String currency;
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
 
     @Column(nullable = false)
     private BigDecimal balance;
@@ -40,4 +42,16 @@ public class Wallet {
     public enum WalletType {
         DEBIT, CREDIT
     }
+
+    public enum Currency {
+        USD, EUR, PLN, UAH
+    }
+
+    @OneToMany(mappedBy = "wallet",
+            fetch = FetchType.LAZY,
+//            optional = false,
+            cascade = CascadeType.REMOVE,
+            orphanRemoval = true)
+    @Builder.Default
+    private List<WalletTransaction> transactions = new ArrayList<>();
 }

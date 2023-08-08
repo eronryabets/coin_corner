@@ -33,7 +33,9 @@ public class User {
 
     private LocalDate birthDate;
 
-    @OneToMany(mappedBy = "ownerUser", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ownerUser",
+            cascade = CascadeType.REMOVE,
+            orphanRemoval = true)
     private List<Wallet> wallets;
 
 }

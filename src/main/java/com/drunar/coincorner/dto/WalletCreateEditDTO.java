@@ -5,14 +5,12 @@ import lombok.Value;
 import java.math.BigDecimal;
 
 @Value
-public class WalletReadDTO {
+public class WalletCreateEditDTO {
 
-    Long id;
     String walletName;
     String walletType;
     String currency;
-    BigDecimal balance;
     Long ownerId;
-    String ownerUsername;
+    BigDecimal balance;
 
 }

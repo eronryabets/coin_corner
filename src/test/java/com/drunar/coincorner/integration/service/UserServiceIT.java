@@ -57,10 +57,10 @@ class UserServiceIT extends IntegrationTestBase {
     @Test
     void update() {
         UserCreateEditDTO userDTO = new UserCreateEditDTO(
-                "test1@gmail.com",
-                "username",
-                "firstname",
-                "lastname",
+                "test2@gmail.com",
+                "username2",
+                "firstname2",
+                "lastname2",
                 LocalDate.now()
         );
 
