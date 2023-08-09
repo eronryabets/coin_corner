@@ -58,14 +58,14 @@ public class WalletTransactionServiceIT extends IntegrationTestBase {
     @Test
     void findAll(){
         List<WalletTransactionDTO> result = walletTransactionService.findAll();
-        assertThat(result).hasSize(5);
+        assertThat(result).hasSize(15);
     }
 
     @Test
     void findAllByWallet(){
         Optional<List<WalletTransactionDTO>> transactionDTO = walletTransactionService.findAllByWallet(walletDTO);
         transactionDTO.ifPresent(it -> {
-            assertEquals(it.size(),1);
+            assertEquals(it.size(),6);
             assertEquals(it.get(0).getWalletId(), wallet.getId());
             assertEquals(it.get(0).getWalletName(), wallet.getWalletName());
         });

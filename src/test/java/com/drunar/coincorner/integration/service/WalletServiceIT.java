@@ -4,7 +4,6 @@ import com.drunar.coincorner.dto.UserReadDTO;
 import com.drunar.coincorner.dto.WalletCreateEditDTO;
 import com.drunar.coincorner.dto.WalletReadDTO;
 import com.drunar.coincorner.integration.IntegrationTestBase;
-import com.drunar.coincorner.mapper.UserMapper;
 import com.drunar.coincorner.service.UserService;
 import com.drunar.coincorner.service.WalletService;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +24,11 @@ public class WalletServiceIT extends IntegrationTestBase {
 
     private final WalletService walletService;
     private final UserService userService;
-    private final UserMapper userMapper;
 
     @Test
     void findAll(){
         List<WalletReadDTO> result = walletService.findAll();
-        assertThat(result).hasSize(5);
+        assertThat(result).hasSize(16);
     }
 
     @Test
@@ -46,7 +44,7 @@ public class WalletServiceIT extends IntegrationTestBase {
         maybeUser.ifPresent(userReadDTO -> {
             Optional<List<WalletReadDTO>> maybeWallets = walletService.findAllByUser(userReadDTO);
             maybeWallets.ifPresent( wallets -> {
-                assertThat(wallets).hasSize(1);
+                assertThat(wallets).hasSize(3);
             });
         });
     }
