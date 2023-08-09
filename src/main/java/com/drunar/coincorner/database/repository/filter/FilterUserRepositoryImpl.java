@@ -21,7 +21,11 @@ public class FilterUserRepositoryImpl implements FilterUserRepository{
         var predicate = QPredicates.builder()
                 .add(filter.firstname(), user.firstname::containsIgnoreCase)
                 .add(filter.lastname(), user.lastname::containsIgnoreCase)
-                .add(filter.birthDate(), user.birthDate::before)
+                .add(filter.birthDateIn(), user.birthDate::in)
+                .add(filter.birthDateAfter(), user.birthDate::after)
+                .add(filter.birthDateBefore(), user.birthDate::before)
+                .add(filter.birthDateRangeStart(), user.birthDate::goe)
+                .add(filter.birthDateRangeEnd(), user.birthDate::loe)
                 .build();
 
         return new JPAQuery<User>(entityManager)
