@@ -21,5 +21,4 @@ public interface WalletTransactionMapper {
     @Mapping(source = "wallet.walletName", target = "walletName")
     WalletTransactionDTO walletTransactionToWalletTransactionDTO(WalletTransaction walletTransaction);
 
-
 }

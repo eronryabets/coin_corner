@@ -12,9 +12,9 @@ public class WalletTransactionDTO {
     Long walletId;
     String walletName;
     BigDecimal previousBalance;
+    BigDecimal amount;
     BigDecimal currentBalance;
     String operationType;
     LocalDateTime transactionDate;
-    BigDecimal amount;
 
 }
