@@ -21,8 +21,12 @@ public class FilterWalletTransactionRepositoryImpl implements FilterWalletTransa
     public List<WalletTransaction> findAllByFilter(WalletTransactionFilter filter) {
         var predicate = QPredicates.builder()
                 .add(filter.getOperationType(), walletTransaction.operationType::eq)
-                .add(filter.getTransactionDate(), walletTransaction.transactionDate::before)
                 .add(filter.getAmount(), walletTransaction.amount::eq)
+                .add(filter.getTransactionDateIn(), walletTransaction.transactionDate::in)
+                .add(filter.getTransactionDateAfter(), walletTransaction.transactionDate::after)
+                .add(filter.getTransactionDateBefore(), walletTransaction.transactionDate::before)
+                .add(filter.getTransactionDateStart(), walletTransaction.transactionDate::goe)
+                .add(filter.getTransactionDateEnd(), walletTransaction.transactionDate::loe)
                 .build();
 
         return new JPAQuery<Wallet>(entityManager)

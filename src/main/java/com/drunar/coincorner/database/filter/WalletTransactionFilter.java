@@ -13,6 +13,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class WalletTransactionFilter {
     WalletTransaction.OperationType operationType;
-    LocalDateTime transactionDate;
     BigDecimal amount;
+    LocalDateTime transactionDateIn;
+    LocalDateTime transactionDateAfter;
+    LocalDateTime transactionDateBefore;
+    LocalDateTime transactionDateStart;
+    LocalDateTime transactionDateEnd;
 }
