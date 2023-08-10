@@ -7,29 +7,37 @@
 <body>
 <form action="/users">
     <label for="firstname">Firstname:
-        <input id="firstname" type="text" name="firstname">
+        <input id="firstname" type="text" name="firstname" th:value="${filter.firstname}">
     </label><br>
     <label for="lastname">Lastname:
-        <input id="lastname" type="text" name="lastname">
+        <input id="lastname" type="text" name="lastname"  th:value="${filter.lastname}">
     </label><br>
     <label for="birthDateIn">BirthdateIn:
-        <input id="birthDateIn" type="date" name="birthDateIn">
+        <input id="birthDateIn" type="date" name="birthDateIn"  th:value="${filter.birthDateIn}">
     </label><br>
     <label for="birthDateBefore">BirthDateBefore:
-        <input id="birthDateBefore" type="date" name="birthDateBefore">
+        <input id="birthDateBefore" type="date" name="birthDateBefore"  th:value="${filter.birthDateBefore}">
     </label><br>
-    <label for="birthDateAfter">birthDateAfter:
-        <input id="birthDateAfter" type="date" name="birthDateAfter">
+    <label for="birthDateAfter">BirthDateAfter:
+        <input id="birthDateAfter" type="date" name="birthDateAfter"  th:value="${filter.birthDateAfter}">
     </label><br>
     <label for="birthDateRangeStart">BirthDateRangeStart:
-        <input id="birthDateRangeStart" type="date" name="birthDateRangeStart">
+        <input id="birthDateRangeStart" type="date" name="birthDateRangeStart"  th:value="${filter.birthDateRangeStart}">
     </label><br>
     <label for="birthDateRangeEnd">BirthDateRangeEnd:
-        <input id="birthDateRangeEnd" type="date" name="birthDateRangeEnd">
+        <input id="birthDateRangeEnd" type="date" name="birthDateRangeEnd"  th:value="${filter.birthDateRangeEnd}">
     </label><br>
+    <div>
+        <label for="page">Page:
+            <input id="page" type="number" name="page" th:value="${users.metadata.page}">
+        </label>
+        <label for="size">Size:
+            <input id="size" type="number" name="size" th:value="${users.metadata.size}">
+        </label>
+    </div>
     <button type="submit">Filter</button>
 </form>
-<div th:each="user : ${users}">
+<div th:each="user : ${users.content}">
     <a th:href="@{'/users/' + ${user.id}}" th:text="|${user.id}. ${user.username}|">User</a>
 </div>
 </body>

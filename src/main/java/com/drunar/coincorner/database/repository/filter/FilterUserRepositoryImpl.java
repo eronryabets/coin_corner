@@ -1,8 +1,9 @@
 package com.drunar.coincorner.database.repository.filter;
 
 import com.drunar.coincorner.database.entity.User;
-import com.drunar.coincorner.database.querydsl.QPredicates;
 import com.drunar.coincorner.database.filter.UserFilter;
+import com.drunar.coincorner.util.predicateBuilder.UserPredicateBuilder;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQuery;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -18,15 +19,7 @@ public class FilterUserRepositoryImpl implements FilterUserRepository{
 
     @Override
     public List<User> findAllByFilter(UserFilter filter) {
-        var predicate = QPredicates.builder()
-                .add(filter.getFirstname(), user.firstname::containsIgnoreCase)
-                .add(filter.getLastname(), user.lastname::containsIgnoreCase)
-                .add(filter.getBirthDateIn(), user.birthDate::in)
-                .add(filter.getBirthDateAfter(), user.birthDate::after)
-                .add(filter.getBirthDateBefore(), user.birthDate::before)
-                .add(filter.getBirthDateRangeStart(), user.birthDate::goe)
-                .add(filter.getBirthDateRangeEnd(), user.birthDate::loe)
-                .build();
+        Predicate predicate = UserPredicateBuilder.buildPredicate(filter);
 
         return new JPAQuery<User>(entityManager)
                 .select(user)

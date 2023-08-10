@@ -2,15 +2,18 @@ package com.drunar.coincorner.http.controller;
 
 
 import com.drunar.coincorner.database.filter.UserFilter;
+import com.drunar.coincorner.dto.PageResponse;
 import com.drunar.coincorner.dto.UserCreateEditDTO;
+import com.drunar.coincorner.dto.UserReadDTO;
 import com.drunar.coincorner.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -21,9 +24,10 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public String findAll(Model model, UserFilter filter){
-        model.addAttribute("users",userService.findAll(filter));
-        System.out.println();
+    public String findAll(Model model, UserFilter filter, Pageable pageable) {
+        Page<UserReadDTO> page = userService.findAll(filter, pageable);
+        model.addAttribute("users", PageResponse.of(page));
+        model.addAttribute("filter", filter);
         return "user/users";
     }
 

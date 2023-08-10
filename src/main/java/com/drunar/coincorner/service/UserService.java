@@ -5,7 +5,11 @@ import com.drunar.coincorner.database.repository.UserRepository;
 import com.drunar.coincorner.dto.UserCreateEditDTO;
 import com.drunar.coincorner.dto.UserReadDTO;
 import com.drunar.coincorner.mapper.UserMapper;
+import com.drunar.coincorner.util.predicateBuilder.UserPredicateBuilder;
+import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,14 +24,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
+    public Page<UserReadDTO> findAll(UserFilter filter, Pageable pageable) {
+        Predicate predicate = UserPredicateBuilder.buildPredicate(filter);
+
+        return userRepository.findAll(predicate, pageable)
+                .map(userMapper::userToUserReadDTO);
+    }
+
     public List<UserReadDTO> findAll(){
         //TODO: UserFilter filter, Pageable pageable
         return userRepository.findAll().stream()
-                .map(userMapper::userToUserReadDTO).toList();
-    }
-
-    public List<UserReadDTO> findAll(UserFilter filter){
-        return userRepository.findAllByFilter(filter).stream()
                 .map(userMapper::userToUserReadDTO).toList();
     }
 
