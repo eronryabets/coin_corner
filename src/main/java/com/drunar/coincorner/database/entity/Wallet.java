@@ -1,22 +1,22 @@
 package com.drunar.coincorner.database.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@EqualsAndHashCode(callSuper = true)
 @Data
+@ToString(exclude = {"ownerUser", "transactions"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
 @Table(name = "wallets")
-public class Wallet {
+public class Wallet extends AuditingEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,4 +53,5 @@ public class Wallet {
             orphanRemoval = true)
     @Builder.Default
     private List<WalletTransaction> transactions = new ArrayList<>();
+
 }
