@@ -27,6 +27,8 @@ public class FilterWalletTransactionRepositoryImpl implements FilterWalletTransa
                 .add(filter.getTransactionDateBefore(), walletTransaction.transactionDate::before)
                 .add(filter.getTransactionDateStart(), walletTransaction.transactionDate::goe)
                 .add(filter.getTransactionDateEnd(), walletTransaction.transactionDate::loe)
+                .add(filter.getWallet(), walletTransaction.wallet::eq)
+                .add(filter.getUser(), walletTransaction.wallet.ownerUser::eq)
                 .build();
 
         return new JPAQuery<Wallet>(entityManager)

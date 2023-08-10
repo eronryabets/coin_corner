@@ -1,5 +1,7 @@
 package com.drunar.coincorner.integration.database.repository;
 
+import com.drunar.coincorner.database.entity.User;
+import com.drunar.coincorner.database.entity.Wallet;
 import com.drunar.coincorner.database.entity.WalletTransaction;
 import com.drunar.coincorner.database.filter.WalletTransactionFilter;
 import com.drunar.coincorner.database.repository.WalletTransactionRepository;
@@ -83,5 +85,31 @@ public class WalletTransactionRepositoryTest extends IntegrationTestBase {
         List<WalletTransaction> transactions = walletTransactionRepository.findAllByFilter(filter);
         assertThat(transactions).hasSize(4);
     }
+
+    @Test
+    void checkWalletTrFilterByWallet() {
+        Wallet wallet = Wallet.builder().id(1L).build();
+
+        WalletTransactionFilter filter = WalletTransactionFilter.builder()
+                .wallet(wallet)
+                .build();
+        List<WalletTransaction> transactions = walletTransactionRepository.findAllByFilter(filter);
+        assertThat(transactions).hasSize(6);
+
+    }
+
+    @Test
+    void checkWalletTrFilterByUser() {
+        User user = User.builder().id(1L).build();
+
+        WalletTransactionFilter filter = WalletTransactionFilter.builder()
+                .user(user)
+                .build();
+        List<WalletTransaction> transactions = walletTransactionRepository.findAllByFilter(filter);
+        assertThat(transactions).hasSize(13);
+
+
+    }
+
 
 }
