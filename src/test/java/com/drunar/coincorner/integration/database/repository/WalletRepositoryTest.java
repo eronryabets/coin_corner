@@ -15,10 +15,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
-import java.util.Optional;
 
+import static com.drunar.coincorner.database.entity.Wallet.Currency;
+import static com.drunar.coincorner.database.entity.Wallet.WalletType;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
 @RequiredArgsConstructor
 public class WalletRepositoryTest extends IntegrationTestBase {
@@ -44,8 +44,7 @@ public class WalletRepositoryTest extends IntegrationTestBase {
 
     @Test
     void checkFilterWalletName() {
-        WalletFilter filter = new WalletFilter("wall",
-                null, null, null);
+        WalletFilter filter = WalletFilter.builder().walletName("wall").build();
         List<Wallet> wallets = walletRepository.findAllByFilter(filter);
         assertThat(wallets).hasSize(16);
         assertThat(wallets).as("The size of the list should not be 1").isNotEqualTo(1);
@@ -54,16 +53,14 @@ public class WalletRepositoryTest extends IntegrationTestBase {
 
     @Test
     void checkFilterWalletType() {
-        WalletFilter filter = new WalletFilter(null,
-                Wallet.WalletType.CREDIT, null, null);
+        WalletFilter filter = WalletFilter.builder().walletType(WalletType.CREDIT).build();
         List<Wallet> wallets = walletRepository.findAllByFilter(filter);
         assertThat(wallets).hasSize(8);
     }
 
     @Test
     void checkFilterWalletCurrency() {
-        WalletFilter filter = new WalletFilter(null,
-                null, Wallet.Currency.UAH, null);
+        WalletFilter filter = WalletFilter.builder().currency(Currency.UAH).build();
         List<Wallet> wallets = walletRepository.findAllByFilter(filter);
         assertThat(wallets).hasSize(2);
     }
@@ -71,12 +68,10 @@ public class WalletRepositoryTest extends IntegrationTestBase {
     @Test
     void checkFilterByUser() {
 
-        User mockUser = new User();
-        mockUser.setId(3L);
-        when(userRepository.findById(3L)).thenReturn(Optional.of(mockUser));
+        User user = new User();
+        user.setId(3L);
 
-        WalletFilter filter = new WalletFilter(null,
-                null, null, mockUser);
+        WalletFilter filter = WalletFilter.builder().ownerUser(user).build();
         List<Wallet> wallets = walletRepository.findAllByFilter(filter);
         assertThat(wallets).hasSize(3);
     }
@@ -84,12 +79,14 @@ public class WalletRepositoryTest extends IntegrationTestBase {
     @Test
     void checkFilterAllParameters() {
 
-        User mockUser = new User();
-        mockUser.setId(1L);
-        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+        User user = new User();
+        user.setId(1L);
 
-        WalletFilter filter = new WalletFilter("Wallet 1",
-                Wallet.WalletType.DEBIT, Wallet.Currency.USD, mockUser);
+        WalletFilter filter = WalletFilter.builder()
+                .walletName("Wallet 1")
+                .walletType(WalletType.DEBIT)
+                .currency(Currency.USD)
+                .ownerUser(user).build();
         List<Wallet> wallets = walletRepository.findAllByFilter(filter);
         assertThat(wallets).hasSize(1);
     }

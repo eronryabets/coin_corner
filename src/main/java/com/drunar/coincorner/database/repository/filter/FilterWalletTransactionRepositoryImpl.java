@@ -20,9 +20,9 @@ public class FilterWalletTransactionRepositoryImpl implements FilterWalletTransa
     @Override
     public List<WalletTransaction> findAllByFilter(WalletTransactionFilter filter) {
         var predicate = QPredicates.builder()
-                .add(filter.operationType(), walletTransaction.operationType::eq)
-                .add(filter.transactionDate(), walletTransaction.transactionDate::before)
-                .add(filter.amount(), walletTransaction.amount::eq)
+                .add(filter.getOperationType(), walletTransaction.operationType::eq)
+                .add(filter.getTransactionDate(), walletTransaction.transactionDate::before)
+                .add(filter.getAmount(), walletTransaction.amount::eq)
                 .build();
 
         return new JPAQuery<Wallet>(entityManager)

@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
+import static com.drunar.coincorner.database.entity.WalletTransaction.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RequiredArgsConstructor
@@ -34,8 +35,7 @@ public class WalletTransactionRepositoryTest extends IntegrationTestBase {
 
     @Test
     void checkCustomImplementation() {
-        WalletTransactionFilter filter = new WalletTransactionFilter(WalletTransaction.OperationType.INCOME,
-                null, null);
+        WalletTransactionFilter filter = WalletTransactionFilter.builder().operationType(OperationType.INCOME).build();
         List<WalletTransaction> transactions = walletTransactionRepository.findAllByFilter(filter);
         assertThat(transactions).hasSize(8);
         assertThat(transactions).as("The size of the list should not be 5").isNotEqualTo(5);

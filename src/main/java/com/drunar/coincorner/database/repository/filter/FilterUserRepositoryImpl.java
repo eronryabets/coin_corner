@@ -19,13 +19,13 @@ public class FilterUserRepositoryImpl implements FilterUserRepository{
     @Override
     public List<User> findAllByFilter(UserFilter filter) {
         var predicate = QPredicates.builder()
-                .add(filter.firstname(), user.firstname::containsIgnoreCase)
-                .add(filter.lastname(), user.lastname::containsIgnoreCase)
-                .add(filter.birthDateIn(), user.birthDate::in)
-                .add(filter.birthDateAfter(), user.birthDate::after)
-                .add(filter.birthDateBefore(), user.birthDate::before)
-                .add(filter.birthDateRangeStart(), user.birthDate::goe)
-                .add(filter.birthDateRangeEnd(), user.birthDate::loe)
+                .add(filter.getFirstname(), user.firstname::containsIgnoreCase)
+                .add(filter.getLastname(), user.lastname::containsIgnoreCase)
+                .add(filter.getBirthDateIn(), user.birthDate::in)
+                .add(filter.getBirthDateAfter(), user.birthDate::after)
+                .add(filter.getBirthDateBefore(), user.birthDate::before)
+                .add(filter.getBirthDateRangeStart(), user.birthDate::goe)
+                .add(filter.getBirthDateRangeEnd(), user.birthDate::loe)
                 .build();
 
         return new JPAQuery<User>(entityManager)

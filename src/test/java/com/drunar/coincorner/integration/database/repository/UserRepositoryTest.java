@@ -35,14 +35,14 @@ public class UserRepositoryTest extends IntegrationTestBase {
 
     @Test
     void checkUserFilterFirstname() {
-        UserFilter filter = new UserFilter("john", null, null, null,null, null, null);
+        UserFilter filter = UserFilter.builder().firstname("john").build();
         List<User> users = userRepository.findAllByFilter(filter);
         assertThat(users).hasSize(1);
     }
 
     @Test
     void checkUserFilterLastname() {
-        UserFilter filter = new UserFilter(null, "i", null,null,null, null, null);
+        UserFilter filter = UserFilter.builder().lastname("i").build();
         List<User> users = userRepository.findAllByFilter(filter);
         assertThat(users).hasSize(4);
         assertThat(users).as("The size of the list should not be 5").isNotEqualTo(5);
@@ -53,16 +53,13 @@ public class UserRepositoryTest extends IntegrationTestBase {
     void checkUserFilterBirthDate() {
         LocalDate date = LocalDate.of(1990, 1, 1);
 
-        UserFilter filterIn = new UserFilter(null, null,
-                date,null,null, null, null);
+        UserFilter filterIn = UserFilter.builder().birthDateIn(date).build();
         List<User> usersIn = userRepository.findAllByFilter(filterIn);
 
-        UserFilter filterAfter = new UserFilter(null, null,
-                null,null,date,null,null);
+        UserFilter filterAfter = UserFilter.builder().birthDateAfter(date).build();
         List<User> usersAfter = userRepository.findAllByFilter(filterAfter);
 
-        UserFilter filterBefore = new UserFilter(null, null,
-                null,date,null, null, null);
+        UserFilter filterBefore = UserFilter.builder().birthDateBefore(date).build();
         List<User> usersBefore = userRepository.findAllByFilter(filterBefore);
 
         assertThat(usersIn).hasSize(1);
@@ -76,8 +73,10 @@ public class UserRepositoryTest extends IntegrationTestBase {
         LocalDate dateStart = LocalDate.of(1980, 1, 1);
         LocalDate dateEnd = LocalDate.of(1990, 1, 1);
 
-        UserFilter filter = new UserFilter(null, null,
-                null,null,null, dateStart, dateEnd);
+        UserFilter filter = UserFilter.builder()
+                .birthDateRangeStart(dateStart)
+                .birthDateRangeEnd(dateEnd)
+                .build();
         List<User> users = userRepository.findAllByFilter(filter);
 
         assertThat(users).hasSize(5);

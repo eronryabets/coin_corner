@@ -20,10 +20,10 @@ public class FilterWalletRepositoryImpl implements FilterWalletRepository{
     @Override
     public List<Wallet> findAllByFilter(WalletFilter filter) {
         var predicate = QPredicates.builder()
-                .add(filter.walletName(), wallet.walletName::containsIgnoreCase)
-                .add(filter.walletType(), wallet.walletType::eq)
-                .add(filter.currency(), wallet.currency::eq)
-                .add(filter.ownerUser(), wallet.ownerUser::eq)
+                .add(filter.getWalletName(), wallet.walletName::containsIgnoreCase)
+                .add(filter.getWalletType(), wallet.walletType::eq)
+                .add(filter.getCurrency(), wallet.currency::eq)
+                .add(filter.getOwnerUser(), wallet.ownerUser::eq)
                 .build();
 
         return new JPAQuery<Wallet>(entityManager)
