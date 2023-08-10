@@ -2,6 +2,9 @@ package com.drunar.coincorner.database.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -16,6 +19,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "wallets")
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 public class Wallet extends AuditingEntity<Long> {
 
     @Id
@@ -47,6 +51,7 @@ public class Wallet extends AuditingEntity<Long> {
         USD, EUR, PLN, UAH
     }
 
+    @NotAudited
     @OneToMany(mappedBy = "wallet",
             fetch = FetchType.LAZY,
             cascade = CascadeType.REMOVE,

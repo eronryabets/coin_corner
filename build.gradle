@@ -35,6 +35,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation "com.querydsl:querydsl-core:${versions.querydsl}"
 	implementation "com.querydsl:querydsl-jpa:${versions.querydsl}:jakarta"
+	implementation 'org.springframework.data:spring-data-envers'
+
 
 	annotationProcessor "org.mapstruct:mapstruct-processor:${versions.mapstruct}"
 	annotationProcessor "com.querydsl:querydsl-apt:${versions.querydsl}:jakarta"
