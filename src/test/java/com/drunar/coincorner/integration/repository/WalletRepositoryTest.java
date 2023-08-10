@@ -5,7 +5,6 @@ import com.drunar.coincorner.database.repository.WalletRepository;
 import com.drunar.coincorner.integration.IntegrationTestBase;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.annotation.Commit;
 
 @RequiredArgsConstructor
 public class WalletRepositoryTest extends IntegrationTestBase {
@@ -13,7 +12,7 @@ public class WalletRepositoryTest extends IntegrationTestBase {
     private final WalletRepository walletRepository;
 
     @Test
-    @Commit
+//    @Commit
     void checkAuditing() {
         Wallet wallet = walletRepository.findById(1L).get();
         wallet.setWalletName("WalletCh1");

@@ -1,0 +1,9 @@
+package com.drunar.coincorner.dto;
+
+import lombok.Value;
+
+@Value
+public class LoginDto {
+    String username;
+    String password;
+}
