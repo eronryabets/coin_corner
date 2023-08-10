@@ -5,6 +5,30 @@
     <title>Users</title>
 </head>
 <body>
+<form action="/users">
+    <label for="firstname">Firstname:
+        <input id="firstname" type="text" name="firstname">
+    </label><br>
+    <label for="lastname">Lastname:
+        <input id="lastname" type="text" name="lastname">
+    </label><br>
+    <label for="birthDateIn">BirthdateIn:
+        <input id="birthDateIn" type="date" name="birthDateIn">
+    </label><br>
+    <label for="birthDateBefore">BirthDateBefore:
+        <input id="birthDateBefore" type="date" name="birthDateBefore">
+    </label><br>
+    <label for="birthDateAfter">birthDateAfter:
+        <input id="birthDateAfter" type="date" name="birthDateAfter">
+    </label><br>
+    <label for="birthDateRangeStart">BirthDateRangeStart:
+        <input id="birthDateRangeStart" type="date" name="birthDateRangeStart">
+    </label><br>
+    <label for="birthDateRangeEnd">BirthDateRangeEnd:
+        <input id="birthDateRangeEnd" type="date" name="birthDateRangeEnd">
+    </label><br>
+    <button type="submit">Filter</button>
+</form>
 <div th:each="user : ${users}">
     <a th:href="@{'/users/' + ${user.id}}" th:text="|${user.id}. ${user.username}|">User</a>
 </div>

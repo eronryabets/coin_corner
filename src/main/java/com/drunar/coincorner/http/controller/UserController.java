@@ -1,6 +1,7 @@
 package com.drunar.coincorner.http.controller;
 
 
+import com.drunar.coincorner.database.filter.UserFilter;
 import com.drunar.coincorner.dto.UserCreateEditDTO;
 import com.drunar.coincorner.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +21,8 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public String findAll(Model model){
-        model.addAttribute("users",userService.findAll());
+    public String findAll(Model model, UserFilter filter){
+        model.addAttribute("users",userService.findAll(filter));
         System.out.println();
         return "user/users";
     }
