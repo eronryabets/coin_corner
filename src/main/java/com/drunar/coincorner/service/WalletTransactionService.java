@@ -6,7 +6,11 @@ import com.drunar.coincorner.dto.WalletReadDTO;
 import com.drunar.coincorner.dto.WalletTransactionDTO;
 import com.drunar.coincorner.mapper.WalletMapper;
 import com.drunar.coincorner.mapper.WalletTransactionMapper;
+import com.drunar.coincorner.util.predicateBuilder.WalletTrPredicateBuilder;
+import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,14 +29,15 @@ public class WalletTransactionService {
 
     //TODO: cashTransfer(); income(), expense() etc
 
-    public List<WalletTransactionDTO> findAll() {
-        //TODO: filter, pageable
-        return walletTransactionRepository.findAll().stream()
-                .map(walletTransactionMapper::walletTransactionToWalletTransactionDTO).toList();
+    public Page<WalletTransactionDTO> findAll(WalletTransactionFilter filter, Pageable pageable) {
+        Predicate predicate = WalletTrPredicateBuilder.buildPredicate(filter);
+
+        return walletTransactionRepository.findAll(predicate, pageable)
+                .map(walletTransactionMapper::walletTransactionToWalletTransactionDTO);
     }
 
-    public List<WalletTransactionDTO> findAll(WalletTransactionFilter filter) {
-        return walletTransactionRepository.findAllByFilter(filter).stream()
+    public List<WalletTransactionDTO> findAll() {
+        return walletTransactionRepository.findAll().stream()
                 .map(walletTransactionMapper::walletTransactionToWalletTransactionDTO).toList();
     }
 

@@ -32,7 +32,6 @@ public class UserService {
     }
 
     public List<UserReadDTO> findAll(){
-        //TODO: UserFilter filter, Pageable pageable
         return userRepository.findAll().stream()
                 .map(userMapper::userToUserReadDTO).toList();
     }

@@ -7,29 +7,35 @@
 <body>
 <form action="/transactions">
   <label for="id">ID:
-    <input id="id" type="text" name="id">
+    <input id="id" type="text" name="id" th:value="${filter.id}">
   </label><br>
   <label for="amount">Amount:
-    <input id="amount" type="text" name="amount">
+    <input id="amount" type="text" name="amount" th:value="${filter.amount}">
   </label><br>
   <label for="walletId">Wallet ID:
-    <input id="walletId" type="text" name="walletId">
+    <input id="walletId" type="text" name="walletId" th:value="${filter.walletId}">
   </label><br>
   <label for="walletName">Wallet name:
-    <input id="walletName" type="text" name="walletName">
+    <input id="walletName" type="text" name="walletName" th:value="${filter.walletName}">
   </label><br>
 
   <label for="userId">User ID:
-    <input id="userId" type="text" name="userId">
+    <input id="userId" type="text" name="userId" th:value="${filter.userId}">
   </label><br>
   <label for="username">Username:
-    <input id="username" type="text" name="username">
+    <input id="username" type="text" name="username" th:value="${filter.username}">
   </label><br>
-
+  <div>
+    <label for="page">Page:
+      <input id="page" type="number" name="page" th:value="${transactions.metadata.page}">
+    </label>
+    <label for="size">Size:
+      <input id="size" type="number" name="size" th:value="${transactions.metadata.size}">
+    </label>
+  </div>
   <button type="submit">Filter</button>
 </form>
-
-<div th:each="transaction : ${transactions}">
+<div th:each="transaction : ${transactions.content}">
   <a th:href="@{'/transactions/' + ${transaction.id}}"
      th:text="|${transaction}|">Transaction</a>
 </div>
