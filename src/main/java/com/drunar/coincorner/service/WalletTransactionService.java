@@ -1,5 +1,6 @@
 package com.drunar.coincorner.service;
 
+import com.drunar.coincorner.database.filter.WalletTransactionFilter;
 import com.drunar.coincorner.database.repository.WalletTransactionRepository;
 import com.drunar.coincorner.dto.WalletReadDTO;
 import com.drunar.coincorner.dto.WalletTransactionDTO;
@@ -27,6 +28,11 @@ public class WalletTransactionService {
     public List<WalletTransactionDTO> findAll() {
         //TODO: filter, pageable
         return walletTransactionRepository.findAll().stream()
+                .map(walletTransactionMapper::walletTransactionToWalletTransactionDTO).toList();
+    }
+
+    public List<WalletTransactionDTO> findAll(WalletTransactionFilter filter) {
+        return walletTransactionRepository.findAllByFilter(filter).stream()
                 .map(walletTransactionMapper::walletTransactionToWalletTransactionDTO).toList();
     }
 

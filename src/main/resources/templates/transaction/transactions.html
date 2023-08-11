@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Users</title>
+</head>
+<body>
+<form action="/transactions">
+  <label for="id">ID:
+    <input id="id" type="text" name="id">
+  </label><br>
+  <label for="amount">Amount:
+    <input id="amount" type="text" name="amount">
+  </label><br>
+  <label for="walletId">Wallet ID:
+    <input id="walletId" type="text" name="walletId">
+  </label><br>
+  <label for="walletName">Wallet name:
+    <input id="walletName" type="text" name="walletName">
+  </label><br>
+
+  <label for="userId">User ID:
+    <input id="userId" type="text" name="userId">
+  </label><br>
+  <label for="username">Username:
+    <input id="username" type="text" name="username">
+  </label><br>
+
+  <button type="submit">Filter</button>
+</form>
+
+<div th:each="transaction : ${transactions}">
+  <a th:href="@{'/transactions/' + ${transaction.id}}"
+     th:text="|${transaction}|">Transaction</a>
+</div>
+</body>
+</html>

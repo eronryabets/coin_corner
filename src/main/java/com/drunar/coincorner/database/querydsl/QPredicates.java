@@ -21,7 +21,11 @@ public class QPredicates {
 
     public <T> QPredicates add(T object, Function<T, Predicate> function) {
         if (object != null) {
-            predicates.add(function.apply(object));
+            if (object instanceof String && !((String) object).trim().isEmpty()) {
+                predicates.add(function.apply(object));
+            } else if (!(object instanceof String)) {
+                predicates.add(function.apply(object));
+            }
         }
         return this;
     }

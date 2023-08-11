@@ -1,7 +1,5 @@
 package com.drunar.coincorner.integration.database.repository;
 
-import com.drunar.coincorner.database.entity.User;
-import com.drunar.coincorner.database.entity.Wallet;
 import com.drunar.coincorner.database.entity.WalletTransaction;
 import com.drunar.coincorner.database.filter.WalletTransactionFilter;
 import com.drunar.coincorner.database.repository.WalletTransactionRepository;
@@ -86,12 +84,31 @@ public class WalletTransactionRepositoryTest extends IntegrationTestBase {
         assertThat(transactions).hasSize(4);
     }
 
+
     @Test
-    void checkWalletTrFilterByWallet() {
-        Wallet wallet = Wallet.builder().id(1L).build();
+    void checkWalletTrFilterByUserId() {
+        WalletTransactionFilter filter = WalletTransactionFilter.builder()
+                .userId(1L)
+                .build();
+        List<WalletTransaction> transactions = walletTransactionRepository.findAllByFilter(filter);
+        assertThat(transactions).hasSize(13);
+    }
+
+    @Test
+    void checkWalletTrFilterByUserName() {
+        WalletTransactionFilter filter = WalletTransactionFilter.builder()
+                .username("user1")
+                .build();
+        List<WalletTransaction> transactions = walletTransactionRepository.findAllByFilter(filter);
+        assertThat(transactions).hasSize(13);
+    }
+
+    @Test
+    void checkWalletTrFilterByWalletId() {
 
         WalletTransactionFilter filter = WalletTransactionFilter.builder()
-                .wallet(wallet)
+                .walletId(1L)
+                .walletName("")
                 .build();
         List<WalletTransaction> transactions = walletTransactionRepository.findAllByFilter(filter);
         assertThat(transactions).hasSize(6);
@@ -99,15 +116,14 @@ public class WalletTransactionRepositoryTest extends IntegrationTestBase {
     }
 
     @Test
-    void checkWalletTrFilterByUser() {
-        User user = User.builder().id(1L).build();
+    void checkWalletTrFilterByWalletName() {
 
         WalletTransactionFilter filter = WalletTransactionFilter.builder()
-                .user(user)
+                .walletName("Wallet 1")
                 .build();
         List<WalletTransaction> transactions = walletTransactionRepository.findAllByFilter(filter);
-        assertThat(transactions).hasSize(13);
-
+        assertThat(transactions).hasSize(6);
+        System.out.println(transactions.size());
 
     }
 

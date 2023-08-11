@@ -1,7 +1,5 @@
 package com.drunar.coincorner.database.filter;
 
-import com.drunar.coincorner.database.entity.User;
-import com.drunar.coincorner.database.entity.Wallet;
 import com.drunar.coincorner.database.entity.WalletTransaction;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,6 +12,7 @@ import java.time.LocalDateTime;
 @Value
 @AllArgsConstructor
 public class WalletTransactionFilter {
+    Long id;
     WalletTransaction.OperationType operationType;
     BigDecimal amount;
     LocalDateTime transactionDateIn;
@@ -21,6 +20,11 @@ public class WalletTransactionFilter {
     LocalDateTime transactionDateBefore;
     LocalDateTime transactionDateStart;
     LocalDateTime transactionDateEnd;
-    Wallet wallet;
-    User user;
+    Long walletId;
+    String walletName;
+    Long userId;
+    String username;
+
+
+
 }
