@@ -12,3 +12,12 @@ spring:
       format_sql: true
       hbm2ddl.auto: validate
     open-in-view: false
+
+logging:
+  level:
+    root: INFO
+    org.springframework.jdbc.core: TRACE
+  file:
+      name: logs/coinCorner.log
+
+

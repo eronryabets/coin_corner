@@ -1,8 +1,8 @@
 package com.drunar.coincorner.integration.database.repository;
 
 import com.drunar.coincorner.database.entity.User;
-import com.drunar.coincorner.database.repository.UserRepository;
 import com.drunar.coincorner.database.filter.UserFilter;
+import com.drunar.coincorner.database.repository.UserRepository;
 import com.drunar.coincorner.integration.IntegrationTestBase;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
@@ -12,8 +12,11 @@ import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @RequiredArgsConstructor
 public class UserRepositoryTest extends IntegrationTestBase {
@@ -81,6 +84,13 @@ public class UserRepositoryTest extends IntegrationTestBase {
 
         assertThat(users).hasSize(5);
 
+    }
+
+    @Test
+    void checkFindByEmail(){
+        Optional<User> userByEmail = userRepository.findUserByEmail("user1@example.com");
+        assertTrue(userByEmail.isPresent());
+        assertEquals("user1@example.com", userByEmail.get().getEmail());
     }
 
 }

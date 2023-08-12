@@ -22,6 +22,10 @@
     <input id="birthDate" type="date" name="birthDate" th:value="*{birthDate}">
   </label><br>
   <button type="submit">Register</button>
+  <div th:if="${errors}">
+    <p style="color: red" th:each="error : ${errors}"
+       th:text="${error.defaultMessage}">Error message</p>
+  </div>
 
 </form>
 </body>

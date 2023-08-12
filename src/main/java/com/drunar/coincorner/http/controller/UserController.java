@@ -6,12 +6,17 @@ import com.drunar.coincorner.dto.PageResponse;
 import com.drunar.coincorner.dto.UserCreateEditDTO;
 import com.drunar.coincorner.dto.UserReadDTO;
 import com.drunar.coincorner.service.UserService;
+import com.drunar.coincorner.validation.group.CreateActions;
+import com.drunar.coincorner.validation.group.UpdateAction;
+import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -47,17 +52,21 @@ public class UserController {
         return "user/registration";
     }
 
-    @PostMapping
-    public String create(@ModelAttribute UserCreateEditDTO user, RedirectAttributes redirectAttributes) {
-//        if (true) { TODO: validation
-//            redirectAttributes.addFlashAttribute("user", user);
-//            return "redirect:/users/registration";
-//        }
+    @PostMapping("/registration")
+    public String create(@ModelAttribute @Validated({Default.class, CreateActions.class}) UserCreateEditDTO user,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("user", user);
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            return "redirect:/users/registration";
+        }
         return "redirect:/users/" + userService.create(user).getId();
     }
 
     @PostMapping("/{id}/update")
-    public String update(@PathVariable("id") Long id, @ModelAttribute UserCreateEditDTO user) {
+    public String update(@PathVariable("id") Long id,
+                         @ModelAttribute @Validated({Default.class, UpdateAction.class}) UserCreateEditDTO user) {
         return userService.update(id, user)
                 .map(it -> "redirect:/users/{id}")
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
