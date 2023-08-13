@@ -1,6 +1,5 @@
 package com.drunar.coincorner.dto;
 
-import com.drunar.coincorner.database.entity.Wallet;
 import lombok.Value;
 
 import java.time.LocalDate;
@@ -14,5 +13,5 @@ public class UserReadDTO {
     String firstname;
     String lastname;
     LocalDate birthDate;
-    List<Wallet> wallets;
+    List<WalletReadDTO> walletsDTO;
 }
