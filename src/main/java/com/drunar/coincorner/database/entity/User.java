@@ -38,4 +38,6 @@ public class User implements BaseEntity<Long>{
             orphanRemoval = true)
     private List<Wallet> wallets;
 
+    private String image;
+
 }

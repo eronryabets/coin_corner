@@ -6,6 +6,7 @@ import com.drunar.coincorner.integration.IntegrationTestBase;
 import com.drunar.coincorner.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
+import org.springframework.mock.web.MockMultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -42,7 +43,8 @@ class UserServiceIT extends IntegrationTestBase {
                 "username",
                 "firstname",
                 "lastname",
-                LocalDate.now()
+                LocalDate.now(),
+                new MockMultipartFile("test",new byte[0])
         );
 
         UserReadDTO actualResult = userService.create(userDTO);
@@ -61,7 +63,8 @@ class UserServiceIT extends IntegrationTestBase {
                 "username2",
                 "firstname2",
                 "lastname2",
-                LocalDate.now()
+                LocalDate.now(),
+                new MockMultipartFile("test",new byte[0])
         );
 
         Optional<UserReadDTO> actualResult = userService.update(USER_1, userDTO);
