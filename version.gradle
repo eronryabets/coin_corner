@@ -3,7 +3,8 @@ ext {
             'testcontainers': '1.18.3',
             'mapstruct': '1.5.5.Final',
             'querydsl': '5.0.0',
-            'jakartaPersistence': '3.1.0'
+            'jakartaPersistence': '3.1.0',
+            'springdoc': '2.1.0'
 
     ]
 }
