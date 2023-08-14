@@ -19,7 +19,7 @@ public class UsernameUniqueValidator implements ConstraintValidator<UsernameExis
 
     @Override
     public boolean isValid(UserCreateEditDTO value, ConstraintValidatorContext context) {
-        Optional<User> userByEmail = userRepository.findUserByUsername(value.getUsername());
+        Optional<User> userByEmail = userRepository.findByUsername(value.getUsername());
         return !userByEmail.isPresent();
     }
 

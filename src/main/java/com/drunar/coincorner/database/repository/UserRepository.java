@@ -22,8 +22,7 @@ public interface UserRepository extends
     Page<User> findAllBy(Pageable pageable);
 
     Optional<User> findUserByEmail(String email);
-    Optional<User> findUserByUsername(String username);
 
-
+    Optional<User> findByUsername(String username);
 
 }

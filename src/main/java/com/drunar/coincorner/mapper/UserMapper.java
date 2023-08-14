@@ -27,11 +27,13 @@ public interface UserMapper {
 
     @Mapping(target = "wallets", ignore = true)
     @Mapping(target = "image", ignore = true)
+    @Mapping(target = "password", ignore = true)
     User userDTOtoUser(UserReadDTO userReadDTO);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "wallets", ignore = true)
     @Mapping(target = "image", ignore = true)
+    @Mapping(source = "rawPassword", target = "password")
     User userCreateEditDTOtoUser(UserCreateEditDTO userCreateEditDTO);
 
     @AfterMapping
@@ -41,15 +43,4 @@ public interface UserMapper {
                 .ifPresent(image -> user.setImage(image.getOriginalFilename()));
     }
 
-    default User userCreateEditDTOCopyToUser(UserCreateEditDTO object, User user) {
-        user.setEmail(object.getEmail());
-        user.setUsername(object.getUsername());
-        user.setFirstname(object.getFirstname());
-        user.setLastname(object.getLastname());
-        user.setBirthDate(object.getBirthDate());
-        Optional.ofNullable(object.getImage())
-                .filter(not(MultipartFile::isEmpty))
-                .ifPresent(image -> user.setImage(image.getOriginalFilename()));
-        return user;
-    }
 }

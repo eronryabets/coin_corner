@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -27,6 +28,8 @@ public class User implements BaseEntity<Long>{
     @Column(unique = true, nullable = false)
     private String username;
 
+    private String password;
+
     private String firstname;
 
     private String lastname;
@@ -39,5 +42,11 @@ public class User implements BaseEntity<Long>{
     private List<Wallet> wallets;
 
     private String image;
+
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
 
 }

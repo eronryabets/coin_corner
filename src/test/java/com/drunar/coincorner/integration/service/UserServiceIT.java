@@ -1,5 +1,6 @@
 package com.drunar.coincorner.integration.service;
 
+import com.drunar.coincorner.database.entity.Role;
 import com.drunar.coincorner.dto.UserCreateEditDTO;
 import com.drunar.coincorner.dto.UserReadDTO;
 import com.drunar.coincorner.integration.IntegrationTestBase;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,10 +43,12 @@ class UserServiceIT extends IntegrationTestBase {
         UserCreateEditDTO userDTO = new UserCreateEditDTO(
                 "test1@gmail.com",
                 "username",
+                "123",
                 "firstname",
                 "lastname",
                 LocalDate.now(),
-                new MockMultipartFile("test",new byte[0])
+                new MockMultipartFile("test",new byte[0]),
+                Collections.singleton(Role.USER)
         );
 
         UserReadDTO actualResult = userService.create(userDTO);
@@ -59,12 +63,14 @@ class UserServiceIT extends IntegrationTestBase {
     @Test
     void update() {
         UserCreateEditDTO userDTO = new UserCreateEditDTO(
-                "test2@gmail.com",
-                "username2",
-                "firstname2",
-                "lastname2",
+                "test1@gmail.com",
+                "username",
+                "123",
+                "firstname",
+                "lastname",
                 LocalDate.now(),
-                new MockMultipartFile("test",new byte[0])
+                new MockMultipartFile("test",new byte[0]),
+                Collections.singleton(Role.USER)
         );
 
         Optional<UserReadDTO> actualResult = userService.update(USER_1, userDTO);
