@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -47,6 +48,7 @@ public class UserService implements UserDetailsService {
                 .map(userMapper::userToUserReadDTO).toList();
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public Optional<UserReadDTO> findById(Long id) {
         return userRepository.findById(id).map(userMapper::userToUserReadDTO);
     }
@@ -56,9 +58,6 @@ public class UserService implements UserDetailsService {
         return Optional.of(userDto)
                 .map(dto -> {
                     uploadImage(dto.getImage());
-//                    Set<Role> roles = new HashSet<>();
-//                    roles.add(Role.USER);
-//                    user.setRoles(roles);
                     return userCopyHelper.map(dto);
                 })
                 .map(userRepository::save)
@@ -77,13 +76,7 @@ public class UserService implements UserDetailsService {
                 .map(userMapper::userToUserReadDTO);
     }
 
-    @SneakyThrows
-    private void uploadImage(MultipartFile image) {
-        if (!image.isEmpty()) {
-            imageService.upload(image.getOriginalFilename(), image.getInputStream());
-        }
-    }
-
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Transactional
     public boolean delete(Long id) {
         return userRepository.findById(id)
@@ -92,6 +85,13 @@ public class UserService implements UserDetailsService {
                     userRepository.flush();
                     return true;
                 }).orElse(false);
+    }
+
+    @SneakyThrows
+    private void uploadImage(MultipartFile image) {
+        if (!image.isEmpty()) {
+            imageService.upload(image.getOriginalFilename(), image.getInputStream());
+        }
     }
 
     public Optional<byte[]> findAvatar(Long id) {
