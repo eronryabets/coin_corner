@@ -1,6 +1,5 @@
 package com.drunar.coincorner.service;
 
-import com.drunar.coincorner.database.entity.Role;
 import com.drunar.coincorner.database.entity.User;
 import com.drunar.coincorner.database.filter.UserFilter;
 import com.drunar.coincorner.database.repository.UserRepository;
@@ -22,7 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -41,25 +42,24 @@ public class UserService implements UserDetailsService {
                 .map(userMapper::userToUserReadDTO);
     }
 
-    public List<UserReadDTO> findAll(){
+    public List<UserReadDTO> findAll() {
         return userRepository.findAll().stream()
                 .map(userMapper::userToUserReadDTO).toList();
     }
 
-    public Optional<UserReadDTO> findById(Long id){
+    public Optional<UserReadDTO> findById(Long id) {
         return userRepository.findById(id).map(userMapper::userToUserReadDTO);
     }
 
     @Transactional
-    public UserReadDTO create(UserCreateEditDTO userDto){
+    public UserReadDTO create(UserCreateEditDTO userDto) {
         return Optional.of(userDto)
                 .map(dto -> {
                     uploadImage(dto.getImage());
-                    User user = userCopyHelper.map(dto);
-                    Set<Role> roles = new HashSet<>();
-                    roles.add(Role.USER);
-                    user.setRoles(roles);
-                    return user;
+//                    Set<Role> roles = new HashSet<>();
+//                    roles.add(Role.USER);
+//                    user.setRoles(roles);
+                    return userCopyHelper.map(dto);
                 })
                 .map(userRepository::save)
                 .map(userMapper::userToUserReadDTO)
@@ -67,11 +67,11 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public Optional<UserReadDTO> update(Long id, UserCreateEditDTO userDto){
+    public Optional<UserReadDTO> update(Long id, UserCreateEditDTO userDto) {
         return userRepository.findById(id)
                 .map(entity -> {
                     uploadImage(userDto.getImage());
-                     return    userCopyHelper.map(userDto, entity);
+                    return userCopyHelper.map(userDto, entity);
                 })
                 .map(userRepository::saveAndFlush)
                 .map(userMapper::userToUserReadDTO);
@@ -79,15 +79,15 @@ public class UserService implements UserDetailsService {
 
     @SneakyThrows
     private void uploadImage(MultipartFile image) {
-        if(!image.isEmpty()){
-            imageService.upload(image.getOriginalFilename(),image.getInputStream());
+        if (!image.isEmpty()) {
+            imageService.upload(image.getOriginalFilename(), image.getInputStream());
         }
     }
 
     @Transactional
-    public boolean delete(Long id){
+    public boolean delete(Long id) {
         return userRepository.findById(id)
-                .map(entity ->{
+                .map(entity -> {
                     userRepository.delete(entity);
                     userRepository.flush();
                     return true;
@@ -108,6 +108,6 @@ public class UserService implements UserDetailsService {
                         user.getUsername(),
                         user.getPassword(),
                         new ArrayList<>(user.getRoles())
-                )).orElseThrow(()->new UsernameNotFoundException("Failed to retrieve user: " + username));
+                )).orElseThrow(() -> new UsernameNotFoundException("Failed to retrieve user: " + username));
     }
 }

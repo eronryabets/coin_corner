@@ -1,5 +1,6 @@
 package com.drunar.coincorner.mapper;
 
+import com.drunar.coincorner.database.entity.Role;
 import com.drunar.coincorner.database.entity.User;
 import com.drunar.coincorner.dto.UserCreateEditDTO;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static java.util.function.Predicate.not;
 
@@ -36,9 +38,8 @@ public class UserCopyHelper {
         user.setFirstname(object.getFirstname());
         user.setLastname(object.getLastname());
         user.setBirthDate(object.getBirthDate());
-        if (user.getRoles() == null || !user.getRoles().equals(object.getRoles())) {
-            user.setRoles(new HashSet<>(object.getRoles()));
-        }
+
+        updateRoles(user, object.getRoles());
 
         Optional.ofNullable(object.getRawPassword())
                 .filter(StringUtils::hasText)
@@ -48,6 +49,18 @@ public class UserCopyHelper {
         Optional.ofNullable(object.getImage())
                 .filter(not(MultipartFile::isEmpty))
                 .ifPresent(image -> user.setImage(image.getOriginalFilename()));
+    }
+
+    private void updateRoles(User user, Set<Role> newRoles) {
+        if (user.getRoles() == null) {
+            user.setRoles(new HashSet<>());
+            user.getRoles().add(Role.USER);
+        } else {
+            if (!user.getRoles().equals(newRoles)) {
+                user.getRoles().clear();
+                user.getRoles().addAll(newRoles);
+            }
+        }
     }
 
 

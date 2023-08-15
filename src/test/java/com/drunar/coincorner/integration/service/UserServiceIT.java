@@ -38,7 +38,6 @@ class UserServiceIT extends IntegrationTestBase {
 
     @Test
     void create() {
-        Set<Role> userRoles = new HashSet<>();
         UserCreateEditDTO userDTO = new UserCreateEditDTO(
                 "test1@gmail.com",
                 "username",
@@ -47,7 +46,7 @@ class UserServiceIT extends IntegrationTestBase {
                 "lastname",
                 LocalDate.now(),
                 new MockMultipartFile("test", new byte[0]),
-                userRoles
+                null
         );
 
         UserReadDTO actualResult = userService.create(userDTO);
