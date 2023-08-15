@@ -10,9 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,6 +38,7 @@ class UserServiceIT extends IntegrationTestBase {
 
     @Test
     void create() {
+        Set<Role> userRoles = new HashSet<>();
         UserCreateEditDTO userDTO = new UserCreateEditDTO(
                 "test1@gmail.com",
                 "username",
@@ -47,8 +46,8 @@ class UserServiceIT extends IntegrationTestBase {
                 "firstname",
                 "lastname",
                 LocalDate.now(),
-                new MockMultipartFile("test",new byte[0]),
-                Collections.singleton(Role.USER)
+                new MockMultipartFile("test", new byte[0]),
+                userRoles
         );
 
         UserReadDTO actualResult = userService.create(userDTO);
@@ -57,11 +56,14 @@ class UserServiceIT extends IntegrationTestBase {
         assertEquals(userDTO.getBirthDate(), actualResult.getBirthDate());
         assertEquals(userDTO.getFirstname(), actualResult.getFirstname());
         assertEquals(userDTO.getLastname(), actualResult.getLastname());
-
+        assertEquals(actualResult.getRoles(), Collections.singleton(Role.USER));
     }
 
     @Test
     void update() {
+        Set<Role> roles = new HashSet<>();
+        roles.add(Role.ADMIN);
+        roles.add(Role.USER);
         UserCreateEditDTO userDTO = new UserCreateEditDTO(
                 "test1@gmail.com",
                 "username",
@@ -70,7 +72,7 @@ class UserServiceIT extends IntegrationTestBase {
                 "lastname",
                 LocalDate.now(),
                 new MockMultipartFile("test",new byte[0]),
-                Collections.singleton(Role.USER)
+                roles
         );
 
         Optional<UserReadDTO> actualResult = userService.update(USER_1, userDTO);
@@ -81,9 +83,9 @@ class UserServiceIT extends IntegrationTestBase {
             assertEquals(userDTO.getBirthDate(), user.getBirthDate());
             assertEquals(userDTO.getFirstname(), user.getFirstname());
             assertEquals(userDTO.getLastname(), user.getLastname());
+            assertTrue(user.getRoles().contains(Role.USER));
+            assertTrue(user.getRoles().contains(Role.ADMIN));
         });
-
-
     }
 
     @Test

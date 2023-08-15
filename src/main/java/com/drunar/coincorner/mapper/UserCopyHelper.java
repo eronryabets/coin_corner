@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashSet;
 import java.util.Optional;
 
 import static java.util.function.Predicate.not;
@@ -35,6 +36,9 @@ public class UserCopyHelper {
         user.setFirstname(object.getFirstname());
         user.setLastname(object.getLastname());
         user.setBirthDate(object.getBirthDate());
+        if (user.getRoles() == null || !user.getRoles().equals(object.getRoles())) {
+            user.setRoles(new HashSet<>(object.getRoles()));
+        }
 
         Optional.ofNullable(object.getRawPassword())
                 .filter(StringUtils::hasText)

@@ -29,6 +29,17 @@
   <label for="image">Image:
     <input id="image" type="file" name="image">
   </label><br>
+
+  <div>
+    <label>Roles:</label>
+    <div th:each="role : ${T(com.drunar.coincorner.database.entity.Role).values()}">
+      <label>
+        <input type="checkbox" name="roles" th:value="${role}" th:checked="${user.roles.contains(role)}">
+        <span th:text="${role}"></span>
+      </label><br>
+    </div>
+  </div>
+
   <button type="submit">Update</button>
 </form>
 <form th:action="@{/users/{userId}/delete(userId=${user.id})}" method="post">

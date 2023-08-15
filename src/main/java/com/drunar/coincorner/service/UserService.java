@@ -1,5 +1,6 @@
 package com.drunar.coincorner.service;
 
+import com.drunar.coincorner.database.entity.Role;
 import com.drunar.coincorner.database.entity.User;
 import com.drunar.coincorner.database.filter.UserFilter;
 import com.drunar.coincorner.database.repository.UserRepository;
@@ -21,9 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -56,7 +55,11 @@ public class UserService implements UserDetailsService {
         return Optional.of(userDto)
                 .map(dto -> {
                     uploadImage(dto.getImage());
-                    return userCopyHelper.map(dto);
+                    User user = userCopyHelper.map(dto);
+                    Set<Role> roles = new HashSet<>();
+                    roles.add(Role.USER);
+                    user.setRoles(roles);
+                    return user;
                 })
                 .map(userRepository::save)
                 .map(userMapper::userToUserReadDTO)

@@ -51,3 +51,9 @@ VALUES
     (15, 5, 800.00, 'INCOME', '2023-06-08 11:15:00', 100.00, 900.00);
 
 SELECT SETVAL('wallet_transactions_id_seq', (SELECT MAX(id) FROM wallet_transactions));
+
+INSERT INTO roles (user_id, role)
+SELECT id, 'USER' FROM users;
+
+INSERT INTO roles (user_id,role)
+VALUES (1,'USER');
