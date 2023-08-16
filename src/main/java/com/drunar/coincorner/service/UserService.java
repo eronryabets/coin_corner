@@ -7,6 +7,7 @@ import com.drunar.coincorner.dto.UserCreateEditDTO;
 import com.drunar.coincorner.dto.UserReadDTO;
 import com.drunar.coincorner.mapper.UserCopyHelper;
 import com.drunar.coincorner.mapper.UserMapper;
+import com.drunar.coincorner.mapper.UserOAuthMapper;
 import com.drunar.coincorner.util.predicateBuilder.UserPredicateBuilder;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -35,6 +37,7 @@ public class UserService implements UserDetailsService {
     private final UserMapper userMapper;
     private final ImageService imageService;
     private final UserCopyHelper userCopyHelper;
+    private final UserOAuthMapper userOAuthMapper;
 
     public Page<UserReadDTO> findAll(UserFilter filter, Pageable pageable) {
         Predicate predicate = UserPredicateBuilder.buildPredicate(filter);
@@ -110,4 +113,20 @@ public class UserService implements UserDetailsService {
                         new ArrayList<>(user.getRoles())
                 )).orElseThrow(() -> new UsernameNotFoundException("Failed to retrieve user: " + email));
     }
+
+    @Transactional
+    public void newUserFromOAuth(OidcUserRequest userRequest){
+        Optional<User> user = userRepository.findByUsername(userRequest.getIdToken().getClaim("email"));
+        if(user.isEmpty()){
+            create(userOAuthMapper.map(userRequest));
+        }
+
+    }
+
+    public boolean checkEmailIfExists(String email) {
+        Optional<User> userByEmail = userRepository.findUserByEmail(email);
+        return userByEmail.isPresent();
+    }
+
+
 }

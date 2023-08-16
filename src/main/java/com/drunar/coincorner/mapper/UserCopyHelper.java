@@ -17,7 +17,7 @@ import static java.util.function.Predicate.not;
 
 @Component
 @RequiredArgsConstructor
-public class UserCopyHelper {
+public class UserCopyHelper implements Mapper<UserCreateEditDTO, User>{
 
     private final PasswordEncoder passwordEncoder;
 
