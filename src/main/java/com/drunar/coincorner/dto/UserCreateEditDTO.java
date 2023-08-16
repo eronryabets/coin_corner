@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Value;
+import lombok.experimental.FieldNameConstants;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Value
+@FieldNameConstants
 @EmailExists(groups = CreateActions.class)
 @UsernameExists(groups = CreateActions.class)
 public class UserCreateEditDTO {
