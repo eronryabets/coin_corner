@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -56,6 +57,23 @@ public class ImageService {
             }
         } else {
             return Optional.empty();
+        }
+    }
+
+    @SneakyThrows
+    public boolean delete(String imagePath) {
+        Path fullImagePath = Path.of(bucket, imagePath);
+
+        if (Files.exists(fullImagePath)) {
+            try {
+                Files.delete(fullImagePath);
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        } else {
+            return false;
         }
     }
 

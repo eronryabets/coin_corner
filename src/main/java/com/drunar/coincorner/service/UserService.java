@@ -84,6 +84,7 @@ public class UserService implements UserDetailsService {
     public boolean delete(Long id) {
         return userRepository.findById(id)
                 .map(entity -> {
+                    imageService.delete(entity.getImage());
                     userRepository.delete(entity);
                     userRepository.flush();
                     return true;
