@@ -72,8 +72,8 @@ public class UserService implements UserDetailsService {
     public Optional<UserReadDTO> update(Long id, UserCreateEditDTO userDto) {
         return userRepository.findById(id)
                 .map(entity -> {
-                    uploadImage(userDto.getImage());
-                    return userCopyHelper.map(userDto, entity);
+                    String uploadImage = uploadImage(userDto.getImage());
+                    return userCopyHelper.map(userDto, entity, uploadImage);
                 })
                 .map(userRepository::saveAndFlush)
                 .map(userMapper::userToUserReadDTO);
@@ -91,10 +91,11 @@ public class UserService implements UserDetailsService {
     }
 
     @SneakyThrows
-    private void uploadImage(MultipartFile image) {
+    private String uploadImage(MultipartFile image) {
         if (!image.isEmpty()) {
-            imageService.upload(image.getOriginalFilename(), image.getInputStream());
+            return imageService.upload(image.getOriginalFilename(), image.getInputStream());
         }
+        return image.getOriginalFilename();
     }
 
     public Optional<byte[]> findAvatar(Long id) {

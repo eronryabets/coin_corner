@@ -21,8 +21,8 @@ public class UserCopyHelper implements Mapper<UserCreateEditDTO, User>{
 
     private final PasswordEncoder passwordEncoder;
 
-    public User map(UserCreateEditDTO fromObject, User toObject) {
-        copy(fromObject, toObject);
+    public User map(UserCreateEditDTO fromObject, User toObject, String uploadImage) {
+        copy(fromObject, toObject, uploadImage);
         return toObject;
     }
 
@@ -61,6 +61,25 @@ public class UserCopyHelper implements Mapper<UserCreateEditDTO, User>{
                 user.getRoles().addAll(newRoles);
             }
         }
+    }
+
+    private void copy(UserCreateEditDTO object, User user, String uploadImage) {
+        user.setEmail(object.getEmail());
+        user.setUsername(object.getUsername());
+        user.setFirstname(object.getFirstname());
+        user.setLastname(object.getLastname());
+        user.setBirthDate(object.getBirthDate());
+
+        updateRoles(user, object.getRoles());
+
+        Optional.ofNullable(object.getRawPassword())
+                .filter(StringUtils::hasText)
+                .map(passwordEncoder::encode)
+                .ifPresent(user::setPassword);
+
+        Optional.ofNullable(object.getImage())
+                .filter(not(MultipartFile::isEmpty))
+                .ifPresent(image -> user.setImage(uploadImage));
     }
 
 

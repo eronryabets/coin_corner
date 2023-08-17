@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
+import java.util.UUID;
 
 import static java.nio.file.StandardOpenOption.CREATE;
 import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
@@ -23,8 +24,11 @@ public class ImageService {
     private final String bucket;
 
     @SneakyThrows
-    public void upload(String filePath, InputStream content) {
-        Path fullFilePath = Path.of(bucket, filePath);
+    public String upload(String originalFileName, InputStream content) {
+        String fileExtension = getFileExtension(originalFileName);
+        String uniqueFileName = generateUniqueFileName(fileExtension);
+
+        Path fullFilePath = Path.of(bucket, uniqueFileName);
 
         try (OutputStream outputStream = Files.newOutputStream(fullFilePath, CREATE, TRUNCATE_EXISTING)) {
             byte[] buffer = new byte[8192];
@@ -33,6 +37,7 @@ public class ImageService {
                 outputStream.write(buffer, 0, bytesRead);
             }
         }
+        return uniqueFileName;
     }
 
     @SneakyThrows
@@ -52,6 +57,19 @@ public class ImageService {
         } else {
             return Optional.empty();
         }
+    }
+
+    private String getFileExtension(String fileName) {
+        int lastDotIndex = fileName.lastIndexOf(".");
+        if (lastDotIndex != -1) {
+            return fileName.substring(lastDotIndex + 1);
+        }
+        return "";
+    }
+
+    private String generateUniqueFileName(String fileExtension) {
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString() + "." + fileExtension;
     }
 
 
