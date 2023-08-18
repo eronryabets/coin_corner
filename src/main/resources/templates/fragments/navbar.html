@@ -18,7 +18,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Users</a>
+                        <a class="nav-link active" aria-current="page" href="/users">Users</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Transactions</a>
@@ -29,6 +29,11 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{'/users/' + ${#authentication.principal.id}}"
                            th:text="${#authentication.principal.username}">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <form class="nav-link" th:action="@{/logout}" method="post">
+                            <button type="submit" class="btn btn-secondary btn-sm" >Logout</button>
+                        </form>
                     </li>
 
                 </ul>

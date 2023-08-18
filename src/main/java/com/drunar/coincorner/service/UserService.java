@@ -14,7 +14,9 @@ import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -42,6 +44,12 @@ public class UserService implements UserDetailsService {
 
     public Page<UserReadDTO> findAll(UserFilter filter, Pageable pageable) {
         Predicate predicate = UserPredicateBuilder.buildPredicate(filter);
+
+        pageable = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSort().and(Sort.by("id"))
+        );
 
         return userRepository.findAll(predicate, pageable)
                 .map(userMapper::userToUserReadDTO);

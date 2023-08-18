@@ -10,43 +10,87 @@
 <div th:insert="~{fragments/navbar :: navbar}"></div>
 <div class="container mt-3">
 
-<!--    <div th:insert="~{fragment :: header}"></div>-->
-
     <form action="/users">
-        <label for="firstname">Firstname:
-            <input id="firstname" type="text" name="firstname" th:value="${filter.firstname}">
-        </label><br>
-        <label for="lastname">Lastname:
-            <input id="lastname" type="text" name="lastname" th:value="${filter.lastname}">
-        </label><br>
-        <label for="birthDateIn">BirthdateIn:
-            <input id="birthDateIn" type="date" name="birthDateIn" th:value="${filter.birthDateIn}">
-        </label><br>
-        <label for="birthDateBefore">BirthDateBefore:
-            <input id="birthDateBefore" type="date" name="birthDateBefore" th:value="${filter.birthDateBefore}">
-        </label><br>
-        <label for="birthDateAfter">BirthDateAfter:
-            <input id="birthDateAfter" type="date" name="birthDateAfter" th:value="${filter.birthDateAfter}">
-        </label><br>
-        <label for="birthDateRangeStart">BirthDateRangeStart:
-            <input id="birthDateRangeStart" type="date" name="birthDateRangeStart"
-                   th:value="${filter.birthDateRangeStart}">
-        </label><br>
-        <label for="birthDateRangeEnd">BirthDateRangeEnd:
-            <input id="birthDateRangeEnd" type="date" name="birthDateRangeEnd" th:value="${filter.birthDateRangeEnd}">
-        </label><br>
-        <div>
-            <label for="page">Page:
-                <input id="page" type="number" name="page" th:value="${users.metadata.page}">
-            </label>
-            <label for="size">Size:
-                <input id="size" type="number" name="size" th:value="${users.metadata.size}">
-            </label>
+
+        <div class="col-sm-3">
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Username</span>
+                <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+                       name="firstname" placeholder="Username" th:value="${filter.firstname}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon2">Lastname</span>
+                <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+                       name="lastname" placeholder="Lastname" th:value="${filter.lastname}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon3">Birthdate In</span>
+                <input type="date" class="form-control" aria-label="BirthdateIn" aria-describedby="basic-addon1"
+                       name="birthDateIn" th:value="${filter.birthDateIn}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon4">BirthDate Before</span>
+                <input type="date" class="form-control" aria-label="BirthDateBefore" aria-describedby="basic-addon1"
+                       name="birthDateBefore" th:value="${filter.birthDateBefore}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon5">BirthDate After</span>
+                <input type="date" class="form-control" aria-label="BirthDateAfter" aria-describedby="basic-addon1"
+                       name="birthDateAfter" th:value="${filter.birthDateAfter}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon6">BirthDate Range Start</span>
+                <input type="date" class="form-control" aria-label="BirthDateRangeStart" aria-describedby="basic-addon1"
+                       name="birthDateRangeStart" th:value="${filter.birthDateRangeStart}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon7">BirthDate Range End</span>
+                <input type="date" class="form-control" aria-label="BirthDateRangeEnd" aria-describedby="basic-addon1"
+                       name="birthDateRangeEnd" th:value="${filter.birthDateRangeEnd}">
+            </div>
+
+
+            <div>
+                <label for="page">Page:
+                    <input id="page" type="number" name="page" th:value="${users.metadata.page}">
+                </label>
+                <label for="size">Size:
+                    <input id="size" type="number" name="size" th:value="${users.metadata.size}">
+                </label>
+            </div>
         </div>
-        <button type="submit">Filter</button>
+        <br>
+        <button type="submit" class="btn btn-info">Filter</button>
     </form>
-    <div th:each="user : ${users.content}">
-        <a th:href="@{'/users/' + ${user.id}}" th:text="|${user.id}. ${user.username}|">User</a>
+    <br>
+
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>Username</th>
+                <th>Firstname</th>
+                <th>Surname</th>
+                <th>Role</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <div th:each="user : ${users.content}">
+                <tr>
+                    <td th:text="${user.id}">id</td>
+                    <td th:text="${user.username}">username</td>
+                    <td th:text="${user.firstname}">name</td>
+                    <td th:text="${user.lastname}">surname</td>
+                    <td th:text="${#strings.arrayJoin(user.roles.toArray(), ', ')}">roles</td>
+                    <td><a th:href="@{'/users/' + ${user.id}}" class="btn btn-dark">edit</a></td>
+                    <td><a href="#" class="btn btn-danger">delete</a></td>
+                </tr>
+            </div>
+        </table>
     </div>
 </div>
 
