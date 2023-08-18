@@ -30,26 +30,32 @@
                        name="birthDateIn" th:value="${filter.birthDateIn}">
             </div>
             <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon4">BirthDate Before</span>
+                <span class="input-group-text" id="basic-addon4">Birthdate Before</span>
                 <input type="date" class="form-control" aria-label="BirthDateBefore" aria-describedby="basic-addon1"
                        name="birthDateBefore" th:value="${filter.birthDateBefore}">
             </div>
             <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon5">BirthDate After</span>
+                <span class="input-group-text" id="basic-addon5">Birthdate After</span>
                 <input type="date" class="form-control" aria-label="BirthDateAfter" aria-describedby="basic-addon1"
                        name="birthDateAfter" th:value="${filter.birthDateAfter}">
             </div>
             <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon6">BirthDate Range Start</span>
+                <span class="input-group-text" id="basic-addon6">Birthdate Range Start</span>
                 <input type="date" class="form-control" aria-label="BirthDateRangeStart" aria-describedby="basic-addon1"
                        name="birthDateRangeStart" th:value="${filter.birthDateRangeStart}">
             </div>
             <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon7">BirthDate Range End</span>
+                <span class="input-group-text" id="basic-addon7">Birthdate Range End</span>
                 <input type="date" class="form-control" aria-label="BirthDateRangeEnd" aria-describedby="basic-addon1"
                        name="birthDateRangeEnd" th:value="${filter.birthDateRangeEnd}">
             </div>
 
+            <div class="form-check">
+                <label><input class="form-check-input" type="checkbox" name="roles" value="ADMIN"
+                           th:checked="${filter.roles}">
+                </label>
+                <label class="form-check-label">Admin Role</label>
+            </div>
 
             <div>
                 <label for="page">Page:

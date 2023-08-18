@@ -1,5 +1,6 @@
 package com.drunar.coincorner.database.filter;
 
+import com.drunar.coincorner.database.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
@@ -18,5 +19,6 @@ public class UserFilter {
      LocalDate birthDateAfter;
      LocalDate birthDateRangeStart;
      LocalDate birthDateRangeEnd;
+     Role roles;
 
 }

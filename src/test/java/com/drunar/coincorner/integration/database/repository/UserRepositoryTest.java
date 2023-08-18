@@ -1,5 +1,6 @@
 package com.drunar.coincorner.integration.database.repository;
 
+import com.drunar.coincorner.database.entity.Role;
 import com.drunar.coincorner.database.entity.User;
 import com.drunar.coincorner.database.filter.UserFilter;
 import com.drunar.coincorner.database.repository.UserRepository;
@@ -50,6 +51,13 @@ public class UserRepositoryTest extends IntegrationTestBase {
         assertThat(users).hasSize(4);
         assertThat(users).as("The size of the list should not be 5").isNotEqualTo(5);
 
+    }
+
+    @Test
+    void checkUserFilterRole() {
+        UserFilter filter = UserFilter.builder().roles(Role.USER).build();
+        List<User> users = userRepository.findAllByFilter(filter);
+        assertThat(users).hasSize(10);
     }
 
     @Test

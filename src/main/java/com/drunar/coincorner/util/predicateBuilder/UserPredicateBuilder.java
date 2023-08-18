@@ -16,6 +16,7 @@ public class UserPredicateBuilder {
                 .add(filter.getBirthDateBefore(), user.birthDate::before)
                 .add(filter.getBirthDateRangeStart(), user.birthDate::goe)
                 .add(filter.getBirthDateRangeEnd(), user.birthDate::loe)
+                .add(filter.getRoles(),user.roles::contains)
                 .build();
     }
 }
