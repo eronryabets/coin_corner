@@ -62,14 +62,18 @@ public class ImageService {
 
     @SneakyThrows
     public boolean delete(String imagePath) {
-        Path fullImagePath = Path.of(bucket, imagePath);
+        if (imagePath != null && !imagePath.isEmpty()) {
+            Path fullImagePath = Path.of(bucket, imagePath);
 
-        if (Files.exists(fullImagePath)) {
-            try {
-                Files.delete(fullImagePath);
-                return true;
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (Files.exists(fullImagePath)) {
+                try {
+                    Files.delete(fullImagePath);
+                    return true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            } else {
                 return false;
             }
         } else {

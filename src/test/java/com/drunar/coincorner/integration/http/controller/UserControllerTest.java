@@ -1,6 +1,5 @@
 package com.drunar.coincorner.integration.http.controller;
 
-import com.drunar.coincorner.database.entity.Role;
 import com.drunar.coincorner.integration.IntegrationTestBase;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +10,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static com.drunar.coincorner.dto.UserCreateEditDTO.Fields;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -23,7 +21,7 @@ public class UserControllerTest extends IntegrationTestBase {
     private final MockMvc mockMvc;
 
     @BeforeEach
-    void init(){
+    void init() {
 //        List<GrantedAuthority> roles = Arrays.asList(Role.ADMIN, Role.USER);
 //        User testUser = new User("test@gmail.com", "test", roles);
 //        TestingAuthenticationToken authenticationToken =
@@ -37,8 +35,7 @@ public class UserControllerTest extends IntegrationTestBase {
 
     @Test
     void findAll() throws Exception {
-        mockMvc.perform(get("/users")
-                        .with(user("test@gmail.com").authorities(Role.ADMIN)))
+        mockMvc.perform(get("/users"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name("user/users"))
                 .andExpect(model().attributeExists("users"));

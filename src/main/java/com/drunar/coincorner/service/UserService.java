@@ -3,6 +3,7 @@ package com.drunar.coincorner.service;
 import com.drunar.coincorner.database.entity.User;
 import com.drunar.coincorner.database.filter.UserFilter;
 import com.drunar.coincorner.database.repository.UserRepository;
+import com.drunar.coincorner.dto.CustomUserDetails;
 import com.drunar.coincorner.dto.UserCreateEditDTO;
 import com.drunar.coincorner.dto.UserReadDTO;
 import com.drunar.coincorner.mapper.UserCopyHelper;
@@ -109,7 +110,8 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findUserByEmail(email)
-                .map(user -> new org.springframework.security.core.userdetails.User(
+                .map(user -> new CustomUserDetails(
+                        user.getId(),
                         user.getUsername(),
                         user.getPassword(),
                         new ArrayList<>(user.getRoles())
