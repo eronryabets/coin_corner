@@ -83,6 +83,7 @@
             <thead>
             <tr>
                 <th>id</th>
+                <th>Email</th>
                 <th>Username</th>
                 <th>Firstname</th>
                 <th>Surname</th>
@@ -95,6 +96,7 @@
             <div th:each="user : ${users.content}">
                 <tr>
                     <td th:text="${user.id}">id</td>
+                    <td th:text="${user.email}">id</td>
                     <td th:text="${user.username}">username</td>
                     <td th:text="${user.firstname}">name</td>
                     <td th:text="${user.lastname}">surname</td>

@@ -1,5 +1,6 @@
 package com.drunar.coincorner.dto;
 
+import com.drunar.coincorner.database.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,5 +35,9 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public boolean isAdmin(){
+        return authorities.contains(Role.ADMIN);
     }
 }

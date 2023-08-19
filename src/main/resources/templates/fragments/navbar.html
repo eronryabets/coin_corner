@@ -17,17 +17,26 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/users">Users</a>
+                    <li class="nav-item" th:if="${#authentication.principal.isAdmin()}">
+                        <a class="nav-link active" aria-current="page" href="/users">All Users</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/wallets">Wallets</a>
+                    <li class="nav-item" th:if="${#authentication.principal.isAdmin()}">
+                        <a class="nav-link" href="/wallets">All Wallets</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/transactions">Transactions</a>
+                    <li class="nav-item" th:if="${#authentication.principal.isAdmin()}">
+                        <a class="nav-link" href="/transactions">All Transactions</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Notes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Wallets</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Transactions</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{'/users/' + ${#authentication.principal.id}}"
