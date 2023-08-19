@@ -2,6 +2,7 @@ package com.drunar.coincorner.database.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 import org.hibernate.envers.RelationTargetAuditMode;
@@ -20,6 +21,7 @@ import java.util.List;
 @Entity
 @Table(name = "wallets")
 @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+@AuditTable(value = "wallets_aud")
 public class Wallet extends AuditingEntity<Long> {
 
     @Id
@@ -58,5 +60,6 @@ public class Wallet extends AuditingEntity<Long> {
             orphanRemoval = true)
     @Builder.Default
     private List<WalletTransaction> transactions = new ArrayList<>();
+
 
 }
