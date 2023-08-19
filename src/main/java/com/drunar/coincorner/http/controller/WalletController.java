@@ -43,7 +43,7 @@ public class WalletController {
     public String update(@PathVariable("id") Long id,
                          @ModelAttribute WalletCreateEditDTO wallet) {
         return walletService.update(id, wallet)
-                .map(it -> "redirect:/wallets/wallet/{id}")
+                .map(it -> "redirect:/wallets/{id}")
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 

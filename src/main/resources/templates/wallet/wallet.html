@@ -12,8 +12,8 @@
 
   <form th:action="@{/wallets/{walletId}/update(walletId=${wallet.id})}"
         method="post" th:object="${wallet}">
-    <label for="walletNAme">Wallet name:
-      <input id="walletNAme" type="text" name="walletNAme" th:value="*{walletName}">
+    <label for="walletName">Wallet name:
+      <input id="walletName" type="text" name="walletName" th:value="*{walletName}">
     </label><br>
     <label for="walletType">Type:
       <input id="walletType" type="text" name="walletType" th:value="*{walletType}">
