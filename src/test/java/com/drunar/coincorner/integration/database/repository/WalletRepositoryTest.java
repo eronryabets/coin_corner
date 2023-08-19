@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.drunar.coincorner.database.entity.Wallet.Currency;
 import static com.drunar.coincorner.database.entity.Wallet.WalletType;
@@ -76,6 +77,12 @@ public class WalletRepositoryTest extends IntegrationTestBase {
                 .build();
         List<Wallet> wallets = walletRepository.findAllByFilter(filter);
         assertThat(wallets).hasSize(1);
+    }
+
+    @Test
+    void checkFindAllByOwnerUserId(){
+        Optional<List<Wallet>> wallets = walletRepository.findAllByOwnerUserId(1L);
+        assertThat(wallets).hasValueSatisfying(list -> assertThat(list).hasSize(3));
     }
 
     @Test

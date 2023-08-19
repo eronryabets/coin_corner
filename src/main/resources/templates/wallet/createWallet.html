@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/base :: common_header(~{::title})}">
+  <meta charset="UTF-8">
+  <title>Wallet</title>
+</head>
+
+<body>
+
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+<div class="container mt-3">
+
+  <div class="col-sm-4">
+
+    <form th:action="@{/wallets/create}"  method="post" th:object="${wallet}">
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Wallet name: </span>
+        <input type="text" class="form-control" aria-label="walletName" aria-describedby="basic-addon1"
+               name="walletName" placeholder="walletName" th:value="*{walletName}">
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon2">Type : </span>
+        <select class="form-control" name="walletType" th:field="*{walletType}">
+          <option value="DEBIT" th:selected="*{walletType == 'DEBIT'}">DEBIT</option>
+          <option value="CREDIT" th:selected="*{walletType == 'CREDIT'}">CREDIT</option>
+        </select>
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon3">Currency : </span>
+        <select class="form-control" name="currency" th:field="*{currency}">
+          <option value="USD" th:selected="*{currency == 'USD'}">USD</option>
+          <option value="EUR" th:selected="*{currency == 'EUR'}">EUR</option>
+          <option value="PLN" th:selected="*{currency == 'PLN'}">PLN</option>
+          <option value="UAH" th:selected="*{currency == 'UAH'}">UAH</option>
+        </select>
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon4">Balance : </span>
+        <input type="number" class="form-control" aria-label="balance" aria-describedby="basic-addon1"
+               name="balance" placeholder="balance" th:value="*{balance}">
+      </div>
+
+      <input type="hidden" name="ownerId" th:value="${#authentication.principal.id}">
+
+      <button type="submit" class="btn btn-primary">Create</button>
+
+    </form>
+
+  </div>
+
+</div>
+<div th:insert="~{fragments/base :: common_body}"></div>
+</body>
+</html>

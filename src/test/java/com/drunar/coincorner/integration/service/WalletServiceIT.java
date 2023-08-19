@@ -1,5 +1,6 @@
 package com.drunar.coincorner.integration.service;
 
+import com.drunar.coincorner.dto.CustomUserDetails;
 import com.drunar.coincorner.dto.UserReadDTO;
 import com.drunar.coincorner.dto.WalletCreateEditDTO;
 import com.drunar.coincorner.dto.WalletReadDTO;
@@ -46,6 +47,15 @@ public class WalletServiceIT extends IntegrationTestBase {
             maybeWallets.ifPresent( wallets -> {
                 assertThat(wallets).hasSize(3);
             });
+        });
+    }
+
+    @Test
+    void findAllByUserDetails(){
+        CustomUserDetails user = new CustomUserDetails(1L,"test","123",null);
+        Optional<List<WalletReadDTO>> maybeWallets = walletService.findAllByUserDetails(user);
+        maybeWallets.ifPresent( wallets -> {
+            assertThat(wallets).hasSize(3);
         });
     }
 

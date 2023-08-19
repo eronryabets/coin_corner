@@ -20,6 +20,8 @@ public interface WalletRepository extends
 
     Optional<List<Wallet>> findAllByOwnerUser(User user);
 
+    Optional<List<Wallet>> findAllByOwnerUserId(Long id);
+
     Page<Wallet> findAllBy(Pageable pageable);
 
 }

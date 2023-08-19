@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/base :: common_header(~{::title})}">
+  <meta charset="UTF-8">
+  <title>My Wallets</title>
+</head>
+
+<body>
+
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+<div class="container mt-3">
+
+  <a th:href="@{'/wallets/create'}" class="btn btn-dark">Create Wallet</a>
+  <br>
+
+  <div>
+    <table class="table table-striped">
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Currency</th>
+        <th>Balance</th>
+        <th>Owner ID</th>
+        <th>Owner username</th>
+        <th>Link</th>
+      </tr>
+      <tr th:each="wallet : ${wallets}">
+        <td th:text="${wallet.id}">Id</td>
+        <td th:text="${wallet.walletName}">Name</td>
+        <td th:text="${wallet.walletType}">Type</td>
+        <td th:text="${wallet.currency}">Currency</td>
+        <td th:text="${wallet.balance}">Balance</td>
+        <td th:text="${wallet.ownerId}">Owner ID</td>
+        <td th:text="${wallet.ownerUsername}">Owner username</td>
+        <td><a th:href="@{'/wallets/' + ${wallet.id}}" class="btn btn-dark">link</a></td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+</div>
+<div th:insert="~{fragments/base :: common_body}"></div>
+</body>
+</html>

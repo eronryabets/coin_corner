@@ -2,6 +2,7 @@ package com.drunar.coincorner.service;
 
 import com.drunar.coincorner.database.filter.WalletFilter;
 import com.drunar.coincorner.database.repository.WalletRepository;
+import com.drunar.coincorner.dto.CustomUserDetails;
 import com.drunar.coincorner.dto.UserReadDTO;
 import com.drunar.coincorner.dto.WalletCreateEditDTO;
 import com.drunar.coincorner.dto.WalletReadDTO;
@@ -57,6 +58,14 @@ public class WalletService {
                 .map(wallets -> wallets.stream()
                         .map(walletMapper::walletToWalletReadDTO)
                         .collect(Collectors.toList()));
+    }
+
+    public Optional<List<WalletReadDTO>> findAllByUserDetails(CustomUserDetails user) {
+        return walletRepository.findAllByOwnerUserId(user.getId())
+                .map(wallets -> wallets.stream()
+                        .map(walletMapper::walletToWalletReadDTO)
+                        .collect(Collectors.toList()));
+
     }
 
     @Transactional
