@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/base :: common_header(~{::title})}">
+  <meta charset="UTF-8">
+  <title>Wallet</title>
+</head>
+
+<body>
+
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+<div class="container mt-3">
+
+  <form th:action="@{/wallets/{walletId}/update(walletId=${wallet.id})}"
+        method="post" th:object="${wallet}">
+    <label for="walletNAme">Wallet name:
+      <input id="walletNAme" type="text" name="walletNAme" th:value="*{walletName}">
+    </label><br>
+    <label for="walletType">Type:
+      <input id="walletType" type="text" name="walletType" th:value="*{walletType}">
+    </label><br>
+    <label for="currency">Currency:
+      <input id="currency" type="text" name="currency" th:value="*{currency}">
+    </label><br>
+    <label for="ownerId">Owner ID:
+      <input id="ownerId" type="text" name="ownerId" th:value="*{ownerId}">
+    </label><br>
+    <label for="balance">Balance:
+      <input id="balance" type="text" name="balance" th:value="*{balance}">
+    </label><br>
+    <button type="submit">Update</button>
+  </form>
+
+</div>
+
+<div th:insert="~{fragments/base :: common_body}"></div>
+</body>
+</html>

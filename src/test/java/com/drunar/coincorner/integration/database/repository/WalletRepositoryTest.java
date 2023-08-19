@@ -1,6 +1,5 @@
 package com.drunar.coincorner.integration.database.repository;
 
-import com.drunar.coincorner.database.entity.User;
 import com.drunar.coincorner.database.entity.Wallet;
 import com.drunar.coincorner.database.filter.WalletFilter;
 import com.drunar.coincorner.database.repository.WalletRepository;
@@ -37,10 +36,10 @@ public class WalletRepositoryTest extends IntegrationTestBase {
 
     @Test
     void checkFilterWalletName() {
-        WalletFilter filter = WalletFilter.builder().walletName("wall").build();
+        WalletFilter filter = WalletFilter.builder().walletName("wallet 1").build();
         List<Wallet> wallets = walletRepository.findAllByFilter(filter);
-        assertThat(wallets).hasSize(16);
-        assertThat(wallets).as("The size of the list should not be 1").isNotEqualTo(1);
+        assertThat(wallets).hasSize(1);
+        assertThat(wallets).as("The size of the list should not be 16").isNotEqualTo(16);
 
     }
 
@@ -59,12 +58,9 @@ public class WalletRepositoryTest extends IntegrationTestBase {
     }
 
     @Test
-    void checkFilterByUser() {
+    void checkFilterByUserId() {
 
-        User user = new User();
-        user.setId(3L);
-
-        WalletFilter filter = WalletFilter.builder().ownerUser(user).build();
+        WalletFilter filter = WalletFilter.builder().ownerUserId(3L).build();
         List<Wallet> wallets = walletRepository.findAllByFilter(filter);
         assertThat(wallets).hasSize(3);
     }
@@ -72,14 +68,12 @@ public class WalletRepositoryTest extends IntegrationTestBase {
     @Test
     void checkFilterAllParameters() {
 
-        User user = new User();
-        user.setId(1L);
-
         WalletFilter filter = WalletFilter.builder()
                 .walletName("Wallet 1")
                 .walletType(WalletType.DEBIT)
                 .currency(Currency.USD)
-                .ownerUser(user).build();
+                .ownerUserId(1L)
+                .build();
         List<Wallet> wallets = walletRepository.findAllByFilter(filter);
         assertThat(wallets).hasSize(1);
     }

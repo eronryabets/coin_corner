@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/base :: common_header(~{::title})}">
+    <meta charset="UTF-8">
+    <title>Wallets</title>
+</head>
+
+<body>
+
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+<div class="container mt-3">
+
+    <form action="/wallets">
+
+        <div class="col-sm-3">
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Wallet Name</span>
+                <input type="text" class="form-control" aria-label="WalletName" aria-describedby="basic-addon1"
+                       name="walletName" placeholder="Wallet Name" th:value="${filter.walletName}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon2">Type</span>
+                <input type="text" class="form-control" aria-label="WalletType" aria-describedby="basic-addon1"
+                       name="walletType" placeholder="example: DEBIT" th:value="${filter.walletType}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon3">Currency</span>
+                <input type="text" class="form-control" aria-label="Currency" aria-describedby="basic-addon1"
+                       name="currency" placeholder="example: USD" th:value="${filter.currency}">
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon4">Owner user ID</span>
+                <input type="text" class="form-control" aria-label="ownerUserId" aria-describedby="basic-addon1"
+                       name="ownerUserId" placeholder="ownerUserId" th:value="${filter.ownerUserId}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon5">Owner username</span>
+                <input type="text" class="form-control" aria-label="ownerUsername" aria-describedby="basic-addon1"
+                       name="ownerUsername" placeholder="ownerUsername" th:value="${filter.ownerUsername}">
+            </div>
+
+
+            <div>
+                <label for="page">Page:
+                    <input id="page" type="number" name="page" th:value="${wallets.metadata.page}">
+                </label>
+                <label for="size">Size:
+                    <input id="size" type="number" name="size" th:value="${wallets.metadata.size}">
+                </label>
+            </div>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-info">Filter</button>
+    </form>
+    <br>
+
+    <div>
+        <table class="table table-striped">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Currency</th>
+                <th>Balance</th>
+                <th>Owner ID</th>
+                <th>Owner username</th>
+                <th>Link</th>
+            </tr>
+            <tr th:each="wallet : ${wallets.content}">
+                <td th:text="${wallet.id}">Id</td>
+                <td th:text="${wallet.walletName}">Name</td>
+                <td th:text="${wallet.walletType}">Type</td>
+                <td th:text="${wallet.currency}">Currency</td>
+                <td th:text="${wallet.balance}">Balance</td>
+                <td th:text="${wallet.ownerId}">Owner ID</td>
+                <td th:text="${wallet.ownerUsername}">Owner username</td>
+                <td><a th:href="@{'/wallets/' + ${wallet.id}}" class="btn btn-dark">link</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div th:insert="~{fragments/base :: common_body}"></div>
+</body>
+</html>
