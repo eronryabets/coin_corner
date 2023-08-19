@@ -6,45 +6,38 @@
     <title>Login</title>
 </head>
 
-<body >
+<body>
 
 <div class="container mt-3">
 
-    <form th:action="@{/login}" method="post">
+    <div class="col-sm-4">
 
-        <div class="form-group">
-            <label class="col-sm-2 col-form-label"> Email : </label>
-            <div class="col-sm-3">
-                <label>
-                    <input type="text" name="username"
-                           class="form-control"
-                           placeholder="example@gmail.com"/>
-                </label>
-            </div>
-        </div>
+        <form th:action="@{/login}" method="post">
 
-        <div class="form-group">
-            <label class="col-sm-2 col-form-label"> Password : </label>
-            <div class="col-sm-3">
-                <label>
-                    <input type="password" name="password"
-                           class="form-control"
-                           placeholder="password"/>
-                </label>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Email</span>
+                <input type="text" class="form-control" aria-label="Email" aria-describedby="basic-addon1"
+                       name="username" placeholder="example@gmail.com">
             </div>
-        </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon2">Password</span>
+                <input type="password" class="form-control" aria-label="Password" aria-describedby="basic-addon1"
+                       name="password" placeholder="password">
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary">Login</button>
+                <a href="/users/registration" class="btn btn-info">Registration</a>
+            </div>
+        </form>
         <br>
+
         <div>
-        <button type="submit" class="btn btn-primary">Login</button>
-        <a href="/users/registration" class="btn btn-info">Registration</a>
+            <div></div>
+            <a href="/oauth2/authorization/google" class="btn btn-success">Google Auth.</a>
         </div>
-    </form>
-    <div>
-        <div>Login with:</div>
-        <a href="/oauth2/authorization/google" class="btn btn-success">Google</a>
+
     </div>
 </div>
-
 
 
 <div th:insert="~{fragments/base :: common_body}"></div>

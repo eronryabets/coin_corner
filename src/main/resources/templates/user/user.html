@@ -1,49 +1,67 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>User</title>
+<head th:replace="~{fragments/base :: common_header(~{::title})}">
+    <meta charset="UTF-8">
+    <title>User</title>
 </head>
 <body>
-<form th:action="@{/users/{userId}/update(userId=${user.id})}"
-      enctype="multipart/form-data" method="post" th:object="${user}">
-  <label for="username">Username:
-    <input id="username" type="text" name="username" th:value="*{username}">
-  </label><br>
-  <label for="email">Email:
-    <input id="email" type="text" name="email" th:value="*{email}">
-  </label><br>
-  <label for="firstname">Firstname:
-    <input id="firstname" type="text" name="firstname" th:value="*{firstname}">
-  </label><br>
-  <label for="lastname">Lastname:
-    <input id="lastname" type="text" name="lastname" th:value="*{lastname}">
-  </label><br>
-  <label for="birthDate">BirthDate:
-    <input id="birthDate" type="date" name="birthDate" th:value="*{birthDate}">
-  </label><br>
-  <div th:if="${user.image}">
-    <img th:src="@{/api/v1/users/{userId}/avatar(userId=${user.id})}" alt="User image">
-  </div>
-  <label for="image">Image:
-    <input id="image" type="file" name="image">
-  </label><br>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+<div class="container mt-3">
+    <div class="col-sm-4">
+        <form th:action="@{/users/{userId}/update(userId=${user.id})}"
+              enctype="multipart/form-data" method="post" th:object="${user}">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Username</span>
+                <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+                       name="username" placeholder="username" th:value="*{username}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon2">Email</span>
+                <input type="email" class="form-control" aria-label="Email" aria-describedby="basic-addon1"
+                       name="email" placeholder="email" th:value="*{email}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon3">Firstname</span>
+                <input type="text" class="form-control" aria-label="Firstname" aria-describedby="basic-addon1"
+                       name="firstname" placeholder="firstname" th:value="*{firstname}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon4">Lastname</span>
+                <input type="text" class="form-control" aria-label="Lastname" aria-describedby="basic-addon1"
+                       name="lastname" placeholder="lastname" th:value="*{lastname}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon5">BirthDate</span>
+                <input type="date" class="form-control" aria-label="BirthDate" aria-describedby="basic-addon1"
+                       name="birthDate" placeholder="birthDate" th:value="*{birthDate}">
+            </div>
+            <div th:if="${user.image}">
+                <img th:src="@{/api/v1/users/{userId}/avatar(userId=${user.id})}" alt="User image">
+            </div>
+            <br>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupFile02">Image</label>
+                <input type="file" class="form-control" id="inputGroupFile02" name="image">
+            </div>
+            <div>
+                <label>Roles:</label>
+                <div th:each="role : ${T(com.drunar.coincorner.database.entity.Role).values()}">
+                    <label>
+                        <input type="checkbox" name="roles" th:value="${role}"
+                               th:checked="${user.roles.contains(role)}">
+                        <span th:text="${role}"></span>
+                    </label><br>
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Update</button>
+        </form>
+        <br>
+        <form th:action="@{/users/{userId}/delete(userId=${user.id})}" method="post">
+            <button class="btn btn-danger" type="submit">Delete</button>
+        </form>
 
-  <div>
-    <label>Roles:</label>
-    <div th:each="role : ${T(com.drunar.coincorner.database.entity.Role).values()}">
-      <label>
-        <input type="checkbox" name="roles" th:value="${role}" th:checked="${user.roles.contains(role)}">
-        <span th:text="${role}"></span>
-      </label><br>
     </div>
-  </div>
-
-  <button type="submit">Update</button>
-</form>
-<form th:action="@{/users/{userId}/delete(userId=${user.id})}" method="post">
-  <button type="submit">Remove</button>
-</form>
-
+</div>
+<div th:insert="~{fragments/base :: common_body}"></div>
 </body>
 </html>

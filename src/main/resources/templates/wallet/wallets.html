@@ -12,7 +12,7 @@
 
     <form action="/wallets">
 
-        <div class="col-sm-3">
+        <div class="col-sm-4">
 
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">Wallet Name</span>
@@ -41,15 +41,19 @@
                        name="ownerUsername" placeholder="ownerUsername" th:value="${filter.ownerUsername}">
             </div>
 
-
             <div>
-                <label for="page">Page:
-                    <input id="page" type="number" name="page" th:value="${wallets.metadata.page}">
-                </label>
-                <label for="size">Size:
-                    <input id="size" type="number" name="size" th:value="${wallets.metadata.size}">
-                </label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon6">Page</span>
+                    <input type="number" class="form-control" aria-label="Page" aria-describedby="basic-addon1"
+                           name="page"  th:value="${wallets.metadata.page}">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon7">Size</span>
+                    <input type="number" class="form-control" aria-label="size" aria-describedby="basic-addon1"
+                           name="size" th:value="${wallets.metadata.size}">
+                </div>
             </div>
+
         </div>
         <br>
         <button type="submit" class="btn btn-info">Filter</button>

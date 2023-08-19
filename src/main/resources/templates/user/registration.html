@@ -1,38 +1,74 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Registration</title>
+<head th:replace="~{fragments/base :: common_header(~{::title})}">
+    <meta charset="UTF-8">
+    <title>Registration</title>
 </head>
-<body>
-<form th:action="@{/users/registration}" enctype="multipart/form-data" method="post" th:object="${user}">
-  <label for="username">Username:
-    <input id="username" type="text" name="username" th:value="*{username}">
-  </label><br>
-  <label for="rawPassword">Password:
-    <input id="rawPassword" type="password" name="rawPassword">
-  </label><br>
-  <label for="email">Email:
-    <input id="email" type="text" name="email" th:value="*{email}">
-  </label><br>
-  <label for="firstname">Firstname:
-    <input id="firstname" type="text" name="firstname" th:value="*{firstname}">
-  </label><br>
-  <label for="lastname">Lastname:
-    <input id="lastname" type="text" name="lastname" th:value="*{lastname}">
-  </label><br>
-  <label for="birthDate">BirthDate:
-    <input id="birthDate" type="date" name="birthDate" th:value="*{birthDate}">
-  </label><br>
-  <label for="image">Image:
-    <input id="image" type="file" name="image">
-  </label><br>
-  <button type="submit">Register</button>
-  <div th:if="${errors}">
-    <p style="color: red" th:each="error : ${errors}"
-       th:text="${error.defaultMessage}">Error message</p>
-  </div>
 
-</form>
+<body>
+
+
+<div class="container mt-3">
+
+    <div class="col-sm-4">
+
+        <form th:action="@{/users/registration}" enctype="multipart/form-data" method="post" th:object="${user}">
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Username</span>
+                <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+                       name="username" placeholder="username" th:value="*{username}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon2">Password</span>
+                <input type="password" class="form-control" aria-label="Password" aria-describedby="basic-addon1"
+                       name="rawPassword" placeholder="password">
+            </div>
+
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon3">Email</span>
+                <input type="email" class="form-control" aria-label="Email" aria-describedby="basic-addon1"
+                       name="email" placeholder="email" th:value="*{email}">
+            </div>
+
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon4">Firstname</span>
+                <input type="text" class="form-control" aria-label="Firstname" aria-describedby="basic-addon1"
+                       name="firstname" placeholder="firstname" th:value="*{firstname}">
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon5">Lastname</span>
+                <input type="text" class="form-control" aria-label="Lastname" aria-describedby="basic-addon1"
+                       name="lastname" placeholder="lastname" th:value="*{lastname}">
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon6">BirthDate</span>
+                <input type="date" class="form-control" aria-label="BirthDate" aria-describedby="basic-addon1"
+                       name="birthDate" placeholder="birthDate" th:value="*{birthDate}">
+            </div>
+
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupFile02">Image</label>
+                <input type="file" class="form-control" id="inputGroupFile02" name="image">
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Register</button>
+
+            <div th:if="${errors}">
+                <p style="color: red" th:each="error : ${errors}"
+                   th:text="${error.defaultMessage}">Error message</p>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+<div th:insert="~{fragments/base :: common_body}"></div>
 </body>
 </html>

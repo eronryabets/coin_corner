@@ -12,7 +12,7 @@
 
     <form action="/users">
 
-        <div class="col-sm-3">
+        <div class="col-sm-4">
 
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">Username</span>
@@ -57,14 +57,21 @@
                 <label class="form-check-label">Admin Role</label>
             </div>
 
+
             <div>
-                <label for="page">Page:
-                    <input id="page" type="number" name="page" th:value="${users.metadata.page}">
-                </label>
-                <label for="size">Size:
-                    <input id="size" type="number" name="size" th:value="${users.metadata.size}">
-                </label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon8">Page</span>
+                    <input type="number" class="form-control" aria-label="Page" aria-describedby="basic-addon1"
+                           name="page"  th:value="${users.metadata.page}">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon9">Size</span>
+                    <input type="number" class="form-control" aria-label="size" aria-describedby="basic-addon1"
+                           name="size" th:value="${users.metadata.size}">
+                </div>
             </div>
+
+
         </div>
         <br>
         <button type="submit" class="btn btn-info">Filter</button>

@@ -9,27 +9,40 @@
 
 <div th:insert="~{fragments/navbar :: navbar}"></div>
 <div class="container mt-3">
+  <div class="col-sm-4">
 
-  <form th:action="@{/wallets/{walletId}/update(walletId=${wallet.id})}"
-        method="post" th:object="${wallet}">
-    <label for="walletName">Wallet name:
-      <input id="walletName" type="text" name="walletName" th:value="*{walletName}">
-    </label><br>
-    <label for="walletType">Type:
-      <input id="walletType" type="text" name="walletType" th:value="*{walletType}">
-    </label><br>
-    <label for="currency">Currency:
-      <input id="currency" type="text" name="currency" th:value="*{currency}">
-    </label><br>
-    <label for="ownerId">Owner ID:
-      <input id="ownerId" type="text" name="ownerId" th:value="*{ownerId}">
-    </label><br>
-    <label for="balance">Balance:
-      <input id="balance" type="text" name="balance" th:value="*{balance}">
-    </label><br>
-    <button type="submit">Update</button>
+  <form th:action="@{/wallets/{walletId}/update(walletId=${wallet.id})}" method="post" th:object="${wallet}">
+
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon1">Wallet name:</span>
+      <input type="text" class="form-control" aria-label="walletName" aria-describedby="basic-addon1"
+             name="walletName" placeholder="walletName" th:value="*{walletName}">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon2">Type:</span>
+      <input type="text" class="form-control" aria-label="walletName" aria-describedby="basic-addon1"
+             name="walletType" placeholder="walletType" th:value="*{walletType}">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon3">Currency:</span>
+      <input type="text" class="form-control" aria-label="currency" aria-describedby="basic-addon1"
+             name="currency" placeholder="currency" th:value="*{currency}">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon4">Owner ID:</span>
+      <input type="number" class="form-control" aria-label="ownerId" aria-describedby="basic-addon1"
+             name="ownerId" placeholder="ownerId" th:value="*{currency}">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon5">Balance:</span>
+      <input type="number" class="form-control" aria-label="balance" aria-describedby="basic-addon1"
+             name="balance" placeholder="balance" th:value="*{balance}">
+    </div>
+
+    <button type="submit" class="btn btn-success">Update</button>
   </form>
 
+  </div>
 </div>
 
 <div th:insert="~{fragments/base :: common_body}"></div>
