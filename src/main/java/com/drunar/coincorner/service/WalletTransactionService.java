@@ -10,7 +10,9 @@ import com.drunar.coincorner.util.predicateBuilder.WalletTrPredicateBuilder;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +33,12 @@ public class WalletTransactionService {
 
     public Page<WalletTransactionDTO> findAll(WalletTransactionFilter filter, Pageable pageable) {
         Predicate predicate = WalletTrPredicateBuilder.buildPredicate(filter);
+
+        pageable = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSort().and(Sort.by("transactionDate").descending())
+        );
 
         return walletTransactionRepository.findAll(predicate, pageable)
                 .map(walletTransactionMapper::walletTransactionToWalletTransactionDTO);
