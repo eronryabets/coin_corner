@@ -1,43 +1,104 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Users</title>
+<head th:replace="~{fragments/base :: common_header(~{::title})}">
+    <meta charset="UTF-8">
+    <title>Wallets</title>
 </head>
-<body>
-<form action="/transactions">
-  <label for="id">ID:
-    <input id="id" type="text" name="id" th:value="${filter.id}">
-  </label><br>
-  <label for="amount">Amount:
-    <input id="amount" type="text" name="amount" th:value="${filter.amount}">
-  </label><br>
-  <label for="walletId">Wallet ID:
-    <input id="walletId" type="text" name="walletId" th:value="${filter.walletId}">
-  </label><br>
-  <label for="walletName">Wallet name:
-    <input id="walletName" type="text" name="walletName" th:value="${filter.walletName}">
-  </label><br>
 
-  <label for="userId">User ID:
-    <input id="userId" type="text" name="userId" th:value="${filter.userId}">
-  </label><br>
-  <label for="username">Username:
-    <input id="username" type="text" name="username" th:value="${filter.username}">
-  </label><br>
-  <div>
-    <label for="page">Page:
-      <input id="page" type="number" name="page" th:value="${transactions.metadata.page}">
-    </label>
-    <label for="size">Size:
-      <input id="size" type="number" name="size" th:value="${transactions.metadata.size}">
-    </label>
-  </div>
-  <button type="submit">Filter</button>
-</form>
-<div th:each="transaction : ${transactions.content}">
-  <a th:href="@{'/transactions/' + ${transaction.id}}"
-     th:text="|${transaction}|">Transaction</a>
+<body>
+
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+<div class="container mt-3">
+    <div class="col-sm-4">
+
+
+        <form action="/transactions">
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Transaction ID:</span>
+                <input type="number" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+                       name="id" placeholder="id" th:value="${filter.id}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon2">Amount:</span>
+                <input type="number" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+                       name="amount" placeholder="amount" th:value="${filter.amount}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon3">Wallet ID:</span>
+                <input type="number" class="form-control" aria-label="walletId" aria-describedby="basic-addon1"
+                       name="walletId" placeholder="walletId" th:value="${filter.walletId}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon4">Wallet name:</span>
+                <input type="text" class="form-control" aria-label="walletName" aria-describedby="basic-addon1"
+                       name="walletName" placeholder="walletName" th:value="${filter.walletName}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon5">User ID:</span>
+                <input type="number" class="form-control" aria-label="userId" aria-describedby="basic-addon1"
+                       name="userId" placeholder="userId" th:value="${filter.userId}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon6">Username:</span>
+                <input type="text" class="form-control" aria-label="username" aria-describedby="basic-addon1"
+                       name="username" placeholder="username" th:value="${filter.username}">
+            </div>
+
+            <div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon8">Page</span>
+                    <input type="number" class="form-control" aria-label="Page" aria-describedby="basic-addon1"
+                           name="page" th:value="${transactions.metadata.page}">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon9">Size</span>
+                    <input type="number" class="form-control" aria-label="size" aria-describedby="basic-addon1"
+                           name="size" th:value="${transactions.metadata.size}">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-info">Filter</button>
+        </form>
+
+    </div>
+    <br>
+
+    <div>
+        <table class="table table-striped">
+
+            <thead>
+            <tr>
+                <th>Tr.id</th>
+                <th>Wallet Id</th>
+                <th>wallet name</th>
+                <th>Prev. Balance</th>
+                <th>Amount</th>
+                <th>Cur. Balance</th>
+                <th>Operation</th>
+                <th>Tr. Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <div th:each="tr: ${transactions.content}">
+                <tr>
+                    <td th:text="${tr.id}">id</td>
+                    <td th:text="${tr.walletId}">walletId</td>
+                    <td th:text="${tr.walletName}">walletName</td>
+                    <td th:text="${tr.previousBalance}">previousBalance</td>
+                    <td th:text="${tr.amount}">amount</td>
+                    <td th:text="${tr.currentBalance}">currentBalance</td>
+                    <td th:text="${tr.operationType}">operationType</td>
+                    <td th:text="${tr.transactionDate}">transactionDate</td>
+                </tr>
+            </div>
+
+        </table>
+
+    </div>
+
 </div>
+
+<div th:insert="~{fragments/base :: common_body}"></div>
 </body>
 </html>
