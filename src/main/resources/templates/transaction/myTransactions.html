@@ -12,7 +12,84 @@
 
   <div class="col-sm-4">
 
-    <!-- code -->
+    <form action="/transactions/my">
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon10">Operation type : </span>
+        <select class="form-control" name="operationType" th:field="*{filter.operationType}">
+
+          <option value="" th:selected="*{filter.operationType == null}"
+                  th:field="*{filter.operationType}">Select type</option>
+
+          <option value="INCOME" th:selected="*{filter.operationType == 'INCOME'}"
+                  th:field="*{filter.operationType}">INCOME</option>
+
+          <option value="EXPENSE" th:selected="*{filter.operationType == 'EXPENSE'}"
+                  th:field="*{filter.operationType}">EXPENSE</option>
+        </select>
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon2">Amount:</span>
+        <input type="number" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+               name="amount" placeholder="amount" th:value="${filter.amount}">
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon3">Wallet ID:</span>
+        <input type="number" class="form-control" aria-label="walletId" aria-describedby="basic-addon1"
+               name="walletId" placeholder="walletId" th:value="${filter.walletId}">
+      </div>
+
+      <div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon8">Page</span>
+          <input type="number" class="form-control" aria-label="Page" aria-describedby="basic-addon1"
+                 name="page" th:value="${transactions.metadata.page}">
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon9">Size</span>
+          <input type="number" class="form-control" aria-label="size" aria-describedby="basic-addon1"
+                 name="size" th:value="${transactions.metadata.size}">
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-info">Filter</button>
+    </form>
+
+  </div>
+
+
+  <div>
+    <table class="table table-striped">
+
+      <thead>
+      <tr>
+        <th>Tr.id</th>
+        <th>Wallet Id</th>
+        <th>wallet name</th>
+        <th>Prev. Balance</th>
+        <th>Amount</th>
+        <th>Cur. Balance</th>
+        <th>Operation</th>
+        <th>Tr. Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      <div th:each="tr: ${transactions.content}">
+        <tr>
+          <td th:text="${tr.id}">id</td>
+          <td th:text="${tr.walletId}">walletId</td>
+          <td th:text="${tr.walletName}">walletName</td>
+          <td th:text="${tr.previousBalance}">previousBalance</td>
+          <td th:text="${tr.amount}">amount</td>
+          <td th:text="${tr.currentBalance}">currentBalance</td>
+          <td th:text="${tr.operationType}">operationType</td>
+          <td th:text="${tr.transactionDate}">transactionDate</td>
+        </tr>
+      </div>
+
+    </table>
+
   </div>
 
 </div>

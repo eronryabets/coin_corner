@@ -49,6 +49,19 @@ public class WalletTransactionService {
                 .map(walletTransactionMapper::walletTransactionToWalletTransactionDTO).toList();
     }
 
+    public Page<WalletTransactionDTO> findAllByUser(WalletTransactionFilter filter, Pageable pageable, Long userId) {
+        Predicate predicate = WalletTrPredicateBuilder.buildPredicate(filter, userId);
+
+        pageable = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSort().and(Sort.by("transactionDate").descending())
+        );
+
+        return walletTransactionRepository.findAll(predicate, pageable)
+                .map(walletTransactionMapper::walletTransactionToWalletTransactionDTO);
+    }
+
     public Optional<List<WalletTransactionDTO>> findAllByWallet(WalletReadDTO walletDTO) {
         return walletTransactionRepository.findAllByWallet(walletMapper.walletReadDTOToWallet(walletDTO))
                 .map(walletTr -> walletTr.stream()

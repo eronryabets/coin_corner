@@ -8,6 +8,10 @@ import static com.drunar.coincorner.database.entity.QWalletTransaction.walletTra
 
 public class WalletTrPredicateBuilder {
     public static Predicate buildPredicate(WalletTransactionFilter filter) {
+        return buildPredicate(filter, null);
+    }
+
+    public static Predicate buildPredicate(WalletTransactionFilter filter, Long userId) {
         return QPredicates.builder()
                 .add(filter.getId(), walletTransaction.id::eq)
                 .add(filter.getOperationType(), walletTransaction.operationType::eq)
@@ -19,7 +23,7 @@ public class WalletTrPredicateBuilder {
                 .add(filter.getTransactionDateEnd(), walletTransaction.transactionDate::loe)
                 .add(filter.getWalletId(), walletTransaction.wallet.id::eq)
                 .add(filter.getWalletName(), walletTransaction.wallet.walletName::containsIgnoreCase)
-                .add(filter.getUserId(), walletTransaction.wallet.ownerUser.id::eq)
+                .add(userId, userId != null ? walletTransaction.wallet.ownerUser.id::eq : null)
                 .add(filter.getUsername(), walletTransaction.wallet.ownerUser.username::containsIgnoreCase)
                 .build();
     }
