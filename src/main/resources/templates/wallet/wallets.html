@@ -19,15 +19,41 @@
                 <input type="text" class="form-control" aria-label="WalletName" aria-describedby="basic-addon1"
                        name="walletName" placeholder="Wallet Name" th:value="${filter.walletName}">
             </div>
+
             <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon2">Type</span>
-                <input type="text" class="form-control" aria-label="WalletType" aria-describedby="basic-addon1"
-                       name="walletType" placeholder="example: DEBIT" th:value="${filter.walletType}">
+                <span class="input-group-text" id="basic-addon2">Type : </span>
+                <select class="form-control" name="walletType" th:field="*{filter.walletType}">
+
+                    <option value="" th:selected="*{filter.walletType == null}"
+                            th:field="*{filter.walletType}">Select type</option>
+
+                    <option value="DEBIT" th:selected="*{filter.walletType == 'DEBIT'}"
+                            th:field="*{filter.walletType}">DEBIT</option>
+
+                    <option value="CREDIT" th:selected="*{filter.walletType == 'CREDIT'}"
+                            th:field="*{filter.walletType}">CREDIT</option>
+                </select>
             </div>
+
             <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon3">Currency</span>
-                <input type="text" class="form-control" aria-label="Currency" aria-describedby="basic-addon1"
-                       name="currency" placeholder="example: USD" th:value="${filter.currency}">
+                <span class="input-group-text" id="basic-addon3">Currency : </span>
+                <select class="form-control" name="currency" th:field="*{filter.currency}">
+
+                    <option value="" th:selected="*{filter.currency == null}"
+                            th:field="*{filter.currency}">Select currency</option>
+
+                    <option value="USD" th:selected="*{filter.currency == 'USD'}"
+                            th:field="*{filter.currency}">USD</option>
+
+                    <option value="EUR" th:selected="*{filter.currency == 'EUR'}"
+                            th:field="*{filter.currency}">EUR</option>
+
+                    <option value="PLN" th:selected="*{filter.currency == 'PLN'}"
+                            th:field="*{filter.currency}">PLN</option>
+
+                    <option value="UAH" th:selected="*{filter.currency == 'UAH'}"
+                            th:field="*{filter.currency}">UAH</option>
+                </select>
             </div>
 
             <div class="input-group mb-3">

@@ -18,16 +18,29 @@
       <input type="text" class="form-control" aria-label="walletName" aria-describedby="basic-addon1"
              name="walletName" placeholder="walletName" th:value="*{walletName}">
     </div>
+
     <div class="input-group mb-3">
-      <span class="input-group-text" id="basic-addon2">Type:</span>
-      <input type="text" class="form-control" aria-label="walletName" aria-describedby="basic-addon1"
-             name="walletType" placeholder="walletType" th:value="*{walletType}">
+      <span class="input-group-text" id="basic-addon2">Type : </span>
+      <select class="form-control" name="walletType" th:field="*{walletType}">
+
+        <option value="DEBIT" th:selected="*{walletType == 'DEBIT'}"
+                th:field="*{walletType}">DEBIT</option>
+
+        <option value="CREDIT" th:selected="*{walletType == 'CREDIT'}"
+                th:field="*{walletType}">CREDIT</option>
+      </select>
     </div>
+
     <div class="input-group mb-3">
-      <span class="input-group-text" id="basic-addon3">Currency:</span>
-      <input type="text" class="form-control" aria-label="currency" aria-describedby="basic-addon1"
-             name="currency" placeholder="currency" th:value="*{currency}">
+      <span class="input-group-text" id="basic-addon3">Currency : </span>
+      <select class="form-control" name="currency" th:field="*{currency}">
+        <option value="USD" th:selected="*{currency == 'USD'}" th:field="*{currency}">USD</option>
+        <option value="EUR" th:selected="*{currency == 'EUR'}" th:field="*{currency}">EUR</option>
+        <option value="PLN" th:selected="*{currency == 'PLN'}" th:field="*{currency}">PLN</option>
+        <option value="UAH" th:selected="*{currency == 'UAH'}" th:field="*{currency}">UAH</option>
+      </select>
     </div>
+
     <div class="input-group mb-3">
       <span class="input-group-text" id="basic-addon4">Owner ID:</span>
       <input type="number" class="form-control" aria-label="ownerId" aria-describedby="basic-addon1"

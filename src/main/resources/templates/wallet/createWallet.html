@@ -23,18 +23,22 @@
       <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon2">Type : </span>
         <select class="form-control" name="walletType" th:field="*{walletType}">
-          <option value="DEBIT" th:selected="*{walletType == 'DEBIT'}">DEBIT</option>
-          <option value="CREDIT" th:selected="*{walletType == 'CREDIT'}">CREDIT</option>
+
+          <option value="DEBIT" th:selected="*{walletType == 'DEBIT'}"
+                  th:field="*{walletType}">DEBIT</option>
+
+          <option value="CREDIT" th:selected="*{walletType == 'CREDIT'}"
+                  th:field="*{walletType}">CREDIT</option>
         </select>
       </div>
 
       <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon3">Currency : </span>
         <select class="form-control" name="currency" th:field="*{currency}">
-          <option value="USD" th:selected="*{currency == 'USD'}">USD</option>
-          <option value="EUR" th:selected="*{currency == 'EUR'}">EUR</option>
-          <option value="PLN" th:selected="*{currency == 'PLN'}">PLN</option>
-          <option value="UAH" th:selected="*{currency == 'UAH'}">UAH</option>
+          <option value="USD" th:selected="*{currency == 'USD'}" th:field="*{currency}">USD</option>
+          <option value="EUR" th:selected="*{currency == 'EUR'}" th:field="*{currency}">EUR</option>
+          <option value="PLN" th:selected="*{currency == 'PLN'}" th:field="*{currency}">PLN</option>
+          <option value="UAH" th:selected="*{currency == 'UAH'}" th:field="*{currency}">UAH</option>
         </select>
       </div>
 
@@ -47,6 +51,11 @@
       <input type="hidden" name="ownerId" th:value="${#authentication.principal.id}">
 
       <button type="submit" class="btn btn-primary">Create</button>
+
+      <div th:if="${errors}">
+        <p style="color: red" th:each="error : ${errors}"
+           th:text="${error.defaultMessage}">Error message</p>
+      </div>
 
     </form>
 

@@ -13,8 +13,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/wallets")
@@ -43,7 +46,7 @@ public class WalletController {
 
     @PostMapping("/{id}/update")
     public String update(@PathVariable("id") Long id,
-                         @ModelAttribute WalletCreateEditDTO wallet) {
+                         @ModelAttribute @Validated WalletCreateEditDTO wallet) {
         return walletService.update(id, wallet)
                 .map(it -> "redirect:/wallets/{id}")
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -60,17 +63,22 @@ public class WalletController {
     }
 
     @GetMapping("/create")
-    public String newWallet(Model model, WalletCreateEditDTO wallet){
+    public String newWallet(Model model,@ModelAttribute("wallet") WalletCreateEditDTO wallet){
         model.addAttribute("wallet", wallet);
         return "wallet/createWallet";
     }
 
     @PostMapping("/create")
-    public String create(Model model, WalletCreateEditDTO wallet){
-        model.addAttribute("wallet", wallet);
-        System.out.println();
+    public String create(@ModelAttribute @Validated WalletCreateEditDTO wallet,
+                         BindingResult bindingResult, RedirectAttributes redirectAttributes){
+        if(bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("wallet",wallet);
+            redirectAttributes.addFlashAttribute("errors",bindingResult.getAllErrors());
+            return "redirect:/wallets/create";
+        }
+
         walletService.create(wallet);
-        return "wallet/createWallet";
+        return "redirect:/wallets/my";
     }
 
 }

@@ -19,6 +19,26 @@
                 <input type="number" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
                        name="id" placeholder="id" th:value="${filter.id}">
             </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon10">Operation type : </span>
+                <select class="form-control" name="operationType" th:field="*{filter.operationType}">
+
+                    <option value="" th:selected="*{filter.operationType == null}"
+                            th:field="*{filter.operationType}">Select type</option>
+
+                    <option value="INCOME" th:selected="*{filter.operationType == 'INCOME'}"
+                            th:field="*{filter.operationType}">INCOME</option>
+
+                    <option value="EXPENSE" th:selected="*{filter.operationType == 'EXPENSE'}"
+                            th:field="*{filter.operationType}">EXPENSE</option>
+                </select>
+            </div>
+
+
+
+
+
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon2">Amount:</span>
                 <input type="number" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
