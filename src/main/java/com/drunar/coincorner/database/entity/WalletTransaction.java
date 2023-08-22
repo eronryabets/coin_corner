@@ -41,6 +41,10 @@ public class WalletTransaction implements BaseEntity<Long>{
     @Column(nullable = false)
     private BigDecimal amount;
 
+    public Wallet.Currency getCurrency() {
+        return wallet.getCurrency();
+    }
+
     public enum OperationType {
         INCOME, EXPENSE
     }

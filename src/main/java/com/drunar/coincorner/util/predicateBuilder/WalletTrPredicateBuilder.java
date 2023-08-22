@@ -15,6 +15,7 @@ public class WalletTrPredicateBuilder {
         return QPredicates.builder()
                 .add(filter.getId(), walletTransaction.id::eq)
                 .add(filter.getOperationType(), walletTransaction.operationType::eq)
+                .add(filter.getCurrency(), walletTransaction.wallet.currency::eq)
                 .add(filter.getAmount(), walletTransaction.amount::eq)
                 .add(filter.getTransactionDateIn(), walletTransaction.transactionDate::in)
                 .add(filter.getTransactionDateAfter(), walletTransaction.transactionDate::after)

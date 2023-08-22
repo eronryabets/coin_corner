@@ -12,7 +12,7 @@
 
   <div class="col-sm-4">
 
-    <form action="/transactions/my">
+    <form action="/transactions/incomeExpenseCalc">
 
       <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon10">Operation type : </span>
@@ -49,32 +49,35 @@
         </select>
       </div>
 
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon2">Amount:</span>
-        <input type="number" class="form-control" aria-label="amount" aria-describedby="basic-addon1"
-               name="amount" placeholder="amount" th:value="${filter.amount}">
-      </div>
+<!--      <div class="input-group mb-3">-->
+<!--        <span class="input-group-text" id="basic-addon2">Amount:</span>-->
+<!--        <input type="number" class="form-control" aria-label="amount" aria-describedby="basic-addon1"-->
+<!--               name="amount" placeholder="amount" th:value="${filter.amount}">-->
+<!--      </div>-->
+
       <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon3">Wallet ID:</span>
         <input type="number" class="form-control" aria-label="walletId" aria-describedby="basic-addon1"
                name="walletId" placeholder="walletId" th:value="${filter.walletId}">
       </div>
 
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon11">Date In</span>
-        <input type="datetime-local" class="form-control" aria-label="transactionDateIn" aria-describedby="basic-addon1"
-               name="transactionDateIn" th:value="${filter.transactionDateIn}">
-      </div>
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon12">Date After</span>
-        <input type="datetime-local" class="form-control" aria-label="transactionDateAfter" aria-describedby="basic-addon1"
-               name="transactionDateAfter" th:value="${filter.transactionDateAfter}">
-      </div>
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon13">Date Before</span>
-        <input type="datetime-local" class="form-control" aria-label="transactionDateBefore" aria-describedby="basic-addon1"
-               name="transactionDateBefore" th:value="${filter.transactionDateBefore}">
-      </div>
+<!--      <div class="input-group mb-3">-->
+<!--        <span class="input-group-text" id="basic-addon11">Date In</span>-->
+<!--        <input type="datetime-local" class="form-control" aria-label="transactionDateIn" aria-describedby="basic-addon1"-->
+<!--               name="transactionDateIn" th:value="${filter.transactionDateIn}">-->
+<!--      </div>-->
+<!--      -->
+<!--      <div class="input-group mb-3">-->
+<!--        <span class="input-group-text" id="basic-addon12">Date After</span>-->
+<!--        <input type="datetime-local" class="form-control" aria-label="transactionDateAfter" aria-describedby="basic-addon1"-->
+<!--               name="transactionDateAfter" th:value="${filter.transactionDateAfter}">-->
+<!--      </div>-->
+<!--      <div class="input-group mb-3">-->
+<!--        <span class="input-group-text" id="basic-addon13">Date Before</span>-->
+<!--        <input type="datetime-local" class="form-control" aria-label="transactionDateBefore" aria-describedby="basic-addon1"-->
+<!--               name="transactionDateBefore" th:value="${filter.transactionDateBefore}">-->
+<!--      </div>-->
+
       <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon14">Date Start</span>
         <input type="datetime-local" class="form-control" aria-label="transactionDateStart" aria-describedby="basic-addon1"

@@ -39,7 +39,7 @@ public class WalletTransactionService {
                 pageable.getPageSize(),
                 pageable.getSort().and(Sort.by("transactionDate").descending())
         );
-
+        
         return walletTransactionRepository.findAll(predicate, pageable)
                 .map(walletTransactionMapper::walletTransactionToWalletTransactionDTO);
     }

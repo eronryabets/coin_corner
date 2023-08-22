@@ -40,4 +40,18 @@ public class WalletTransactionController {
         return "transaction/myTransactions";
     }
 
+    @GetMapping("/finances")
+    public String finances(){
+        return "transaction/finances";
+    }
+
+    @GetMapping("/incomeExpenseCalc")
+    public String finances(Model model, WalletTransactionFilter filter, Pageable pageable,
+                           @AuthenticationPrincipal CustomUserDetails user){
+        Page<WalletTransactionDTO> page = walletTrService.findAllByUser(filter, pageable, user.getId());
+        model.addAttribute("transactions", PageResponse.of(page));
+        model.addAttribute("filter", filter);
+        return "transaction/incomeExpenseCalc";
+    }
+
 }

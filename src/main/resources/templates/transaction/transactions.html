@@ -15,7 +15,7 @@
 
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">Transaction ID:</span>
-                <input type="number" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+                <input type="number" class="form-control" aria-label="id" aria-describedby="basic-addon1"
                        name="id" placeholder="id" th:value="${filter.id}">
             </div>
 
@@ -35,8 +35,29 @@
             </div>
 
             <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon16">Currency : </span>
+                <select class="form-control" name="currency" th:field="*{filter.currency}">
+                    <option value="" th:selected="*{filter.currency == null}"
+                            th:field="*{filter.currency}">Select currency</option>
+
+                    <option value="USD" th:selected="*{filter.currency == 'USD'}"
+                            th:field="*{filter.currency}">USD</option>
+
+                    <option value="EUR" th:selected="*{filter.currency == 'EUR'}"
+                            th:field="*{filter.currency}">EUR</option>
+
+                    <option value="PLN" th:selected="*{filter.currency == 'PLN'}"
+                            th:field="*{filter.currency}">PLN</option>
+
+                    <option value="UAH" th:selected="*{filter.currency == 'UAH'}"
+                            th:field="*{filter.currency}">UAH</option>
+                </select>
+            </div>
+
+
+            <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon2">Amount:</span>
-                <input type="number" class="form-control" aria-label="Username" aria-describedby="basic-addon1"
+                <input type="number" class="form-control" aria-label="amount" aria-describedby="basic-addon1"
                        name="amount" placeholder="amount" th:value="${filter.amount}">
             </div>
             <div class="input-group mb-3">
@@ -113,7 +134,8 @@
             <tr>
                 <th>Tr.id</th>
                 <th>Wallet Id</th>
-                <th>wallet name</th>
+                <th>Wallet name</th>
+                <th>Currency</th>
                 <th>Prev. Balance</th>
                 <th>Amount</th>
                 <th>Cur. Balance</th>
@@ -127,6 +149,7 @@
                     <td th:text="${tr.id}">id</td>
                     <td th:text="${tr.walletId}">walletId</td>
                     <td th:text="${tr.walletName}">walletName</td>
+                    <td th:text="${tr.getCurrency()}">currency</td>
                     <td th:text="${tr.previousBalance}">previousBalance</td>
                     <td th:text="${tr.amount}">amount</td>
                     <td th:text="${tr.currentBalance}">currentBalance</td>
