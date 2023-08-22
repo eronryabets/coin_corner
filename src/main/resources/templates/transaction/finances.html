@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/base :: common_header(~{::title})}">
   <meta charset="UTF-8">
-  <title>Finances</title>
+  <title>My Wallets</title>
 </head>
 
 <body>
@@ -11,14 +11,144 @@
 <div class="container mt-3">
 
   <div class="col-sm-4">
-    FINANCES
+
+    <form action="/transactions/finances">
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon10">Operation type : </span>
+        <select class="form-control" name="operationType" th:field="*{filter.operationType}">
+
+          <option value="" th:selected="*{filter.operationType == null}"
+                  th:field="*{filter.operationType}">All operations
+          </option>
+
+          <option value="INCOME" th:selected="*{filter.operationType == 'INCOME'}"
+                  th:field="*{filter.operationType}">INCOME
+          </option>
+
+          <option value="EXPENSE" th:selected="*{filter.operationType == 'EXPENSE'}"
+                  th:field="*{filter.operationType}">EXPENSE
+          </option>
+        </select>
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon16">Currency : </span>
+        <select class="form-control" name="currency" th:field="*{filter.currency}">
+          <option value="" th:selected="*{filter.currency == null}"
+                  th:field="*{filter.currency}">Select currency
+          </option>
+
+          <option value="USD" th:selected="*{filter.currency == 'USD'}"
+                  th:field="*{filter.currency}">USD
+          </option>
+
+          <option value="EUR" th:selected="*{filter.currency == 'EUR'}"
+                  th:field="*{filter.currency}">EUR
+          </option>
+
+          <option value="PLN" th:selected="*{filter.currency == 'PLN'}"
+                  th:field="*{filter.currency}">PLN
+          </option>
+
+          <option value="UAH" th:selected="*{filter.currency == 'UAH'}"
+                  th:field="*{filter.currency}">UAH
+          </option>
+        </select>
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon3">Wallet ID:</span>
+        <input type="number" class="form-control" aria-label="walletId" aria-describedby="basic-addon1"
+               name="walletId" placeholder="All wallet" th:value="${filter.walletId}">
+      </div>
+
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon14">Date Start</span>
+        <input type="datetime-local" class="form-control" aria-label="transactionDateStart"
+               aria-describedby="basic-addon1"
+               name="transactionDateStart" th:value="${filter.transactionDateStart}">
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon15">Date End</span>
+        <input type="datetime-local" class="form-control" aria-label="transactionDateEnd"
+               aria-describedby="basic-addon1"
+               name="transactionDateEnd" th:value="${filter.transactionDateEnd}">
+      </div>
+
+      <div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon8">Page</span>
+          <input type="number" class="form-control" aria-label="Page" aria-describedby="basic-addon1"
+                 name="page" th:value="${transactions.metadata.page}">
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon9">Size</span>
+          <input type="number" class="form-control" aria-label="size" aria-describedby="basic-addon1"
+                 name="size" th:value="${transactions.metadata.size}">
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-info">Filter</button>
+    </form>
     <br>
-    <a th:href="@{'/transactions/incomeExpenseCalc'}" class="btn btn-dark">Income / Expense calculation</a>
-    <br>
-    <a th:href="@{'/transactions/finances'}" class="btn btn-dark">Calculation  interest rate</a>
-    <br>
-    <a th:href="@{'/transactions/finances'}" class="btn btn-dark">Money transfer</a>
-    <br>
+
+  </div>
+
+  <span th:if="${finance.currency == null}" style="color: red">You must select a currency.</span>
+
+  <span th:if="${finance.walletId != null}"
+        th:text="'Selected wallets : ' + ${finance.walletId}">Selected wallets : </span><br>
+
+  <span th:if="${finance.operationType != null}"
+        th:text="'Operation type : ' + ${finance.operationType}"> Operation type : </span><br>
+
+  <span th:if="${finance.currency != null}"
+        th:text="'Currency : ' + ${finance.currency}"> Currency : </span><br>
+
+  <span th:if="${finance.currency != null}"
+        th:text="'Transaction amount : ' + ${finance.transactionAmount}">Transaction amount : </span><br>
+
+  <span th:if="${finance.dateStart != null}"
+        th:text="'Date from : ' + ${finance.dateStart}"> </span><br>
+
+  <span th:if="${finance.dateEnd != null}"
+        th:text="'Date to : ' + ${finance.dateEnd}"> </span><br><br>
+
+
+  <div>
+    <table class="table table-striped">
+
+      <thead>
+      <tr>
+        <th>Tr.id</th>
+        <th>Wallet Id</th>
+        <th>Wallet name</th>
+        <th>Currency</th>
+        <th>Prev. Balance</th>
+        <th>Amount</th>
+        <th>Cur. Balance</th>
+        <th>Operation</th>
+        <th>Tr. Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      <div th:each="tr: ${transactions.content}">
+        <tr>
+          <td th:text="${tr.id}">id</td>
+          <td th:text="${tr.walletId}">walletId</td>
+          <td th:text="${tr.walletName}">walletName</td>
+          <td th:text="${tr.getCurrency()}">currency</td>
+          <td th:text="${tr.previousBalance}">previousBalance</td>
+          <td th:text="${tr.amount}">amount</td>
+          <td th:text="${tr.currentBalance}">currentBalance</td>
+          <td th:text="${tr.operationType}">operationType</td>
+          <td th:text="${tr.transactionDate}">transactionDate</td>
+        </tr>
+      </div>
+
+    </table>
 
   </div>
 

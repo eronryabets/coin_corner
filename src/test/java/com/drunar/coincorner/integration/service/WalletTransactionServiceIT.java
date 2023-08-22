@@ -74,9 +74,11 @@ public class WalletTransactionServiceIT extends IntegrationTestBase {
 
     @Test
     void create(){
-        WalletTransactionDTO transaction1 = new WalletTransactionDTO(1L,
+        WalletTransactionDTO transaction1 = new WalletTransactionDTO(
+                1L,
                 1L,
                 "Wallet 1",
+                Wallet.Currency.USD,
                 BigDecimal.valueOf(1000.00),
                 BigDecimal.valueOf(100.00),
                 BigDecimal.valueOf(7777.77),
