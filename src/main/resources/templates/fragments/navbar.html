@@ -35,12 +35,17 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/wallets/my">Wallets</a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link" href="/transactions/my">Transactions</a>
+                        <a class="nav-link" th:href="@{/transactions/my(userId=${#authentication.principal.id})}">
+                            Transactions</a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link" href="/transactions/finances">Finances</a>
+                        <a class="nav-link" th:href="@{/transactions/finances(userId=${#authentication.principal.id})}">
+                            Finances</a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{'/users/' + ${#authentication.principal.id}}"
                            th:text="${#authentication.principal.username}">Profile</a>

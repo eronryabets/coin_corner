@@ -12,7 +12,9 @@
 
   <div class="col-sm-4">
 
-    <form action="/transactions/my">
+    <span th:text="${#authentication.principal.id}">ID</span>
+
+    <form action="/transactions/my" method="get">
 
       <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon10">Operation type : </span>
@@ -99,7 +101,10 @@
         </div>
       </div>
 
+
+      <input type="hidden" name="userId" th:value="${filter.userId}" />
       <button type="submit" class="btn btn-info">Filter</button>
+
     </form>
 
   </div>

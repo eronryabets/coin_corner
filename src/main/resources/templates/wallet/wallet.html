@@ -63,8 +63,6 @@
       <a th:if="${wallet.walletType == 'CREDIT'}" th:href="@{'/transactions/creditDebt/' + ${wallet.id}}"
          class="btn btn-dark">Calculation of credit debt</a><br>
 
-<!--      <a  th:href="@{'/transactions/walletTransaction/' + ${wallet.id}}"-->
-<!--         class="btn btn-dark">Wallet's transactions</a><br>-->
       <a th:href="@{/transactions/walletTransaction(id=${wallet.id})}"
          class="btn btn-dark">Wallet's transactions</a><br>
 
