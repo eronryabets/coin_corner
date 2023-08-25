@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/base :: common_header(~{::title})}">
   <meta charset="UTF-8">
-  <title>My Wallets</title>
+  <title>Wallet's transactions</title>
 </head>
 
 <body>
@@ -12,58 +12,37 @@
 
   <div class="col-sm-4">
 
-    <form action="/transactions/incomeExpenseCalc">
+    <form th:action="@{'/transactions/walletTransaction'}" method="get">
 
       <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon10">Operation type : </span>
         <select class="form-control" name="operationType" th:field="*{filter.operationType}">
 
           <option value="" th:selected="*{filter.operationType == null}"
-                  th:field="*{filter.operationType}">Select type</option>
+                  th:field="*{filter.operationType}">All operations
+          </option>
 
           <option value="INCOME" th:selected="*{filter.operationType == 'INCOME'}"
-                  th:field="*{filter.operationType}">INCOME</option>
+                  th:field="*{filter.operationType}">INCOME
+          </option>
 
           <option value="EXPENSE" th:selected="*{filter.operationType == 'EXPENSE'}"
-                  th:field="*{filter.operationType}">EXPENSE</option>
+                  th:field="*{filter.operationType}">EXPENSE
+          </option>
         </select>
-      </div>
-
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon16">Currency : </span>
-        <select class="form-control" name="currency" th:field="*{filter.currency}">
-          <option value="" th:selected="*{filter.currency == null}"
-                  th:field="*{filter.currency}">Select currency</option>
-
-          <option value="USD" th:selected="*{filter.currency == 'USD'}"
-                  th:field="*{filter.currency}">USD</option>
-
-          <option value="EUR" th:selected="*{filter.currency == 'EUR'}"
-                  th:field="*{filter.currency}">EUR</option>
-
-          <option value="PLN" th:selected="*{filter.currency == 'PLN'}"
-                  th:field="*{filter.currency}">PLN</option>
-
-          <option value="UAH" th:selected="*{filter.currency == 'UAH'}"
-                  th:field="*{filter.currency}">UAH</option>
-        </select>
-      </div>
-
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon3">Wallet ID:</span>
-        <input type="number" class="form-control" aria-label="walletId" aria-describedby="basic-addon1"
-               name="walletId" placeholder="walletId" th:value="${filter.walletId}">
       </div>
 
 
       <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon14">Date Start</span>
-        <input type="datetime-local" class="form-control" aria-label="transactionDateStart" aria-describedby="basic-addon1"
+        <input type="datetime-local" class="form-control" aria-label="transactionDateStart"
+               aria-describedby="basic-addon1"
                name="transactionDateStart" th:value="${filter.transactionDateStart}">
       </div>
       <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon15">Date End</span>
-        <input type="datetime-local" class="form-control" aria-label="transactionDateEnd" aria-describedby="basic-addon1"
+        <input type="datetime-local" class="form-control" aria-label="transactionDateEnd"
+               aria-describedby="basic-addon1"
                name="transactionDateEnd" th:value="${filter.transactionDateEnd}">
       </div>
 
@@ -80,10 +59,28 @@
         </div>
       </div>
 
+<!--      <input type="hidden" name="id" th:value="${id}" />-->
+      <input type="hidden" name="id" th:value="${filter.id}" />
       <button type="submit" class="btn btn-info">Filter</button>
     </form>
+    <br>
 
   </div>
+
+
+<!--  <span th:text="'Wallet ID : ' + ${finance.walletId}">Wallet ID: </span><br>-->
+
+
+<!--  <span th:if="${finance.operationType != null}"-->
+<!--        th:text="'Operation type : ' + ${finance.operationType}"> Operation type : </span><br>-->
+
+<!--  <span th:text="'Transaction amount : ' + ${finance.transactionAmount}">Transaction amount : </span><br>-->
+
+<!--  <span th:if="${finance.dateStart != null}"-->
+<!--        th:text="'Date from : ' + ${finance.dateStart}"> </span><br>-->
+
+<!--  <span th:if="${finance.dateEnd != null}"-->
+<!--        th:text="'Date to : ' + ${finance.dateEnd}"> </span><br><br>-->
 
 
   <div>

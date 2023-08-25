@@ -81,4 +81,17 @@ public class WalletController {
         return "redirect:/wallets/my";
     }
 
+//    @GetMapping("/incomeInterestRate/{id}")
+//    public String incomeInterestRate(@PathVariable Long id, Model model,
+//                                     @RequestParam String dateStart,
+//                                     @RequestParam String dateEnd){
+//        return walletService.findById(id)
+//                .map(wallet -> {
+//                    model.addAttribute("wallet", wallet);
+//                    return "wallet/incomeInterestRate";
+//                })
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+//    }
+
+
 }

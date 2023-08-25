@@ -21,4 +21,5 @@ public interface WalletTransactionRepository extends
 
     Page<WalletTransaction> findAllBy(Pageable pageable);
 
+
 }

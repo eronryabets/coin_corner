@@ -55,4 +55,17 @@ public class WalletTransactionController {
         return "transaction/finances";
     }
 
+    @GetMapping("/walletTransaction")
+    public String findAllByWallet(Model model, WalletTransactionFilter filter, Pageable pageable){
+        Page<WalletTransactionDTO> page = walletTrService.findAll(filter,pageable);
+//        FinancialSummaryDTO finance = FinancialSummaryBuilder.buildDTO(filter, page);
+
+        model.addAttribute("transactions", PageResponse.of(page));
+        model.addAttribute("filter", filter);
+//        model.addAttribute("finance", finance);
+
+        return "transaction/walletTransaction";
+
+    }
+
 }
