@@ -6,6 +6,7 @@ import com.drunar.coincorner.dto.PageResponse;
 import com.drunar.coincorner.dto.WalletCreateEditDTO;
 import com.drunar.coincorner.dto.WalletReadDTO;
 import com.drunar.coincorner.service.WalletService;
+import com.drunar.coincorner.util.incomeInterestRate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -81,17 +82,24 @@ public class WalletController {
         return "redirect:/wallets/my";
     }
 
-//    @GetMapping("/incomeInterestRate/{id}")
-//    public String incomeInterestRate(@PathVariable Long id, Model model,
-//                                     @RequestParam String dateStart,
-//                                     @RequestParam String dateEnd){
-//        return walletService.findById(id)
-//                .map(wallet -> {
-//                    model.addAttribute("wallet", wallet);
-//                    return "wallet/incomeInterestRate";
-//                })
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-//    }
+
+    @GetMapping("/incomeInterestRate/{id}")
+    public String incomeInterestRate(@PathVariable Long id, Model model,
+                                     @RequestParam(required = false) String dateStart,
+                                     @RequestParam(required = false) String dateEnd){
+        return walletService.findById(id)
+                .map(wallet -> {
+                    model.addAttribute("wallet", wallet);
+                    model.addAttribute("dateStart", dateStart);
+                    model.addAttribute("dateEnd", dateEnd);
+                    model.addAttribute("calculated",
+                            incomeInterestRate.calculate(wallet, dateStart, dateEnd));
+                    return "wallet/incomeInterestRate";
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+    }
+
 
 
 }

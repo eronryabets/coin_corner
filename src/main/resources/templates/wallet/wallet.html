@@ -11,7 +11,7 @@
 <div class="container mt-3">
   <div class="col-sm-4">
 
-  <form th:action="@{/wallets/{walletId}/update(walletId=${wallet.id})}" method="post" th:object="${wallet}">
+    <form th:action="@{/wallets/{walletId}/update(walletId=${wallet.id})}" method="post" th:object="${wallet}">
 
     <div class="input-group mb-3">
       <span class="input-group-text" id="basic-addon1">Wallet name:</span>
@@ -57,10 +57,10 @@
 
     <div class="mt-3">
 
-      <a th:if="${wallet.walletType == 'DEBIT'}" th:href="@{'/transactions/incomeInterestRate/' + ${wallet.id}}"
+      <a th:if="${wallet.walletType == 'DEBIT'}" th:href="@{'/wallets/incomeInterestRate/' + ${wallet.id}}"
          class="btn btn-dark">Calculation of income based on interest rate</a><br>
 
-      <a th:if="${wallet.walletType == 'CREDIT'}" th:href="@{'/transactions/creditDebt/' + ${wallet.id}}"
+      <a th:if="${wallet.walletType == 'CREDIT'}" th:href="@{'/wallets/creditDebt/' + ${wallet.id}}"
          class="btn btn-dark">Calculation of credit debt</a><br>
 
       <a th:href="@{/transactions/walletTransaction(id=${wallet.id})}"
