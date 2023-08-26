@@ -4,7 +4,6 @@ import com.drunar.coincorner.database.filter.WalletTransactionFilter;
 import com.drunar.coincorner.dto.FinancialSummaryDTO;
 import com.drunar.coincorner.dto.PageResponse;
 import com.drunar.coincorner.dto.WalletTransactionDTO;
-import com.drunar.coincorner.service.WalletService;
 import com.drunar.coincorner.service.WalletTransactionService;
 import com.drunar.coincorner.util.FinancialSummaryBuilder;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class WalletTransactionController {
 
     private final WalletTransactionService walletTrService;
-    private final WalletService walletService;
 
     @GetMapping
     public String findAll(Model model, WalletTransactionFilter filter, Pageable pageable) {
@@ -57,13 +55,24 @@ public class WalletTransactionController {
     @GetMapping("/walletTransaction")
     public String findAllByWallet(Model model, WalletTransactionFilter filter, Pageable pageable){
         Page<WalletTransactionDTO> page = walletTrService.findAll(filter,pageable);
-//        FinancialSummaryDTO finance = FinancialSummaryBuilder.buildDTO(filter, page);
 
         model.addAttribute("transactions", PageResponse.of(page));
         model.addAttribute("filter", filter);
-//        model.addAttribute("finance", finance);
 
         return "transaction/walletTransaction";
+
+    }
+
+    @GetMapping("/incomeAndExpenses")
+    public String incomeAndExpenses(Model model, WalletTransactionFilter filter, Pageable pageable){
+        Page<WalletTransactionDTO> page = walletTrService.findAll(filter, pageable);
+        FinancialSummaryDTO finance = FinancialSummaryBuilder.buildDTO(filter, page);
+
+        model.addAttribute("transactions", PageResponse.of(page));
+        model.addAttribute("filter", filter);
+        model.addAttribute("finance", finance);
+
+        return "transaction/incomeAndExpenses";
 
     }
 
