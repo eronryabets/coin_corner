@@ -6,7 +6,7 @@ import com.drunar.coincorner.dto.PageResponse;
 import com.drunar.coincorner.dto.WalletCreateEditDTO;
 import com.drunar.coincorner.dto.WalletReadDTO;
 import com.drunar.coincorner.service.WalletService;
-import com.drunar.coincorner.util.incomeInterestRate;
+import com.drunar.coincorner.util.InterestRate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -93,10 +93,28 @@ public class WalletController {
                     model.addAttribute("dateStart", dateStart);
                     model.addAttribute("dateEnd", dateEnd);
                     model.addAttribute("calculated",
-                            incomeInterestRate.calculate(wallet, dateStart, dateEnd));
+                            InterestRate.calculate(wallet, dateStart, dateEnd));
                     return "wallet/incomeInterestRate";
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+    }
+
+    @GetMapping("/creditDebt/{id}")
+    public String creditDebt(@PathVariable Long id, Model model,
+                             @RequestParam(required = false) String dateStart,
+                             @RequestParam(required = false) String dateEnd){
+        return walletService.findById(id)
+                .map(wallet -> {
+                    model.addAttribute("wallet", wallet);
+                    model.addAttribute("dateStart", dateStart);
+                    model.addAttribute("dateEnd", dateEnd);
+                    model.addAttribute("calculated",
+                            InterestRate.calculate(wallet, dateStart, dateEnd));
+                    return "wallet/creditDebt";
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
 
     }
 

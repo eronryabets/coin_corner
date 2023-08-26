@@ -1,7 +1,7 @@
 package com.drunar.coincorner.unittest;
 
 import com.drunar.coincorner.dto.WalletReadDTO;
-import com.drunar.coincorner.util.incomeInterestRate;
+import com.drunar.coincorner.util.InterestRate;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -38,16 +38,16 @@ public class WalletUtilsTest {
 
 
         BigDecimal expectedIncreasedBalanceWallet1 = new BigDecimal("1006.200000");
-        BigDecimal calculatedBalanceWallet1 = incomeInterestRate.calculate(wallet1, dateStart, dateEnd);
+        BigDecimal calculatedBalanceWallet1 = InterestRate.calculate(wallet1, dateStart, dateEnd);
 
         BigDecimal expectedIncreasedBalanceWallet2 = new BigDecimal("1009.300000");
-        BigDecimal calculatedBalanceWallet2 = incomeInterestRate.calculate(wallet2, dateStart, dateEnd);
+        BigDecimal calculatedBalanceWallet2 = InterestRate.calculate(wallet2, dateStart, dateEnd);
 
         BigDecimal expectedIncreasedBalanceWallet3 = new BigDecimal("1012.400000");
-        BigDecimal calculatedBalanceWallet3 = incomeInterestRate.calculate(wallet3, dateStart, dateEnd);
+        BigDecimal calculatedBalanceWallet3 = InterestRate.calculate(wallet3, dateStart, dateEnd);
 
         BigDecimal expectedIncreasedBalanceWallet4 = new BigDecimal("1006.200000");
-        BigDecimal calculatedBalanceWallet4 = incomeInterestRate.calculate(wallet4, dateStart, dateEnd);
+        BigDecimal calculatedBalanceWallet4 = InterestRate.calculate(wallet4, dateStart, dateEnd);
 
 
         assertEquals(expectedIncreasedBalanceWallet1, calculatedBalanceWallet1);
@@ -66,7 +66,7 @@ public class WalletUtilsTest {
         String dateEnd = null;
 
         BigDecimal expectedIncreasedBalanceWallet1 = new BigDecimal("1000.00");
-        BigDecimal calculatedBalanceWallet1 = incomeInterestRate.calculate(wallet1, dateStart, dateEnd);
+        BigDecimal calculatedBalanceWallet1 = InterestRate.calculate(wallet1, dateStart, dateEnd);
 
         assertEquals(expectedIncreasedBalanceWallet1, calculatedBalanceWallet1);
     }

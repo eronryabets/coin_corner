@@ -61,7 +61,7 @@
          class="btn btn-dark">Calculation of income based on interest rate</a><br>
 
       <a th:if="${wallet.walletType == 'CREDIT'}" th:href="@{'/wallets/creditDebt/' + ${wallet.id}}"
-         class="btn btn-dark">Calculation of credit debt</a><br>
+         class="btn btn-dark">Calculation of credit debt</a><br><br>
 
       <a th:href="@{/transactions/walletTransaction(id=${wallet.id})}"
          class="btn btn-dark">Wallet's transactions</a><br>

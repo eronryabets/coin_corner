@@ -1,7 +1,7 @@
 package com.drunar.coincorner.util;
 
   /*
-    Income from an interest rate of :
+    Income from an interest rate (or credit) of :
     USD, EUR - 7.2% per year - 0.02% per day
     PLN -  per year 10.8%,  0.03% per day
     UAH - er year 14.4% , 0.04% per day
@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class incomeInterestRate {
+public class InterestRate {
 
     public static BigDecimal calculate(WalletReadDTO wallet, String dateStart, String dateEnd) {
         BigDecimal balance = wallet.getBalance();

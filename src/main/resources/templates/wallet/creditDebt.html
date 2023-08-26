@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/base :: common_header(~{::title})}">
+  <meta charset="UTF-8">
+  <title>Wallets</title>
+</head>
+
+<body>
+
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+<div class="container mt-3">
+
+  <div class="col-sm-4">
+    Credit interest rate : <br>
+
+    <span th:text="'Wallet id : ' + ${wallet.id}">id</span><br>
+
+    <span th:text="'Wallet name : ' + ${wallet.walletName}">walletName</span><br>
+
+    <span th:text="'Wallet balance : ' + ${wallet.balance}">balance</span> <br><br>
+
+
+
+
+    <div th:if="${wallet.balance < 0}">
+
+      <span th:text="${#strings.isEmpty(dateStart) ? 'Your total amount from to day' : 'Your total amount from '
+        + dateStart} + ' to ' + ${dateEnd} + ' will be ' + ${calculated} + '.'">112</span> <br>
+
+      <span th:text="'You will lost : ' + (${calculated} - ${wallet.balance}) +' ' + ${wallet.currency}">12</span> <br>
+
+      <span th:if="${wallet.currency == 'USD' or wallet.currency == 'EUR'}"
+            th:text="'Your interest credit rate is 7.2% per annum for the : ' + ${wallet.currency} + '.'">USD/EUR</span><br>
+
+      <span th:if="${wallet.currency == 'PLN'}"
+            th:text="'Your interest credit rate is 10.8% per annum for the : ' + ${wallet.currency}">PLN </span><br>
+
+      <span th:if="${wallet.currency == 'UAH'}"
+            th:text="'Your interest credit rate is 14.4% per annum for the : ' + ${wallet.currency}">UAH </span><br>
+    </div>
+
+    <div th:if="${wallet.balance >= 0}">
+      <span style="font-weight: bold; color: green;">You don't have any credit debt.</span> <br>
+    </div><br>
+
+
+
+    <form th:action="@{/wallets/creditDebt/{walletId}(walletId=${wallet.id})}" method="get">
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon14">Date Start</span>
+        <input type="date" class="form-control" aria-label="transactionDateStart"
+               aria-describedby="basic-addon1"
+               name="dateStart" th:value="${dateStart}">
+
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon15">Date End</span>
+        <input type="date" class="form-control" aria-label="transactionDateEnd"
+               aria-describedby="basic-addon1"
+               name="dateEnd" th:value="${dateEnd}">
+      </div>
+
+      <button type="submit" class="btn btn-info">Calculate</button>
+    </form>
+
+    <!-- code -->
+  </div>
+
+</div>
+<div th:insert="~{fragments/base :: common_body}"></div>
+</body>
+</html>
