@@ -18,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -83,6 +84,28 @@ public class WalletService {
                 .map(entity -> walletMapper.walletCreateEditDTOCopyToWallet(walletDTO, entity))
                 .map(walletRepository::saveAndFlush)
                 .map(walletMapper::walletToWalletReadDTO);
+    }
+
+    @Transactional
+    public boolean addingBalance(Long walletId, BigDecimal amount) {
+        return walletRepository.findById(walletId)
+                .map(entity ->{
+                    entity.setBalance(entity.getBalance().add(amount));
+                    walletRepository.saveAndFlush(entity);
+                    return true;
+                }).orElse(false);
+
+    }
+
+    @Transactional
+    public boolean withdrawalBalance(Long walletId, BigDecimal amount) {
+        return walletRepository.findById(walletId)
+                .map(entity ->{
+                    entity.setBalance(entity.getBalance().subtract(amount));
+                    walletRepository.saveAndFlush(entity);
+                    return true;
+                }).orElse(false);
+
     }
 
     @Transactional

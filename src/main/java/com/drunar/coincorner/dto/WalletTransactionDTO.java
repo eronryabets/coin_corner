@@ -1,12 +1,14 @@
 package com.drunar.coincorner.dto;
 
 import com.drunar.coincorner.database.entity.Wallet;
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Value
+@Data
+@AllArgsConstructor
 public class WalletTransactionDTO {
 
     Long id;

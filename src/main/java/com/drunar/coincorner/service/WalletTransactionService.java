@@ -62,10 +62,11 @@ public class WalletTransactionService {
         return Optional.of(walletTDTO)
                 .map(walletTransactionMapper::walletTransactionDTOToWallet)
                 .map(it -> {
+                    it.setId(null);
                     it.setCurrentBalance(it.getPreviousBalance().add(it.getAmount()));
                     return it;
                 })
-                .map(walletTransactionRepository::save)
+                .map(walletTransactionRepository::saveAndFlush)
                 .map(walletTransactionMapper::walletTransactionToWalletTransactionDTO)
                 .orElseThrow();
     }

@@ -13,11 +13,11 @@
     <div class="col-sm-4">
 
     <span style="font-weight: bold; color: green;">
-    Calculating all financial transactions for a wallet id : <span th:text="${param.id}"
-    ></span>
-</span><br>
+    Calculating all financial transactions for a wallet id :
+        <span th:text="${param.id}"></span>
+    </span><br>
 
-        <form action="/transactions/incomeAndExpenses" method="get">
+        <form action="/transactions/incomeAndExpenses" method="post">
 
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon10">Operation type : </span>
@@ -63,7 +63,7 @@
                 </div>
             </div>
 
-            <input type="hidden" name="id" th:value="${filter.id}" />
+            <input type="hidden" name="id" th:value="${filter.id}"/>
             <button type="submit" class="btn btn-info">Filter</button>
         </form>
         <br>

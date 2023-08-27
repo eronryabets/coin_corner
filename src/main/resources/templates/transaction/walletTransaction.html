@@ -12,9 +12,9 @@
 
   <div class="col-sm-4">
 
-    <span th:text="'Wallet ID : ' + ${filter.id}">Wallet ID: </span><br>
+    <span th:text="'Wallet ID : ' + ${filter.walletId}">Wallet ID: </span><br>
 
-    <form th:action="@{'/transactions/walletTransaction'}" method="get">
+    <form th:action="@{'/transactions/walletTransaction'}" method="post">
 
       <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon10">Operation type : </span>
@@ -61,7 +61,7 @@
         </div>
       </div>
 
-      <input type="hidden" name="id" th:value="${filter.id}" />
+      <input type="hidden" name="walletId" th:value="${filter.walletId}" />
       <button type="submit" class="btn btn-info">Filter</button>
     </form>
     <br>
