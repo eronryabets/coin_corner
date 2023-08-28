@@ -3,7 +3,7 @@ package com.drunar.coincorner.dto;
 import lombok.Value;
 
 @Value
-public class LoginDto {
+public class LoginDTO {
     String username;
     String password;
 }

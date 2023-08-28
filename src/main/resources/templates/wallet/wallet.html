@@ -69,7 +69,7 @@
       <a th:href="@{/transactions/incomeAndExpenses(id=${wallet.id})}"
          class="btn btn-dark">Calculating income and expenses</a><br><br>
 
-      <a th:href="@{/transactions/cashTransfer(id=${wallet.id})}"
+      <a th:href="@{'/transactions/cashTransfer/'+${wallet.id}}"
          class="btn btn-dark">Cash transfer</a><br><br>
 
       <a th:href="@{'/transactions/addingMoney/'+${wallet.id}}"

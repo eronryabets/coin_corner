@@ -14,7 +14,7 @@
 
     <span th:text="'Wallet ID : ' + ${filter.walletId}">Wallet ID: </span><br>
 
-    <form th:action="@{'/transactions/walletTransaction'}" method="post">
+    <form th:href="@{/transactions/walletTransaction(walletId=${filter.walletId})}">
 
       <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon10">Operation type : </span>

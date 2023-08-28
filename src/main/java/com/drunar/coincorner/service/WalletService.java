@@ -87,7 +87,7 @@ public class WalletService {
     }
 
     @Transactional
-    public boolean addingBalance(Long walletId, BigDecimal amount) {
+    public boolean updateBalance(Long walletId, BigDecimal amount) {
         return walletRepository.findById(walletId)
                 .map(entity ->{
                     entity.setBalance(entity.getBalance().add(amount));
@@ -97,16 +97,6 @@ public class WalletService {
 
     }
 
-    @Transactional
-    public boolean withdrawalBalance(Long walletId, BigDecimal amount) {
-        return walletRepository.findById(walletId)
-                .map(entity ->{
-                    entity.setBalance(entity.getBalance().subtract(amount));
-                    walletRepository.saveAndFlush(entity);
-                    return true;
-                }).orElse(false);
-
-    }
 
     @Transactional
     public boolean delete(Long id){

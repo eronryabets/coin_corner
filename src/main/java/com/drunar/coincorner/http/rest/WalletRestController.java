@@ -1,6 +1,6 @@
 package com.drunar.coincorner.http.rest;
 
-import com.drunar.coincorner.dto.MoneyForm;
+import com.drunar.coincorner.dto.MoneyFormDTO;
 import com.drunar.coincorner.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +18,9 @@ public class WalletRestController {
     @PostMapping("/wallets/{walletId}/update-balance")
     public ResponseEntity<?> updateWalletBalance(
             @PathVariable Long walletId,
-            @RequestBody MoneyForm moneyForm) {
+            @RequestBody MoneyFormDTO moneyForm) {
 
-        walletService.addingBalance(walletId, moneyForm.getAmount());
+        walletService.updateBalance(walletId, moneyForm.getAmount());
 
         return ResponseEntity.ok().build();
     }

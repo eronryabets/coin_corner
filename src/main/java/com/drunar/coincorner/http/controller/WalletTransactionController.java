@@ -1,5 +1,6 @@
 package com.drunar.coincorner.http.controller;
 
+import com.drunar.coincorner.aop.LogTransaction;
 import com.drunar.coincorner.database.filter.WalletTransactionFilter;
 import com.drunar.coincorner.dto.*;
 import com.drunar.coincorner.service.WalletService;
@@ -78,56 +79,73 @@ public class WalletTransactionController {
 
     }
 
-    @GetMapping("/addingMoney/{id}")
-    public String showAddMoneyForm(@PathVariable("id") Long walletId, Model model,
+    @GetMapping("/addingMoney/{walletId}")
+    public String showAddMoneyForm(@PathVariable("walletId") Long walletId, Model model,
                                    @ModelAttribute WalletTransactionDTO transaction){
         WalletReadDTO wallet = walletService.findById(walletId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         model.addAttribute("wallet", wallet);
         model.addAttribute("transaction", transaction);
-        model.addAttribute("moneyForm", new MoneyForm());
+        model.addAttribute("moneyForm", new MoneyFormDTO());
         return "transaction/addingMoney";
 
     }
 
-    @PostMapping("/addingMoney/{id}/balanceUpdate")
-    public String processAddMoneyForm(@PathVariable("id") Long walletId, @ModelAttribute MoneyForm moneyForm,
+    @LogTransaction
+    @PostMapping("/addingMoney/{walletId}/balanceUpdate")
+    public String processAddMoneyForm(@PathVariable("walletId") Long walletId,
+                                      @ModelAttribute MoneyFormDTO moneyForm,
                                       @ModelAttribute WalletTransactionDTO transaction){
-        WalletReadDTO wallet = walletService.findById(walletId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        walletService.addingBalance(walletId, moneyForm.getAmount());
-        walletTrService.create(WalletTransactionEnricher.enrich(transaction, wallet));
-
+        walletService.updateBalance(walletId, moneyForm.getAmount());
         return "redirect:/wallets/my";
 
     }
 
-    @GetMapping("/moneyWithdrawal/{id}")
-    public String showMoneyWithdrawalForm(@PathVariable("id") Long walletId, Model model,
+    @GetMapping("/moneyWithdrawal/{walletId}")
+    public String showMoneyWithdrawalForm(@PathVariable("walletId") Long walletId, Model model,
                                           @ModelAttribute WalletTransactionDTO transaction){
         WalletReadDTO wallet = walletService.findById(walletId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         model.addAttribute("wallet", wallet);
         model.addAttribute("transaction", transaction);
-        model.addAttribute("moneyForm", new MoneyForm());
+        model.addAttribute("moneyForm", new MoneyFormDTO());
         return "transaction/moneyWithdrawal";
 
     }
 
-    @PostMapping("/moneyWithdrawal/{id}/balanceUpdate")
-    public String processMoneyWithdrawalForm(@PathVariable("id") Long walletId, @ModelAttribute MoneyForm moneyForm,
+    @LogTransaction
+    @PostMapping("/moneyWithdrawal/{walletId}/balanceUpdate")
+    public String processMoneyWithdrawalForm(@PathVariable("walletId") Long walletId,
+                                             @ModelAttribute MoneyFormDTO moneyForm,
                                              @ModelAttribute WalletTransactionDTO transaction){
-        WalletReadDTO wallet = walletService.findById(walletId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        walletService.withdrawalBalance(walletId, moneyForm.getAmount());
-        walletTrService.create(WalletTransactionEnricher.enrich(transaction, wallet));
+        moneyForm.setAmount(moneyForm.getAmount().negate());
+        transaction.setAmount(transaction.getAmount().negate());
+        walletService.updateBalance(walletId, moneyForm.getAmount());
         return "redirect:/wallets/my";
 
     }
 
-    @GetMapping("/cashTransfer")
-    public String cashTransfer(){
+
+    @GetMapping("/cashTransfer/{walletId}")
+    public String showCashTransferForm(@PathVariable("walletId") Long walletId, Model model,
+                                       @ModelAttribute WalletTransactionDTO transaction){
+        WalletReadDTO wallet = walletService.findById(walletId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        model.addAttribute("wallet", wallet);
+        model.addAttribute("transaction", transaction);
+        model.addAttribute("moneyForm", new MoneyFormDTO());
         return "transaction/cashTransfer";
+
+    }
+
+    @PostMapping("/cashTransfer/{walletId}/balanceUpdate")
+    public String processCashTransferForm(@PathVariable("walletId") Long walletId, @ModelAttribute MoneyFormDTO moneyForm,
+                                          @ModelAttribute WalletTransactionDTO transaction){
+        WalletReadDTO wallet = walletService.findById(walletId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        walletService.updateBalance(walletId, moneyForm.getAmount());
+        walletTrService.create(WalletTransactionEnricher.enrich(transaction, wallet));
+        return "redirect:/wallets/my";
 
     }
 

@@ -13,7 +13,7 @@
     <div class="col-sm-4">
 
     <span style="font-weight: bold; color: green;">
-      Adding money - wallet id : <span th:text="${wallet.id}"></span>
+      Money withdrawal - wallet id : <span th:text="${wallet.id}"></span>
     </span><br>
 
         <form th:action="@{/transactions/moneyWithdrawal/{walletId}/balanceUpdate(walletId=${wallet.id})}"
