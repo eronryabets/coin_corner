@@ -8,13 +8,27 @@
 <body>
 
 <div th:insert="~{fragments/navbar :: navbar}"></div>
+
 <div class="container mt-3">
 
     <div class="col-sm-4">
 
-    <span style="font-weight: bold; color: green;">
-      Adding money - wallet id : <span th:text="${wallet.id}"></span>
+      <span style="font-weight: bold; color: green;">
+        <p>Adding money :</p>
+        <p>wallet id : <span th:text="${wallet.id}"></span></p>
+        <p>wallet balance : <span th:text="${wallet.balance} + ' '  + ${wallet.currency}"></span></p>
+
     </span><br>
+
+        <div style="color: green" th:if="${transactionSuccess}">
+            Operation success!
+            <span th:text="'Transaction id : ' + ${transactionSuccess.getId()} + ';'">transaction id</span>
+            <span th:text="'wallet id : ' + ${transactionSuccess.walletId} + ';'">wallet id</span>
+            <span th:text="'operation type : ' + ${transactionSuccess.operationType} + ';'">operation type</span>
+            <span th:text="'amount : ' + ${transactionSuccess.amount} + ';'">amount</span>
+            <span th:text="'date : ' + ${transactionSuccess.getTransactionDate()} + ';'">operation date</span>
+        </div>
+        <br>
 
         <form th:action="@{/transactions/addingMoney/{walletId}/balanceUpdate(walletId=${wallet.id})}"
               method="post"
@@ -32,7 +46,8 @@
             <input type="hidden" name="amount" th:value="${moneyForm.amount}">
 
             <button type="submit" class="btn btn-primary">Add Money</button>
-        </form><br>
+        </form>
+        <br>
 
     </div>
 

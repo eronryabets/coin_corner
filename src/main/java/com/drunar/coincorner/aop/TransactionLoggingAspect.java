@@ -13,6 +13,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Aspect
 @Component
@@ -23,15 +24,19 @@ public class TransactionLoggingAspect {
     private final WalletService walletService;
 
 
-    @Around("@annotation(LogTransaction) && args(walletId, moneyForm, transaction)")
+    @Around("@annotation(LogTransaction) && args(walletId, moneyForm, transaction,redirectAttributes, ..)")
     public Object logTransaction(ProceedingJoinPoint joinPoint, Long walletId,
-                                 MoneyFormDTO moneyForm, WalletTransactionDTO transaction) throws Throwable {
-
+                                 MoneyFormDTO moneyForm, WalletTransactionDTO transaction,
+                                 RedirectAttributes redirectAttributes) throws Throwable {
         Object result = joinPoint.proceed();
 
         WalletReadDTO wallet = walletService.findById(walletId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        walletTrService.create(WalletTransactionEnricher.enrich(transaction, wallet));
+
+        WalletTransactionDTO walletTransactionDTO =
+                walletTrService.create(WalletTransactionEnricher.enrich(transaction, wallet));
+
+        redirectAttributes.addFlashAttribute("transactionSuccess", walletTransactionDTO);
 
         return result;
     }

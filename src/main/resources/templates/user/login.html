@@ -13,6 +13,9 @@
     <div class="col-sm-4">
 
         <form th:action="@{/login}" method="post">
+            <div style="color: red" th:if="${param.error}">
+                Bad credentials
+            </div>
 
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">Email</span>

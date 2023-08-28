@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/transactions")
@@ -79,6 +80,7 @@ public class WalletTransactionController {
 
     }
 
+
     @GetMapping("/addingMoney/{walletId}")
     public String showAddMoneyForm(@PathVariable("walletId") Long walletId, Model model,
                                    @ModelAttribute WalletTransactionDTO transaction){
@@ -87,6 +89,7 @@ public class WalletTransactionController {
         model.addAttribute("wallet", wallet);
         model.addAttribute("transaction", transaction);
         model.addAttribute("moneyForm", new MoneyFormDTO());
+
         return "transaction/addingMoney";
 
     }
@@ -95,11 +98,15 @@ public class WalletTransactionController {
     @PostMapping("/addingMoney/{walletId}/balanceUpdate")
     public String processAddMoneyForm(@PathVariable("walletId") Long walletId,
                                       @ModelAttribute MoneyFormDTO moneyForm,
-                                      @ModelAttribute WalletTransactionDTO transaction){
-        walletService.updateBalance(walletId, moneyForm.getAmount());
-        return "redirect:/wallets/my";
+                                      @ModelAttribute WalletTransactionDTO transaction,
+                                      RedirectAttributes redirectAttributes){
+        if(walletService.updateBalance(walletId, moneyForm.getAmount())){
+            return "redirect:/transactions/addingMoney/{walletId}";
+        }
+        return "redirect:/error";
 
     }
+
 
     @GetMapping("/moneyWithdrawal/{walletId}")
     public String showMoneyWithdrawalForm(@PathVariable("walletId") Long walletId, Model model,
@@ -117,13 +124,18 @@ public class WalletTransactionController {
     @PostMapping("/moneyWithdrawal/{walletId}/balanceUpdate")
     public String processMoneyWithdrawalForm(@PathVariable("walletId") Long walletId,
                                              @ModelAttribute MoneyFormDTO moneyForm,
-                                             @ModelAttribute WalletTransactionDTO transaction){
+                                             @ModelAttribute WalletTransactionDTO transaction,
+                                             RedirectAttributes redirectAttributes){
         moneyForm.setAmount(moneyForm.getAmount().negate());
         transaction.setAmount(transaction.getAmount().negate());
-        walletService.updateBalance(walletId, moneyForm.getAmount());
-        return "redirect:/wallets/my";
+        if(walletService.updateBalance(walletId, moneyForm.getAmount())){
+            return "redirect:/transactions/moneyWithdrawal/{walletId}";
+        }
+
+        return "redirect:/error";
 
     }
+
 
 
     @GetMapping("/cashTransfer/{walletId}")
