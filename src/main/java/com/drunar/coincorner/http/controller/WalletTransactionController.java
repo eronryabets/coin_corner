@@ -6,7 +6,6 @@ import com.drunar.coincorner.dto.*;
 import com.drunar.coincorner.service.WalletService;
 import com.drunar.coincorner.service.WalletTransactionService;
 import com.drunar.coincorner.util.FinancialSummaryBuilder;
-import com.drunar.coincorner.util.WalletTransactionEnricher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -136,27 +135,28 @@ public class WalletTransactionController {
 
     }
 
-
+//    =====================================================================
 
     @GetMapping("/cashTransfer/{walletId}")
     public String showCashTransferForm(@PathVariable("walletId") Long walletId, Model model,
+                                       @ModelAttribute CashTransferDTO cashTransferDTO,
                                        @ModelAttribute WalletTransactionDTO transaction){
         WalletReadDTO wallet = walletService.findById(walletId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         model.addAttribute("wallet", wallet);
         model.addAttribute("transaction", transaction);
-        model.addAttribute("moneyForm", new MoneyFormDTO());
+        model.addAttribute("cashTransferDTO", new CashTransferDTO());
         return "transaction/cashTransfer";
 
     }
 
     @PostMapping("/cashTransfer/{walletId}/balanceUpdate")
-    public String processCashTransferForm(@PathVariable("walletId") Long walletId, @ModelAttribute MoneyFormDTO moneyForm,
+    public String processCashTransferForm(@ModelAttribute CashTransferDTO cashTransferDTO,
                                           @ModelAttribute WalletTransactionDTO transaction){
-        WalletReadDTO wallet = walletService.findById(walletId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        walletService.updateBalance(walletId, moneyForm.getAmount());
-        walletTrService.create(WalletTransactionEnricher.enrich(transaction, wallet));
+
+        walletService.cashTransfer(cashTransferDTO.getSenderWalletId(),
+                cashTransferDTO.getRecipientWalletId(),cashTransferDTO.getAmount());
+
         return "redirect:/wallets/my";
 
     }

@@ -14,25 +14,32 @@
 
      <span style="font-weight: bold; color: green;">
    Cash transfer from wallet id :
-        <span th:text="${param.id}"></span>
+        <span th:text="${wallet.id}"></span>
     </span><br>
 
       <form th:action="@{/transactions/cashTransfer/{walletId}/balanceUpdate(walletId=${wallet.id})}"
             method="post"
-            th:object="${moneyForm}">
+            th:object="${cashTransferDTO}">
           <div class="form-group">
               <label for="amount">Amount:</label>
               <input type="text" class="form-control" id="amount"
                      th:field="*{amount}" required>
           </div>
+          <div class="form-group">
+              <label for="amount">Recipient Wallet Id:</label>
+              <input type="text" class="form-control" id="recipientWalletId"
+                     th:field="*{recipientWalletId}" required>
+          </div>
+
+          <input type="hidden" name="senderWalletId" th:value="${wallet.id}">
 
           <input type="hidden" name="walletId" th:value="${wallet.id}">
           <input type="hidden" name="walletName" th:value="${wallet.walletName}">
           <input type="hidden" name="currency" th:value="${wallet.currency}">
           <input type="hidden" name="previousBalance" th:value="${wallet.balance}">
-          <input type="hidden" name="amount" th:value="${moneyForm.amount}">
+          <input type="hidden" name="amount" th:value="${cashTransferDTO.amount}">
 
-          <button type="submit" class="btn btn-primary">Add Money</button>
+          <button type="submit" class="btn btn-primary">Send money</button>
       </form><br>
 
   </div>

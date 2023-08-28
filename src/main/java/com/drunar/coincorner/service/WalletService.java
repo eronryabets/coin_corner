@@ -108,4 +108,9 @@ public class WalletService {
                 }).orElse(false);
     }
 
+    @Transactional
+    public boolean cashTransfer(Long senderWalletId, Long recipientWalletId, BigDecimal amount){
+        return updateBalance(senderWalletId, amount.negate()) && updateBalance(recipientWalletId, amount);
+    }
+
 }
