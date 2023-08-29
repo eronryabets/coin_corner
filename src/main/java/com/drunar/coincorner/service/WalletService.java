@@ -1,5 +1,6 @@
 package com.drunar.coincorner.service;
 
+import com.drunar.coincorner.aop.LogTransaction;
 import com.drunar.coincorner.database.filter.WalletFilter;
 import com.drunar.coincorner.database.repository.WalletRepository;
 import com.drunar.coincorner.dto.CustomUserDetails;
@@ -87,11 +88,17 @@ public class WalletService {
     }
 
     @Transactional
+    @LogTransaction
     public boolean updateBalance(Long walletId, BigDecimal amount) {
         return walletRepository.findById(walletId)
                 .map(entity ->{
                     entity.setBalance(entity.getBalance().add(amount));
                     walletRepository.saveAndFlush(entity);
+
+//                    WalletTransactionDTO transactionDTO = WalletTransactionEnricher
+//                            .buildTransaction(walletMapper.walletToWalletReadDTO(entity), amount);
+//                    TransactionThreadLocal.setTransaction(transactionDTO);
+
                     return true;
                 }).orElse(false);
 
@@ -106,11 +113,6 @@ public class WalletService {
                     walletRepository.flush();
                     return true;
                 }).orElse(false);
-    }
-
-    @Transactional
-    public boolean cashTransfer(Long senderWalletId, Long recipientWalletId, BigDecimal amount){
-        return updateBalance(senderWalletId, amount.negate()) && updateBalance(recipientWalletId, amount);
     }
 
 }

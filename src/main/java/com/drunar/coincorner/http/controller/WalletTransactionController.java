@@ -1,8 +1,9 @@
 package com.drunar.coincorner.http.controller;
 
-import com.drunar.coincorner.aop.LogTransaction;
+import com.drunar.coincorner.aop.AddRedirectAttributes;
 import com.drunar.coincorner.database.filter.WalletTransactionFilter;
 import com.drunar.coincorner.dto.*;
+import com.drunar.coincorner.service.CashTransferService;
 import com.drunar.coincorner.service.WalletService;
 import com.drunar.coincorner.service.WalletTransactionService;
 import com.drunar.coincorner.util.FinancialSummaryBuilder;
@@ -23,6 +24,7 @@ public class WalletTransactionController {
 
     private final WalletTransactionService walletTrService;
     private final WalletService walletService;
+    private final CashTransferService cashTransferService;
 
     @GetMapping
     public String findAll(Model model, WalletTransactionFilter filter, Pageable pageable) {
@@ -93,12 +95,13 @@ public class WalletTransactionController {
 
     }
 
-    @LogTransaction
+//    @LogTransaction
+    @AddRedirectAttributes
     @PostMapping("/addingMoney/{walletId}/balanceUpdate")
     public String processAddMoneyForm(@PathVariable("walletId") Long walletId,
+                                      RedirectAttributes redirectAttributes,
                                       @ModelAttribute MoneyFormDTO moneyForm,
-                                      @ModelAttribute WalletTransactionDTO transaction,
-                                      RedirectAttributes redirectAttributes){
+                                      @ModelAttribute WalletTransactionDTO transaction){
         if(walletService.updateBalance(walletId, moneyForm.getAmount())){
             return "redirect:/transactions/addingMoney/{walletId}";
         }
@@ -119,12 +122,12 @@ public class WalletTransactionController {
 
     }
 
-    @LogTransaction
+    @AddRedirectAttributes
     @PostMapping("/moneyWithdrawal/{walletId}/balanceUpdate")
     public String processMoneyWithdrawalForm(@PathVariable("walletId") Long walletId,
+                                             RedirectAttributes redirectAttributes,
                                              @ModelAttribute MoneyFormDTO moneyForm,
-                                             @ModelAttribute WalletTransactionDTO transaction,
-                                             RedirectAttributes redirectAttributes){
+                                             @ModelAttribute WalletTransactionDTO transaction){
         moneyForm.setAmount(moneyForm.getAmount().negate());
         transaction.setAmount(transaction.getAmount().negate());
         if(walletService.updateBalance(walletId, moneyForm.getAmount())){
@@ -154,7 +157,7 @@ public class WalletTransactionController {
     public String processCashTransferForm(@ModelAttribute CashTransferDTO cashTransferDTO,
                                           @ModelAttribute WalletTransactionDTO transaction){
 
-        walletService.cashTransfer(cashTransferDTO.getSenderWalletId(),
+        cashTransferService.cashTransfer(cashTransferDTO.getSenderWalletId(),
                 cashTransferDTO.getRecipientWalletId(),cashTransferDTO.getAmount());
 
         return "redirect:/wallets/my";
