@@ -9,6 +9,8 @@ import com.drunar.coincorner.mapper.WalletTransactionMapper;
 import com.drunar.coincorner.util.predicateBuilder.WalletTrPredicateBuilder;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,8 +31,7 @@ public class WalletTransactionService {
     private final WalletTransactionMapper walletTransactionMapper;
     private final WalletMapper walletMapper;
 
-    //TODO: cashTransfer(); income(), expense() etc
-
+    @Cacheable(value = "transactions", key = "#filter.hashCode() + #pageable.hashCode()")
     public Page<WalletTransactionDTO> findAll(WalletTransactionFilter filter, Pageable pageable) {
         Predicate predicate = WalletTrPredicateBuilder.buildPredicate(filter);
 
@@ -44,11 +45,13 @@ public class WalletTransactionService {
                 .map(walletTransactionMapper::walletTransactionToWalletTransactionDTO);
     }
 
+    @Cacheable(value = "transactions", key = "'findAll'")
     public List<WalletTransactionDTO> findAll() {
         return walletTransactionRepository.findAll().stream()
                 .map(walletTransactionMapper::walletTransactionToWalletTransactionDTO).toList();
     }
 
+    @Cacheable(value = "transactions", key = "'findAllByWallet' + #walletDTO.id")
     public Optional<List<WalletTransactionDTO>> findAllByWallet(WalletReadDTO walletDTO) {
         return walletTransactionRepository.findAllByWallet(walletMapper.walletReadDTOToWallet(walletDTO))
                 .map(walletTr -> walletTr.stream()
@@ -58,6 +61,7 @@ public class WalletTransactionService {
 
 
     @Transactional
+    @CacheEvict(value = "transactions", allEntries = true)
     public WalletTransactionDTO create(WalletTransactionDTO walletTDTO) {
         return Optional.of(walletTDTO)
                 .map(walletTransactionMapper::walletTransactionDTOToWallet)

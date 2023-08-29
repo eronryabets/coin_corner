@@ -28,6 +28,9 @@ spring:
               - openid
               - email
               - profile
+  cache:
+    jcache:
+      provider: org.ehcache.jsr107.EhcacheCachingProvider
 
 logging:
   level:
