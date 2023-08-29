@@ -3,7 +3,7 @@ package com.drunar.coincorner.validation.impl;
 import com.drunar.coincorner.database.entity.User;
 import com.drunar.coincorner.database.repository.UserRepository;
 import com.drunar.coincorner.dto.UserCreateEditDTO;
-import com.drunar.coincorner.validation.UsernameExists;
+import com.drunar.coincorner.validation.annotations.UsernameExists;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;

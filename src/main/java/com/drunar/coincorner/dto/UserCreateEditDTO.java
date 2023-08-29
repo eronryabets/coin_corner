@@ -1,8 +1,8 @@
 package com.drunar.coincorner.dto;
 
 import com.drunar.coincorner.database.entity.Role;
-import com.drunar.coincorner.validation.EmailExists;
-import com.drunar.coincorner.validation.UsernameExists;
+import com.drunar.coincorner.validation.annotations.EmailExists;
+import com.drunar.coincorner.validation.annotations.UsernameExists;
 import com.drunar.coincorner.validation.group.CreateActions;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

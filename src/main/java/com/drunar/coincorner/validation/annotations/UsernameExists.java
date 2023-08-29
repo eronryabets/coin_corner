@@ -1,4 +1,4 @@
-package com.drunar.coincorner.validation;
+package com.drunar.coincorner.validation.annotations;
 
 import com.drunar.coincorner.validation.impl.UsernameUniqueValidator;
 import jakarta.validation.Constraint;

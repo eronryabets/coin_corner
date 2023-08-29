@@ -95,10 +95,6 @@ public class WalletService {
                     entity.setBalance(entity.getBalance().add(amount));
                     walletRepository.saveAndFlush(entity);
 
-//                    WalletTransactionDTO transactionDTO = WalletTransactionEnricher
-//                            .buildTransaction(walletMapper.walletToWalletReadDTO(entity), amount);
-//                    TransactionThreadLocal.setTransaction(transactionDTO);
-
                     return true;
                 }).orElse(false);
 

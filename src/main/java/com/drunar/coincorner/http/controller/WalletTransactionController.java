@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -138,29 +140,42 @@ public class WalletTransactionController {
 
     }
 
-//    =====================================================================
-
     @GetMapping("/cashTransfer/{walletId}")
     public String showCashTransferForm(@PathVariable("walletId") Long walletId, Model model,
                                        @ModelAttribute CashTransferDTO cashTransferDTO,
-                                       @ModelAttribute WalletTransactionDTO transaction){
+                                       @ModelAttribute WalletTransactionDTO transaction,
+                                       RedirectAttributes redirectAttributes){
         WalletReadDTO wallet = walletService.findById(walletId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         model.addAttribute("wallet", wallet);
         model.addAttribute("transaction", transaction);
         model.addAttribute("cashTransferDTO", new CashTransferDTO());
+
+        String successMessage = (String) redirectAttributes.getFlashAttributes().get("successMessage");
+        if(successMessage != null){
+            model.addAttribute("successMessage", successMessage);
+        }
+
         return "transaction/cashTransfer";
 
     }
 
     @PostMapping("/cashTransfer/{walletId}/balanceUpdate")
-    public String processCashTransferForm(@ModelAttribute CashTransferDTO cashTransferDTO,
-                                          @ModelAttribute WalletTransactionDTO transaction){
+    public String processCashTransferForm(@ModelAttribute @Validated CashTransferDTO cashTransferDTO,
+                                          BindingResult bindingResult,
+                                          @ModelAttribute WalletTransactionDTO transaction,
+                                          RedirectAttributes redirectAttributes){
+
+        if(bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            return "redirect:/transactions/cashTransfer/{walletId}";
+        }
 
         cashTransferService.cashTransfer(cashTransferDTO.getSenderWalletId(),
                 cashTransferDTO.getRecipientWalletId(),cashTransferDTO.getAmount());
+        redirectAttributes.addFlashAttribute("successMessage","Operation success.");
 
-        return "redirect:/wallets/my";
+        return "redirect:/transactions/cashTransfer/{walletId}";
 
     }
 
