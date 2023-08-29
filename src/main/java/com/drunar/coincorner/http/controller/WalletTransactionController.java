@@ -38,7 +38,7 @@ public class WalletTransactionController {
     }
 
     @GetMapping("/finances")
-    public String finances(Model model, WalletTransactionFilter filter, Pageable pageable){
+    public String finances(Model model, WalletTransactionFilter filter, Pageable pageable) {
         Page<WalletTransactionDTO> page = walletTrService.findAll(filter, pageable);
         FinancialSummaryDTO finance = FinancialSummaryBuilder.buildDTO(filter, page);
 
@@ -50,8 +50,8 @@ public class WalletTransactionController {
     }
 
     @GetMapping("/walletTransaction")
-    public String findAllByWallet(Model model, WalletTransactionFilter filter, Pageable pageable){
-        Page<WalletTransactionDTO> page = walletTrService.findAll(filter,pageable);
+    public String findAllByWallet(Model model, WalletTransactionFilter filter, Pageable pageable) {
+        Page<WalletTransactionDTO> page = walletTrService.findAll(filter, pageable);
 
         model.addAttribute("transactions", PageResponse.of(page));
         model.addAttribute("filter", filter);
@@ -71,7 +71,7 @@ public class WalletTransactionController {
 
 
     @GetMapping("/incomeAndExpenses")
-    public String incomeAndExpenses(Model model, WalletTransactionFilter filter, Pageable pageable){
+    public String incomeAndExpenses(Model model, WalletTransactionFilter filter, Pageable pageable) {
         Page<WalletTransactionDTO> page = walletTrService.findAll(filter, pageable);
         FinancialSummaryDTO finance = FinancialSummaryBuilder.buildDTO(filter, page);
 
@@ -86,7 +86,7 @@ public class WalletTransactionController {
 
     @GetMapping("/addingMoney/{walletId}")
     public String showAddMoneyForm(@PathVariable("walletId") Long walletId, Model model,
-                                   @ModelAttribute WalletTransactionDTO transaction){
+                                   @ModelAttribute WalletTransactionDTO transaction) {
         WalletReadDTO wallet = walletService.findById(walletId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         model.addAttribute("wallet", wallet);
@@ -97,14 +97,13 @@ public class WalletTransactionController {
 
     }
 
-//    @LogTransaction
     @AddRedirectAttributes
     @PostMapping("/addingMoney/{walletId}/balanceUpdate")
-    public String processAddMoneyForm(@PathVariable("walletId") Long walletId,
-                                      RedirectAttributes redirectAttributes,
+    public String processAddMoneyForm(RedirectAttributes redirectAttributes,
+                                      @PathVariable("walletId") Long walletId,
                                       @ModelAttribute MoneyFormDTO moneyForm,
-                                      @ModelAttribute WalletTransactionDTO transaction){
-        if(walletService.updateBalance(walletId, moneyForm.getAmount())){
+                                      @ModelAttribute WalletTransactionDTO transaction) {
+        if (walletService.updateBalance(walletId, moneyForm.getAmount())) {
             return "redirect:/transactions/addingMoney/{walletId}";
         }
         return "redirect:/error";
@@ -114,7 +113,7 @@ public class WalletTransactionController {
 
     @GetMapping("/moneyWithdrawal/{walletId}")
     public String showMoneyWithdrawalForm(@PathVariable("walletId") Long walletId, Model model,
-                                          @ModelAttribute WalletTransactionDTO transaction){
+                                          @ModelAttribute WalletTransactionDTO transaction) {
         WalletReadDTO wallet = walletService.findById(walletId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         model.addAttribute("wallet", wallet);
@@ -126,13 +125,13 @@ public class WalletTransactionController {
 
     @AddRedirectAttributes
     @PostMapping("/moneyWithdrawal/{walletId}/balanceUpdate")
-    public String processMoneyWithdrawalForm(@PathVariable("walletId") Long walletId,
-                                             RedirectAttributes redirectAttributes,
+    public String processMoneyWithdrawalForm(RedirectAttributes redirectAttributes,
+                                             @PathVariable("walletId") Long walletId,
                                              @ModelAttribute MoneyFormDTO moneyForm,
-                                             @ModelAttribute WalletTransactionDTO transaction){
+                                             @ModelAttribute WalletTransactionDTO transaction) {
         moneyForm.setAmount(moneyForm.getAmount().negate());
         transaction.setAmount(transaction.getAmount().negate());
-        if(walletService.updateBalance(walletId, moneyForm.getAmount())){
+        if (walletService.updateBalance(walletId, moneyForm.getAmount())) {
             return "redirect:/transactions/moneyWithdrawal/{walletId}";
         }
 
@@ -144,7 +143,7 @@ public class WalletTransactionController {
     public String showCashTransferForm(@PathVariable("walletId") Long walletId, Model model,
                                        @ModelAttribute CashTransferDTO cashTransferDTO,
                                        @ModelAttribute WalletTransactionDTO transaction,
-                                       RedirectAttributes redirectAttributes){
+                                       RedirectAttributes redirectAttributes) {
         WalletReadDTO wallet = walletService.findById(walletId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         model.addAttribute("wallet", wallet);
@@ -152,7 +151,7 @@ public class WalletTransactionController {
         model.addAttribute("cashTransferDTO", new CashTransferDTO());
 
         String successMessage = (String) redirectAttributes.getFlashAttributes().get("successMessage");
-        if(successMessage != null){
+        if (successMessage != null) {
             model.addAttribute("successMessage", successMessage);
         }
 
@@ -160,20 +159,21 @@ public class WalletTransactionController {
 
     }
 
+    @AddRedirectAttributes
     @PostMapping("/cashTransfer/{walletId}/balanceUpdate")
-    public String processCashTransferForm(@ModelAttribute @Validated CashTransferDTO cashTransferDTO,
+    public String processCashTransferForm(RedirectAttributes redirectAttributes,
+                                          @ModelAttribute @Validated CashTransferDTO cashTransferDTO,
                                           BindingResult bindingResult,
-                                          @ModelAttribute WalletTransactionDTO transaction,
-                                          RedirectAttributes redirectAttributes){
+                                          @ModelAttribute WalletTransactionDTO transaction) {
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
             return "redirect:/transactions/cashTransfer/{walletId}";
         }
 
         cashTransferService.cashTransfer(cashTransferDTO.getSenderWalletId(),
-                cashTransferDTO.getRecipientWalletId(),cashTransferDTO.getAmount());
-        redirectAttributes.addFlashAttribute("successMessage","Operation success.");
+                cashTransferDTO.getRecipientWalletId(), cashTransferDTO.getAmount());
+        redirectAttributes.addFlashAttribute("successMessage", "Operation success.");
 
         return "redirect:/transactions/cashTransfer/{walletId}";
 

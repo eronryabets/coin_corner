@@ -12,8 +12,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Component
 public class RedirectAttributesAspect {
 
-    @Around(value = "@annotation(AddRedirectAttributes) && args(walletId, redirectAttributes, ..)")
-    public Object processWithRedirectAttributes(ProceedingJoinPoint joinPoint, Long walletId,
+    @Around(value = "@annotation(AddRedirectAttributes) && args(redirectAttributes, ..)")
+    public Object processWithRedirectAttributes(ProceedingJoinPoint joinPoint,
                                                         RedirectAttributes redirectAttributes) throws Throwable {
         Object result = joinPoint.proceed();
 

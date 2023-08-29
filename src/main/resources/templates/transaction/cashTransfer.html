@@ -19,6 +19,15 @@
 
     </span><br>
 
+      <div style="color: green" th:if="${transactionSuccess}">
+          Operation success!
+          <span th:text="'Transaction id : ' + ${transactionSuccess.getId()} + ';'">transaction id</span>
+          <span th:text="'wallet id : ' + ${transactionSuccess.walletId} + ';'">wallet id</span>
+          <span th:text="'operation type : ' + ${transactionSuccess.operationType} + ';'">operation type</span>
+          <span th:text="'amount : ' + ${transactionSuccess.amount} + ';'">amount</span>
+          <span th:text="'date : ' + ${transactionSuccess.getTransactionDate()} + ';'">operation date</span>
+      </div>
+
       <form th:action="@{/transactions/cashTransfer/{walletId}/balanceUpdate(walletId=${wallet.id})}"
             method="post"
             th:object="${cashTransferDTO}">
