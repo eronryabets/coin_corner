@@ -114,6 +114,12 @@
   <span th:if="${finance.currency != null}"
         th:text="'Transaction amount : ' + ${finance.transactionAmount}">Transaction amount : </span><br>
 
+  <span th:if="${finance.currency != null and finance.incomeAmount != null}"
+        th:text="'Income amount : ' + ${finance.incomeAmount}">Income amount : </span><br>
+
+  <span th:if="${finance.currency != null and finance.expenseAmount != null}"
+        th:text="'Expense amount : ' + ${finance.expenseAmount}">Expense amount : </span><br>
+
   <span th:if="${finance.dateStart != null}"
         th:text="'Date from : ' + ${finance.dateStart}"> </span><br>
 

@@ -16,6 +16,8 @@ public class FinancialSummaryDTO {
     WalletTransaction.OperationType operationType;
     Wallet.Currency currency;
     BigDecimal transactionAmount;
+    BigDecimal incomeAmount;
+    BigDecimal expenseAmount;
     LocalDateTime dateStart;
     LocalDateTime dateEnd;
 

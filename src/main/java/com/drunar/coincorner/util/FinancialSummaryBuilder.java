@@ -1,5 +1,6 @@
 package com.drunar.coincorner.util;
 
+import com.drunar.coincorner.database.entity.WalletTransaction;
 import com.drunar.coincorner.database.filter.WalletTransactionFilter;
 import com.drunar.coincorner.dto.FinancialSummaryDTO;
 import com.drunar.coincorner.dto.WalletTransactionDTO;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 public class FinancialSummaryBuilder {
 
@@ -19,6 +21,8 @@ public class FinancialSummaryBuilder {
                 .dateStart(calculateDateStart(filter,page))
                 .dateEnd(calculateDateEnd(filter,page))
                 .transactionAmount(calculateTransactionAmount(page))
+                .incomeAmount(calculateIncomeAmount(page))
+                .expenseAmount(calculateExpenseAmount(page))
                 .build();
     }
 
@@ -32,6 +36,24 @@ public class FinancialSummaryBuilder {
         }
 
         return transactionAmount;
+    }
+
+    private static BigDecimal calculateIncomeAmount(Page<WalletTransactionDTO> page) {
+        return page.getContent()
+                .stream()
+                .filter(dto -> dto.getOperationType().equals(WalletTransaction.OperationType.INCOME.toString()))
+                .map(WalletTransactionDTO::getAmount)
+                .filter(Objects::nonNull)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private static BigDecimal calculateExpenseAmount(Page<WalletTransactionDTO> page) {
+        return page.getContent()
+                .stream()
+                .filter(dto -> dto.getOperationType().equals(WalletTransaction.OperationType.EXPENSE.toString()))
+                .map(WalletTransactionDTO::getAmount)
+                .filter(Objects::nonNull)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     private static LocalDateTime calculateDateStart(WalletTransactionFilter filter,
