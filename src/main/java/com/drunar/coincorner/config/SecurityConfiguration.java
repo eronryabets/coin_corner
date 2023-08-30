@@ -43,10 +43,10 @@ public class SecurityConfiguration {
                         .deleteCookies("JSESSIONID"))
                 .formLogin(login -> login
                         .loginPage("/login")
-                        .defaultSuccessUrl("/users"))
+                        .defaultSuccessUrl("/wallets/my"))
                 .oauth2Login(config -> config
                         .loginPage("/login")
-                        .defaultSuccessUrl("/users")
+                        .defaultSuccessUrl("/wallets/my")
                         .userInfoEndpoint(userInfo -> userInfo.oidcUserService(oidcUserService()))
                 );
 
