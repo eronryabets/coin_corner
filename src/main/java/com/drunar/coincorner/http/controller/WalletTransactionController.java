@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
+
 @Controller
 @RequestMapping("/transactions")
 @RequiredArgsConstructor
@@ -37,24 +39,6 @@ public class WalletTransactionController {
         model.addAttribute("filter", filter);
 
         return "transaction/transactions";
-    }
-
-    @GetMapping("/finances")
-    public String finances(Model model, WalletTransactionFilter filter, Pageable pageable,
-                           HttpServletRequest request) {
-        Page<WalletTransactionDTO> page = walletTrService.findAll(filter, pageable);
-        FinancialSummaryDTO finance = FinancialSummaryBuilder.buildDTO(filter, page);
-
-        model.addAttribute("transactions", PageResponse.of(page));
-        model.addAttribute("filter", filter);
-        model.addAttribute("finance", finance);
-
-        HttpSession session = request.getSession();
-        session.setAttribute("financeData", finance);
-        session.setAttribute("transactionsData", PageResponse.of(page));
-
-
-        return "transaction/finances";
     }
 
     @GetMapping("/walletTransaction")
@@ -90,7 +74,6 @@ public class WalletTransactionController {
         return "transaction/incomeAndExpenses";
 
     }
-
 
     @GetMapping("/addingMoney/{walletId}")
     public String showAddMoneyForm(@PathVariable("walletId") Long walletId, Model model,
@@ -185,6 +168,38 @@ public class WalletTransactionController {
 
         return "redirect:/transactions/cashTransfer/{walletId}";
 
+    }
+
+    @GetMapping("/finances")
+    public String finances(Model model, WalletTransactionFilter filter, Pageable pageable,
+                           @RequestParam(name = "period", required = false) String period,
+                           HttpServletRequest request) {
+        LocalDate[] dateRange = walletTrService.calculateDateRange(period);
+        LocalDate startDate = dateRange[0];
+        LocalDate endDate = dateRange[1];
+
+        if (startDate != null) {
+            filter.setTransactionDateStart(startDate.atStartOfDay());
+            filter.setTransactionDateEnd(endDate.atStartOfDay());
+        }
+
+        if (startDate != null) {
+            filter.setTransactionDateStart(startDate.atStartOfDay());
+            filter.setTransactionDateEnd(endDate.atStartOfDay());
+        }
+
+        Page<WalletTransactionDTO> page = walletTrService.findAll(filter, pageable);
+        FinancialSummaryDTO finance = FinancialSummaryBuilder.buildDTO(filter, page);
+
+        model.addAttribute("transactions", PageResponse.of(page));
+        model.addAttribute("filter", filter);
+        model.addAttribute("finance", finance);
+
+        HttpSession session = request.getSession();
+        session.setAttribute("financeData", finance);
+        session.setAttribute("transactionsData", PageResponse.of(page));
+
+        return "transaction/finances";
     }
 
 

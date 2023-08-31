@@ -80,6 +80,13 @@
                name="transactionDateEnd" th:value="${filter.transactionDateEnd}">
       </div>
 
+      <button type="submit" class="btn btn-outline-secondary" name="period" value="currentWeek">Current Week</button>
+      <button type="submit" class="btn btn-outline-secondary" name="period" value="currentMonth">Current Month</button>
+      <button type="submit" class="btn btn-outline-secondary" name="period" value="currentQuarter">Current Quarter</button>
+      <button type="submit" class="btn btn-outline-secondary" name="period" value="lastWeek">Last Week</button>
+      <button type="submit" class="btn btn-outline-secondary" name="period" value="lastMonth">Last Month</button>
+      <button type="submit" class="btn btn-outline-secondary" name="period" value="lastQuarter">Last Quarter</button>
+
       <div>
         <div class="input-group mb-3">
           <span class="input-group-text" id="basic-addon8">Page</span>
@@ -174,5 +181,6 @@
 
 </div>
 <div th:insert="~{fragments/base :: common_body}"></div>
+
 </body>
 </html>
