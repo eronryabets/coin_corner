@@ -126,6 +126,16 @@
   <span th:if="${finance.dateEnd != null}"
         th:text="'Date to : ' + ${finance.dateEnd}"> </span><br><br>
 
+  <form th:action="@{/api/v1/transactions/finances/saveToFile}" method="post">
+    <label for="format">Select Format:</label>
+    <select name="format" id="format">
+      <option value="txt">TXT</option>
+      <option value="xml">XML</option>
+      <option value="html">HTML</option>
+    </select>
+    <button type="submit" class="btn btn-primary">Save to File</button>
+  </form>
+
 
   <div>
     <table class="table table-striped">

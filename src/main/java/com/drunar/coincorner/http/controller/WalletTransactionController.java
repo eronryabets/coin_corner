@@ -7,6 +7,8 @@ import com.drunar.coincorner.service.CashTransferService;
 import com.drunar.coincorner.service.WalletService;
 import com.drunar.coincorner.service.WalletTransactionService;
 import com.drunar.coincorner.util.FinancialSummaryBuilder;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,13 +40,19 @@ public class WalletTransactionController {
     }
 
     @GetMapping("/finances")
-    public String finances(Model model, WalletTransactionFilter filter, Pageable pageable) {
+    public String finances(Model model, WalletTransactionFilter filter, Pageable pageable,
+                           HttpServletRequest request) {
         Page<WalletTransactionDTO> page = walletTrService.findAll(filter, pageable);
         FinancialSummaryDTO finance = FinancialSummaryBuilder.buildDTO(filter, page);
 
         model.addAttribute("transactions", PageResponse.of(page));
         model.addAttribute("filter", filter);
         model.addAttribute("finance", finance);
+
+        HttpSession session = request.getSession();
+        session.setAttribute("financeData", finance);
+        session.setAttribute("transactionsData", PageResponse.of(page));
+
 
         return "transaction/finances";
     }
@@ -178,6 +186,7 @@ public class WalletTransactionController {
         return "redirect:/transactions/cashTransfer/{walletId}";
 
     }
+
 
 
 }
