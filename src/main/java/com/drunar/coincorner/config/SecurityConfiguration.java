@@ -1,5 +1,6 @@
 package com.drunar.coincorner.config;
 
+import com.drunar.coincorner.dto.CustomUserDetails;
 import com.drunar.coincorner.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -60,7 +61,7 @@ public class SecurityConfiguration {
                 userService.newUserFromOAuth(userRequest);
             }
 
-            UserDetails userDetails = userService.loadUserByUsername(email);
+            CustomUserDetails userDetails = userService.loadUserByUsername(email);
             DefaultOidcUser oidcUser =
                     new DefaultOidcUser(userDetails.getAuthorities(), userRequest.getIdToken());
 
