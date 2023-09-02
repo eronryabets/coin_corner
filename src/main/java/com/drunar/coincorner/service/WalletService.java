@@ -1,6 +1,7 @@
 package com.drunar.coincorner.service;
 
 import com.drunar.coincorner.aop.LogTransaction;
+import com.drunar.coincorner.database.entity.Wallet;
 import com.drunar.coincorner.database.filter.WalletFilter;
 import com.drunar.coincorner.database.repository.WalletRepository;
 import com.drunar.coincorner.dto.CustomUserDetails;
@@ -109,6 +110,11 @@ public class WalletService {
                     walletRepository.flush();
                     return true;
                 }).orElse(false);
+    }
+
+    public boolean doesWalletExistAndBelongsToUser(Long walletId, Long userId) {
+        Optional<Wallet> wallet = walletRepository.findById(walletId);
+        return wallet.isPresent() && wallet.get().getOwnerUser().getId().equals(userId);
     }
 
 }

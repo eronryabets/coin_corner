@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -53,7 +54,9 @@ public class WalletTransactionController {
     }
 
     @GetMapping("/my")
-    public String findAllByUser(Model model, WalletTransactionFilter filter, Pageable pageable) {
+    @PreAuthorize("#userId == authentication.principal.id")
+    public String findAllByUser(Model model, WalletTransactionFilter filter, Pageable pageable,
+                                @RequestParam Long userId) {
         Page<WalletTransactionDTO> page = walletTrService.findAll(filter, pageable);
         model.addAttribute("transactions", PageResponse.of(page));
         model.addAttribute("filter", filter);
@@ -171,8 +174,10 @@ public class WalletTransactionController {
     }
 
     @GetMapping("/finances")
+    @PreAuthorize("#userId == authentication.principal.id")
     public String finances(Model model, WalletTransactionFilter filter, Pageable pageable,
                            @RequestParam(name = "period", required = false) String period,
+                           @RequestParam Long userId,
                            HttpServletRequest request) {
         LocalDate[] dateRange = walletTrService.calculateDateRange(period);
         LocalDate startDate = dateRange[0];
