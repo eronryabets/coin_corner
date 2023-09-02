@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/base :: common_header(~{::title})}">
+  <meta charset="UTF-8">
+  <title>Update Note</title>
+</head>
+
+<body>
+
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+<div class="container mt-3">
+
+  <div class="col-sm-12">
+    <h2>Update Note</h2>
+    <br>
+
+    <form th:action="@{'/notes/' + ${#authentication.principal.id} + '/update/' + ${note.id}}" method="post"
+          th:object="${note}">
+
+      <div class="mb-3">
+        <label for="text" class="form-label">Text:</label>
+        <textarea class="form-control" id="text" name="text" rows="5" th:text="*{text}"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-success">Update</button>
+    </form>
+  </div>
+
+</div>
+<div th:insert="~{fragments/base :: common_body}"></div>
+</body>
+</html>

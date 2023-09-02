@@ -10,9 +10,64 @@
 <div th:insert="~{fragments/navbar :: navbar}"></div>
 <div class="container mt-3">
 
-  <div class="col-sm-4">
+  <div class="col-sm-12">
 
     CREATE NOTES
+
+    <p>
+      <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+        New note
+      </button>
+    </p>
+    <div style="min-height: 120px;">
+      <div class="collapse collapse-horizontal" id="collapseWidthExample">
+        <div class="card card-body" style="width: 300px;">
+          <form th:action="@{'/notes/create/' + ${#authentication.principal.id}}" method="post"
+                th:object="${note}">
+
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Example textarea</label>
+              <textarea class="form-control" name="text" id="exampleFormControlTextarea1"
+                        rows="3"> </textarea>
+            </div>
+
+            <input type="hidden" name="userId" th:value="${#authentication.principal.id}">
+
+            <button type="submit" class="btn btn-primary">Create</button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      .card {
+        margin-bottom: 20px;
+      }
+    </style>
+
+    <div class="card-columns">
+      <div th:each="note : ${notes}" class="card">
+        <h5 class="card-header">
+          <span th:text="${note.dateAdded}">Date</span>
+          <div class="btn-group" style="float: right;">
+
+            <a class="btn btn-primary"
+               th:href="@{'/notes/' + ${#authentication.principal.id} + '/update/' + ${note.id}}">Edit</a>
+
+            <a class="btn btn-danger"
+               th:href="@{'/notes/' + ${#authentication.principal.id} + '/delete/' + ${note.id}}">Delete</a>
+
+          </div>
+        </h5>
+        <div class="card-body">
+          <h5 class="card-title" th:text="${note.text}">Text</h5><br>
+        </div>
+      </div>
+    </div>
+
+
   </div>
 
 </div>

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,14 +27,42 @@ public class NoteService {
 
     }
 
+    public Optional<NoteDTO> findById(Long id){
+        return noteRepository.findById(id).map(noteMapper::noteToNoteDTO);
+    }
+
     @Transactional
     public NoteDTO create(NoteDTO note){
         return Optional.of(note)
-                .map(noteMapper::noteDTOToNote)
+                .map( it-> {
+                        it.setDateAdded(LocalDateTime.now());
+                        return     noteMapper.noteDTOToNote(it);
+                        })
                 .map(noteRepository::save)
                 .map(noteMapper::noteToNoteDTO)
                 .orElseThrow();
     }
+
+    @Transactional
+    public boolean update(Long noteId, String text){
+        return noteRepository.findById(noteId)
+                .map(entity -> {
+                    entity.setText(text);
+                    noteRepository.saveAndFlush(entity);
+                    return true;
+                }).orElse(false);
+    }
+
+    @Transactional
+    public boolean delete(Long id){
+        return noteRepository.findById(id)
+                .map(entity -> {
+                    noteRepository.delete(entity);
+                    noteRepository.flush();
+                    return true;
+                }).orElse(false);
+    }
+
 
 
 

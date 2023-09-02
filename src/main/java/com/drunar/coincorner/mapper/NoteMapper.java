@@ -14,10 +14,8 @@ public interface NoteMapper {
     NoteMapper INSTANCE = Mappers.getMapper(NoteMapper.class);
 
     @Mapping(source = "user.id", target = "userId")
-    @Mapping(source = "user.username", target = "username")
     NoteDTO noteToNoteDTO(Note note);
 
     @Mapping(source = "userId", target = "user.id")
-    @Mapping(source = "username", target = "user.username")
     Note noteDTOToNote(NoteDTO noteDTO);
 }

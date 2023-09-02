@@ -14,7 +14,6 @@ public class NoteDTO {
     Long id;
     String text;
     LocalDateTime dateAdded;
-    String username;
     Long userId;
 
 }

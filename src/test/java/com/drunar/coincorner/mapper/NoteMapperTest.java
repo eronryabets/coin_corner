@@ -48,7 +48,6 @@ public class NoteMapperTest {
         Assertions.assertEquals(note.getId(), dto.getId());
         Assertions.assertEquals(note.getText(), dto.getText());
         Assertions.assertEquals(note.getDateAdded(), dto.getDateAdded());
-        Assertions.assertEquals(note.getUser().getUsername(), dto.getUsername());
         Assertions.assertEquals(note.getUser().getId(), dto.getUserId());
 
     }
@@ -62,7 +61,6 @@ public class NoteMapperTest {
         Assertions.assertEquals(note.getId(), dto.getId());
         Assertions.assertEquals(note.getText(), dto.getText());
         Assertions.assertEquals(note.getDateAdded(), dto.getDateAdded());
-        Assertions.assertEquals(note.getUser().getUsername(), dto.getUsername());
         Assertions.assertEquals(note.getUser().getId(), dto.getUserId());
 
     }
