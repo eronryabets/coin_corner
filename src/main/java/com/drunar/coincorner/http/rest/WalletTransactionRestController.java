@@ -32,6 +32,7 @@ public class WalletTransactionRestController {
                                                @RequestParam(name = "format") String format) {
         HttpSession session = request.getSession();
         FinancialSummaryDTO financeData = (FinancialSummaryDTO) session.getAttribute("financeData");
+        @SuppressWarnings("unchecked")
         PageResponse<WalletTransactionDTO> transactionsData =
                 (PageResponse<WalletTransactionDTO>) session.getAttribute("transactionsData");
 

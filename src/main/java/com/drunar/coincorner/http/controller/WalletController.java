@@ -64,14 +64,14 @@ public class WalletController {
     }
 
     @GetMapping("/create")
-    public String newWallet(Model model,@ModelAttribute("wallet") WalletCreateEditDTO wallet){
+    public String showCreateForm(Model model, @ModelAttribute("wallet") WalletCreateEditDTO wallet){
         model.addAttribute("wallet", wallet);
         return "wallet/createWallet";
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute @Validated WalletCreateEditDTO wallet,
-                         BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    public String processCreateForm(@ModelAttribute @Validated WalletCreateEditDTO wallet,
+                                    BindingResult bindingResult, RedirectAttributes redirectAttributes){
         if(bindingResult.hasErrors()){
             redirectAttributes.addFlashAttribute("wallet",wallet);
             redirectAttributes.addFlashAttribute("errors",bindingResult.getAllErrors());
