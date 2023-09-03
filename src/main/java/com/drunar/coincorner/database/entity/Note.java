@@ -21,6 +21,9 @@ public class Note implements BaseEntity<Long> {
     private Long id;
 
     @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
     private String text;
 
     @Column(name = "date_added", nullable = false)

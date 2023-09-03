@@ -14,12 +14,22 @@
     <h2>Update Note</h2>
     <br>
 
+    <div th:if="${errors}">
+      <p style="color: red" th:each="error : ${errors}"
+         th:text="${error.defaultMessage}">Error message</p>
+    </div>
+
     <form th:action="@{'/notes/' + ${#authentication.principal.id} + '/update/' + ${note.id}}" method="post"
           th:object="${note}">
 
       <div class="mb-3">
+        <label for="text" class="form-label">Title:</label>
+        <textarea class="form-control" id="title" name="title" rows="1" th:text="*{title}" required="required"></textarea>
+      </div>
+
+      <div class="mb-3">
         <label for="text" class="form-label">Text:</label>
-        <textarea class="form-control" id="text" name="text" rows="5" th:text="*{text}"></textarea>
+        <textarea class="form-control" id="text" name="text" rows="5" th:text="*{text}" required="required"></textarea>
       </div>
 
       <button type="submit" class="btn btn-success">Update</button>

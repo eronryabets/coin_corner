@@ -44,10 +44,12 @@ public class NoteService {
     }
 
     @Transactional
-    public boolean update(Long noteId, String text){
+    public boolean update(Long noteId,NoteDTO note){
         return noteRepository.findById(noteId)
                 .map(entity -> {
-                    entity.setText(text);
+                    entity.setTitle(note.getTitle());
+                    entity.setText(note.getText());
+                    entity.setDateAdded(LocalDateTime.now());
                     noteRepository.saveAndFlush(entity);
                     return true;
                 }).orElse(false);

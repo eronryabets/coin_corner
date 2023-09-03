@@ -7,8 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/notes")
@@ -19,7 +22,12 @@ public class NoteController {
 
     @GetMapping("/my")
     @PreAuthorize("#userId == authentication.principal.id")
-    public String findAllByUser(Model model, @ModelAttribute NoteDTO note, @RequestParam Long userId) {
+    public String findAllByUser(Model model, @ModelAttribute NoteDTO note, @RequestParam Long userId,
+                                RedirectAttributes redirectAttributes) {
+        String notValidNote = (String) redirectAttributes.getFlashAttributes().get("notValidNote");
+        if(notValidNote != null){
+            model.addAttribute("text", notValidNote);
+        }
         return noteService.findAllByUser(note)
                 .map(notes -> {
                     model.addAttribute("notes", notes);
@@ -30,7 +38,15 @@ public class NoteController {
 
 
     @PostMapping("/create/{userId}")
-    public String processCreateForm(@ModelAttribute("note") NoteDTO note, @PathVariable Long userId) {
+    public String processCreateForm(@Validated NoteDTO note, BindingResult bindingResult,
+                                    @PathVariable Long userId, RedirectAttributes redirectAttributes) {
+
+        if(bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("text", note.getText());
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            return "redirect:/notes/my?userId=" + userId;
+        }
+
         noteService.create(note);
         return "redirect:/notes/my?userId=" + userId;
     }
@@ -47,8 +63,14 @@ public class NoteController {
     }
 
     @PostMapping("/{userId}/update/{id}")
-    public String processUpdateForm(@PathVariable("id") Long id, String text, @PathVariable Long userId){
-        noteService.update(id,text);
+    public String processUpdateForm(@ModelAttribute @Validated NoteDTO note, BindingResult bindingResult,
+                                    @PathVariable("id") Long id, @PathVariable Long userId,
+                                    RedirectAttributes redirectAttributes){
+        if(bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            return "redirect:/notes/" + userId + "/update/" + id;
+        }
+        noteService.update(id,note);
         return "redirect:/notes/" + userId + "/update/" + id;
     }
 
