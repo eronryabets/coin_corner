@@ -17,6 +17,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +28,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Component
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class WalletService {
@@ -52,6 +55,7 @@ public class WalletService {
                 .map(walletMapper::walletToWalletReadDTO).toList();
     }
 
+    @PreAuthorize("(@walletService.doesWalletExistAndBelongsToUser(#id, authentication.principal.id)) or hasAnyAuthority('ADMIN')")
     public Optional<WalletReadDTO> findById(Long id){
         return walletRepository.findById(id).map(walletMapper::walletToWalletReadDTO);
     }

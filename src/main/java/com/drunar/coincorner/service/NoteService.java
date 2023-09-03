@@ -1,9 +1,16 @@
 package com.drunar.coincorner.service;
 
+import com.drunar.coincorner.database.filter.NoteFilter;
 import com.drunar.coincorner.database.repository.NoteRepository;
 import com.drunar.coincorner.dto.NoteDTO;
 import com.drunar.coincorner.mapper.NoteMapper;
+import com.drunar.coincorner.util.predicateBuilder.NotePredicateBuilder;
+import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +26,19 @@ public class NoteService {
 
     private final NoteRepository noteRepository;
     private final NoteMapper noteMapper;
+
+    public Page<NoteDTO> findAll(NoteFilter filter, Pageable pageable){
+        Predicate predicate = NotePredicateBuilder.buildPredicate(filter);
+
+        pageable = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSort().and(Sort.by("dateAdded").descending())
+        );
+
+        return noteRepository.findAll(predicate, pageable).map(noteMapper::noteToNoteDTO);
+
+    }
 
     public Optional<List<NoteDTO>> findAllByUser(NoteDTO note){
         return noteRepository.findAllByUserId(note.getUserId())

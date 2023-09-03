@@ -19,6 +19,37 @@
          th:text="${error.defaultMessage}">Error message</p>
     </div>
 
+
+    <div class="col-sm-3">
+    <form th:action="@{/notes/my(userId=${#authentication.principal.id})}" method="get">
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon15">Title</span>
+        <input type="text" class="form-control" aria-label="title" aria-describedby="basic-addon1"
+               name="title" th:value="${filter.title}">
+      </div>
+
+      <div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon8">Page</span>
+          <input type="number" class="form-control" aria-label="Page" aria-describedby="basic-addon1"
+                 name="page" th:value="${notes.metadata.page}">
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon9">Size</span>
+          <input type="number" class="form-control" aria-label="size" aria-describedby="basic-addon1"
+                 name="size" th:value="${notes.metadata.size}">
+        </div>
+      </div>
+
+
+      <input type="hidden" name="userId" th:value="${filter.userId}" />
+      <button type="submit" class="btn btn-info">Filter</button>
+
+    </form><br>
+    </div>
+
+
     <p>
       <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
               data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
@@ -57,7 +88,7 @@
     </style>
 
     <div class="card-columns">
-      <div th:each="note : ${notes}" class="card">
+      <div th:each="note : ${notes.content}" class="card">
         <h5 class="card-header">
           <span th:text="${note.title}">Date</span>
           <span th:text="${note.dateAdded}">Date</span>

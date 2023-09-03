@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,7 +36,6 @@ public class WalletController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("@walletService.doesWalletExistAndBelongsToUser(#id, authentication.principal.id)")
     public String findById(@PathVariable("id") Long id, Model model) {
         return walletService.findById(id)
                 .map(wallet -> {

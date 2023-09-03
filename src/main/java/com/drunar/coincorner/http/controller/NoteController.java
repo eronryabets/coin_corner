@@ -1,8 +1,12 @@
 package com.drunar.coincorner.http.controller;
 
+import com.drunar.coincorner.database.filter.NoteFilter;
 import com.drunar.coincorner.dto.NoteDTO;
+import com.drunar.coincorner.dto.PageResponse;
 import com.drunar.coincorner.service.NoteService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -20,20 +24,17 @@ public class NoteController {
 
     private final NoteService noteService;
 
+
     @GetMapping("/my")
     @PreAuthorize("#userId == authentication.principal.id")
-    public String findAllByUser(Model model, @ModelAttribute NoteDTO note, @RequestParam Long userId,
-                                RedirectAttributes redirectAttributes) {
-        String notValidNote = (String) redirectAttributes.getFlashAttributes().get("notValidNote");
-        if(notValidNote != null){
-            model.addAttribute("text", notValidNote);
-        }
-        return noteService.findAllByUser(note)
-                .map(notes -> {
-                    model.addAttribute("notes", notes);
-                    return "notes/notes";
-                })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    public String findAllByUser(Model model, NoteFilter filter, Pageable pageable,
+                                @ModelAttribute NoteDTO note, @RequestParam Long userId) {
+
+        Page<NoteDTO> page = noteService.findAll(filter, pageable);
+        model.addAttribute("notes", PageResponse.of(page));
+        model.addAttribute("filter", filter);
+        return "notes/notes";
+
     }
 
 
