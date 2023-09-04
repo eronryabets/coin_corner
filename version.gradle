@@ -4,7 +4,12 @@ ext {
             'mapstruct': '1.5.5.Final',
             'querydsl': '5.0.0',
             'jakartaPersistence': '3.1.0',
-            'springdoc': '2.1.0'
+            'springdoc': '2.1.0',
+            'cacheApi': '1.1.1',
+            'ehcache': '3.9.7',
+            'caffeine': '3.1.8',
+            'jacksonDataformat': '2.15.2',
+
 
     ]
 }

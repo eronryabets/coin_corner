@@ -90,8 +90,9 @@
     <div class="card-columns">
       <div th:each="note : ${notes.content}" class="card">
         <h5 class="card-header">
-          <span th:text="${note.title}">Date</span>
-          <span th:text="${note.dateAdded}">Date</span>
+          <span th:text="${note.title}">title</span>
+          <span th:text="${note.dateAdded}"
+                th:style="'font-style: italic; font-size: 12px; font-weight: 300;'">Date</span>
           <div class="btn-group" style="float: right;">
 
             <a class="btn btn-primary"

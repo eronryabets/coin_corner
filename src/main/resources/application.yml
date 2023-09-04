@@ -1,8 +1,9 @@
 app:
   image:
     bucket: F:\\Work\\Coding2023\\coin-corner\\images
-  file:
-    directory: F:\\Work\\Coding2023\\coin-corner\\files
+  exchangeRatesUrl: "https://bank.gov.ua/NBU_Exchange/exchange?json"
+
+
 
 
 spring:

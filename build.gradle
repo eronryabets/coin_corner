@@ -44,9 +44,10 @@ dependencies {
 	implementation 'org.springframework.security:spring-security-oauth2-jose'
 
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
-	implementation 'javax.cache:cache-api:1.1.1'
-	implementation 'org.ehcache:ehcache:3.9.7'
-	implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8'
+	implementation "javax.cache:cache-api:${versions.cacheApi}"
+	implementation "org.ehcache:ehcache:${versions.ehcache}"
+	implementation "com.github.ben-manes.caffeine:caffeine:${versions.caffeine}"
+	implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${versions.jacksonDataformat}"
 
 	annotationProcessor "org.mapstruct:mapstruct-processor:${versions.mapstruct}"
 	annotationProcessor "com.querydsl:querydsl-apt:${versions.querydsl}:jakarta"
