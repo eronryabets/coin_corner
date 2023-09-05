@@ -1,5 +1,6 @@
 package com.drunar.coincorner.database.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,5 +49,9 @@ public class User implements BaseEntity<Long>{
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Note> notes;
 
 }

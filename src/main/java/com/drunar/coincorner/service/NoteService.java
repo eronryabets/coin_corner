@@ -40,8 +40,8 @@ public class NoteService {
 
     }
 
-    public Optional<List<NoteDTO>> findAllByUser(NoteDTO note){
-        return noteRepository.findAllByUserId(note.getUserId())
+    public Optional<List<NoteDTO>> findAllByUser(Long userId){
+        return noteRepository.findAllByUserId(userId)
                 .map(notes -> notes.stream().map(noteMapper::noteToNoteDTO)
                         .collect(Collectors.toList()));
 
@@ -64,15 +64,15 @@ public class NoteService {
     }
 
     @Transactional
-    public boolean update(Long noteId,NoteDTO note){
+    public Optional<NoteDTO> update(Long noteId, NoteDTO note) {
         return noteRepository.findById(noteId)
                 .map(entity -> {
                     entity.setTitle(note.getTitle());
                     entity.setText(note.getText());
                     entity.setDateAdded(LocalDateTime.now());
-                    noteRepository.saveAndFlush(entity);
-                    return true;
-                }).orElse(false);
+                    return noteRepository.saveAndFlush(entity);
+                })
+                .map(noteMapper::noteToNoteDTO);
     }
 
     @Transactional

@@ -101,6 +101,42 @@ public class WalletServiceIT extends IntegrationTestBase {
     }
 
     @Test
+    void updateBalanceIncome(){
+        Optional<WalletReadDTO> wallet = walletService.findById(WALLET_1);
+        assertTrue(wallet.isPresent());
+        BigDecimal oldBalance = wallet.get().getBalance();
+        BigDecimal income = BigDecimal.valueOf(100);
+        BigDecimal expectedBalance = oldBalance.add(income);
+        walletService.updateBalance(WALLET_1,income);
+
+        Optional<WalletReadDTO> refreshWallet = walletService.findById(WALLET_1);
+        assertTrue(refreshWallet.isPresent());
+        BigDecimal newBalance = refreshWallet.get().getBalance();
+
+        assertEquals(newBalance, expectedBalance);
+        assertNotEquals(newBalance, oldBalance);
+
+    }
+
+    @Test
+    void updateBalanceExpense(){
+        Optional<WalletReadDTO> wallet = walletService.findById(WALLET_1);
+        assertTrue(wallet.isPresent());
+        BigDecimal oldBalance = wallet.get().getBalance();
+        BigDecimal expense = BigDecimal.valueOf(-100);
+        BigDecimal expectedBalance = oldBalance.add(expense);
+        walletService.updateBalance(WALLET_1,expense);
+
+        Optional<WalletReadDTO> refreshWallet = walletService.findById(WALLET_1);
+        assertTrue(refreshWallet.isPresent());
+        BigDecimal newBalance = refreshWallet.get().getBalance();
+
+        assertEquals(newBalance, expectedBalance);
+        assertNotEquals(newBalance, oldBalance);
+
+    }
+
+    @Test
     void delete() {
         assertFalse(walletService.delete(-124L));
         assertTrue(walletService.delete(WALLET_1));

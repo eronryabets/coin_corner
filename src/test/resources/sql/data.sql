@@ -57,3 +57,19 @@ SELECT id, 'USER' FROM users;
 
 INSERT INTO roles (user_id,role)
 VALUES (1,'USER');
+
+INSERT INTO notes (id, text, date_added, user_id)
+VALUES
+    (1, 'Text 1', '2020-09-30 14:30:00', 1),
+    (2, 'Text 2', '2021-05-07 18:05:00', 1),
+    (3, 'Text 3', '2021-09-22 10:25:00', 2),
+    (4, 'Text 4', '2022-02-11 13:30:00', 3),
+    (5, 'Text 5', '2022-03-12 11:10:00', 4),
+    (6, 'Text 6', '2022-04-20 12:20:00', 5),
+    (7, 'Text 7', '2022-01-23 11:50:00', 6),
+    (8, 'Text 8', '2023-02-11 11:10:00', 7),
+    (9, 'Text 9', '2023-03-14 17:31:00', 8),
+    (10, 'Text 10', '2023-04-11 12:30:00', 9),
+    (11, 'Text 11', '2023-05-17 18:32:00', 10);
+
+SELECT SETVAL('notes_id_seq', (SELECT MAX(id) FROM notes));
