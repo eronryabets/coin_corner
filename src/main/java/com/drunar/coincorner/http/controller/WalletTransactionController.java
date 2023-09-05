@@ -32,6 +32,7 @@ public class WalletTransactionController {
     private final WalletTransactionService walletTrService;
     private final WalletService walletService;
     private final CashTransferService cashTransferService;
+    private final FinancialSummaryBuilder financialSummaryBuilder;
 
     @GetMapping
     public String findAll(Model model, WalletTransactionFilter filter, Pageable pageable) {
@@ -64,19 +65,6 @@ public class WalletTransactionController {
         return "transaction/myTransactions";
     }
 
-
-    @GetMapping("/incomeAndExpenses")
-    public String incomeAndExpenses(Model model, WalletTransactionFilter filter, Pageable pageable) {
-        Page<WalletTransactionDTO> page = walletTrService.findAll(filter, pageable);
-        FinancialSummaryDTO finance = FinancialSummaryBuilder.buildDTO(filter, page);
-
-        model.addAttribute("transactions", PageResponse.of(page));
-        model.addAttribute("filter", filter);
-        model.addAttribute("finance", finance);
-
-        return "transaction/incomeAndExpenses";
-
-    }
 
     @GetMapping("/addingMoney/{walletId}")
     public String showAddMoneyForm(@PathVariable("walletId") Long walletId, Model model,
@@ -194,7 +182,7 @@ public class WalletTransactionController {
         }
 
         Page<WalletTransactionDTO> page = walletTrService.findAll(filter, pageable);
-        FinancialSummaryDTO finance = FinancialSummaryBuilder.buildDTO(filter, page);
+        FinancialSummaryDTO finance = financialSummaryBuilder.buildDTO(filter);
 
         model.addAttribute("transactions", PageResponse.of(page));
         model.addAttribute("filter", filter);
