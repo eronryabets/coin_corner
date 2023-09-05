@@ -20,13 +20,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/notes")
 @RequiredArgsConstructor
+@PreAuthorize("#userId == authentication.principal.id")
 public class NoteController {
 
     private final NoteService noteService;
 
 
     @GetMapping("/my")
-    @PreAuthorize("#userId == authentication.principal.id")
     public String findAllByUser(Model model, NoteFilter filter, Pageable pageable,
                                 @ModelAttribute NoteDTO note, @RequestParam Long userId) {
 
