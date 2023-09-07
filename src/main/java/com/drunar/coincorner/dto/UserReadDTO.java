@@ -1,6 +1,7 @@
 package com.drunar.coincorner.dto;
 
 import com.drunar.coincorner.database.entity.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Value;
 
 import java.time.LocalDate;
@@ -17,5 +18,6 @@ public class UserReadDTO {
     LocalDate birthDate;
     String image;
     Set<Role> roles;
+    @JsonIgnore
     List<WalletReadDTO> walletsDTO;
 }

@@ -61,7 +61,7 @@ public class WalletRepositoryTest extends IntegrationTestBase {
     @Test
     void checkFilterByUserId() {
 
-        WalletFilter filter = WalletFilter.builder().ownerUserId(3L).build();
+        WalletFilter filter = WalletFilter.builder().userId(3L).build();
         List<Wallet> wallets = walletRepository.findAllByFilter(filter);
         assertThat(wallets).hasSize(3);
     }
@@ -73,7 +73,7 @@ public class WalletRepositoryTest extends IntegrationTestBase {
                 .walletName("Wallet 1")
                 .walletType(WalletType.DEBIT)
                 .currency(Currency.USD)
-                .ownerUserId(1L)
+                .userId(1L)
                 .build();
         List<Wallet> wallets = walletRepository.findAllByFilter(filter);
         assertThat(wallets).hasSize(1);

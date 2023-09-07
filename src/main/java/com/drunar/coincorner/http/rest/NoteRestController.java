@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/api/v1/notes")
+@RequestMapping("/api/v1/users/{userId}/notes")
 @Tag(name = "Note Rest Controller", description = "Notes CRUD operations.")
 @RequiredArgsConstructor
 public class NoteRestController {
@@ -24,31 +24,34 @@ public class NoteRestController {
     private final NoteService noteService;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public PageResponse<NoteDTO> findAllByUser(NoteFilter filter, Pageable pageable) {
-
+    public PageResponse<NoteDTO> findAllByUser(NoteFilter filter, Pageable pageable,
+                                               @PathVariable Long userId) {
         Page<NoteDTO> page = noteService.findAll(filter, pageable);
         return PageResponse.of(page);
     }
 
-    @PostMapping( consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public NoteDTO create(@Validated @RequestBody NoteDTO note) {
+    public NoteDTO create(@Validated @RequestBody NoteDTO note, @PathVariable Long userId) {
         return noteService.create(note);
     }
 
-    @PutMapping(path = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE )
+    @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public NoteDTO update(@Validated @RequestBody NoteDTO note,
-                                    @PathVariable("id") Long id){
-        return noteService.update(id,note)
+                          @PathVariable("id") Long id,
+                          @PathVariable Long userId) {
+        return noteService.update(id, note)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<String> delete(@PathVariable("id") Long id){
+    public ResponseEntity<String> delete(@PathVariable("id") Long id,
+                                         @PathVariable Long userId) {
         if (!noteService.delete(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-         } return ResponseEntity.ok("The note has been successfully deleted");
+        }
+        return ResponseEntity.ok("The note has been successfully deleted");
 
     }
 

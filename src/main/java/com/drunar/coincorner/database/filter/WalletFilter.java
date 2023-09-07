@@ -12,6 +12,6 @@ public class WalletFilter {
     String walletName;
     Wallet.WalletType walletType;
     Wallet.Currency currency;
-    Long ownerUserId;
-    String ownerUsername;
+    Long userId;
+    String username;
 }

@@ -37,7 +37,7 @@ public class UserRestController {
         return PageResponse.of(page);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserReadDTO> findById(@PathVariable("id") Long id) {
         Optional<UserReadDTO> user = userService.findById(id);
         return OptionalResponseHandler.handleOptional(user);

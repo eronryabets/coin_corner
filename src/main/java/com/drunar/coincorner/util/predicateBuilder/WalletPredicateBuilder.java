@@ -15,8 +15,8 @@ public class WalletPredicateBuilder {
                 .add(filter.getWalletName(), wallet.walletName::equalsIgnoreCase)
                 .add(filter.getWalletType(), wallet.walletType::eq)
                 .add(filter.getCurrency(), wallet.currency::eq)
-                .add(filter.getOwnerUserId(), wallet.ownerUser.id::eq)
-                .add(filter.getOwnerUsername(), wallet.ownerUser.username::eq)
+                .add(filter.getUserId(), wallet.ownerUser.id::eq)
+                .add(filter.getUsername(), wallet.ownerUser.username::eq)
                 .build();
     }
 }
