@@ -26,6 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +41,9 @@ public class UserService implements UserDetailsService {
     private final ImageService imageService;
     private final UserCopyHelper userCopyHelper;
     private final UserOAuthMapper userOAuthMapper;
+
+    public static final int MAX_FAILED_ATTEMPTS = 3;
+    private static final long LOCK_TIME_DURATION = 24 * 60 * 60 * 1000; // 24 hours
 
     public Page<UserReadDTO> findAll(UserFilter filter, Pageable pageable) {
         Predicate predicate = UserPredicateBuilder.buildPredicate(filter);
@@ -58,7 +63,7 @@ public class UserService implements UserDetailsService {
                 .map(userMapper::userToUserReadDTO).toList();
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PreAuthorize("(#id == authentication.principal.user.id) or (hasAnyAuthority('ADMIN'))")
     public Optional<UserReadDTO> findById(Long id) {
         return userRepository.findById(id).map(userMapper::userToUserReadDTO);
     }
@@ -128,10 +133,55 @@ public class UserService implements UserDetailsService {
         }
 
     }
+    @Transactional
 
     public boolean checkEmailIfExists(String email) {
         Optional<User> userByEmail = userRepository.findUserByEmail(email);
         return userByEmail.isPresent();
+    }
+
+    @Transactional
+    public void increaseFailedAttempts(User user) {
+        int newFailAttempts = user.getFailedAttempt() + 1;
+        userRepository.updateFailedAttempts(newFailAttempts, user.getEmail());
+    }
+
+    @Transactional
+    public void resetFailedAttempts(String email) {
+        userRepository.updateFailedAttempts(0, email);
+    }
+
+    @Transactional
+    public void lock(User user) {
+        user.setAccountNonLocked(false);
+        user.setLockTime(LocalDateTime.now());
+
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public boolean unlockWhenTimeExpired(User user) {
+        LocalDateTime lockTime = user.getLockTime();
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        Duration duration = Duration.between(lockTime, currentTime);
+        long durationMillis = duration.toMillis();
+
+        if (durationMillis >= LOCK_TIME_DURATION) {
+            user.setAccountNonLocked(true);
+            user.setLockTime(null);
+            user.setFailedAttempt(0);
+
+            userRepository.save(user);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public User getByEmail(String email){
+        return userRepository.findUserByEmail(email).orElseThrow();
     }
 
 

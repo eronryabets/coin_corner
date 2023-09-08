@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -54,4 +55,16 @@ public class User implements BaseEntity<Long>{
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Note> notes;
 
+    @Column(name = "account_non_locked")
+    private boolean accountNonLocked;
+
+    @Column(name = "failed_attempt")
+    private int failedAttempt;
+
+    @Column(name = "lock_time")
+    private LocalDateTime lockTime;
+
+    public boolean isEnabled() {
+        return true;
+    }
 }

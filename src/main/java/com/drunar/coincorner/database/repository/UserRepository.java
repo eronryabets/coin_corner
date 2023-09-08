@@ -5,6 +5,7 @@ import com.drunar.coincorner.database.repository.filter.FilterUserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
@@ -24,5 +25,9 @@ public interface UserRepository extends
     Optional<User> findUserByEmail(String email);
 
     Optional<User> findByUsername(String username);
+
+    @Query("UPDATE User u SET u.failedAttempt = ?1 WHERE u.email = ?2")
+    @Modifying
+    void updateFailedAttempts(int failAttempts, String email);
 
 }

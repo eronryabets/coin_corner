@@ -38,6 +38,7 @@ public class UserCopyHelper implements Mapper<UserCreateEditDTO, User>{
         user.setFirstname(object.getFirstname());
         user.setLastname(object.getLastname());
         user.setBirthDate(object.getBirthDate());
+        user.setAccountNonLocked(true);
 
         updateRoles(user, object.getRoles());
 

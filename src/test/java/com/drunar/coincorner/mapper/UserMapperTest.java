@@ -46,7 +46,7 @@ public class UserMapperTest {
     @Test
     void shouldProperlyMapUserReadDTOToUser() {
         UserReadDTO dto = userMapper.userToUserReadDTO(user);
-        User user1 = userMapper.userDTOtoUser(dto);
+        User user1 = userMapper.userReadDTOtoUser(dto);
 
         Assertions.assertNotNull(user1);
         Assertions.assertEquals(user1.getId(), dto.getId());

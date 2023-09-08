@@ -29,13 +29,19 @@ public interface UserMapper {
     @Mapping(target = "image", ignore = true)
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "notes", ignore = true)
-    User userDTOtoUser(UserReadDTO userReadDTO);
+    @Mapping(target = "accountNonLocked", ignore = true)
+    @Mapping(target = "failedAttempt", ignore = true)
+    @Mapping(target = "lockTime", ignore = true)
+    User userReadDTOtoUser(UserReadDTO userReadDTO);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "wallets", ignore = true)
     @Mapping(target = "image", ignore = true)
     @Mapping(source = "rawPassword", target = "password")
     @Mapping(target = "notes", ignore = true)
+    @Mapping(target = "accountNonLocked", ignore = true)
+    @Mapping(target = "failedAttempt", ignore = true)
+    @Mapping(target = "lockTime", ignore = true)
     User userCreateEditDTOtoUser(UserCreateEditDTO userCreateEditDTO);
 
     @AfterMapping

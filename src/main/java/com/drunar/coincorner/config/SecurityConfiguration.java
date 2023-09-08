@@ -1,6 +1,8 @@
 package com.drunar.coincorner.config;
 
 import com.drunar.coincorner.dto.CustomUserDetails;
+import com.drunar.coincorner.http.handler.CustomLoginFailureHandler;
+import com.drunar.coincorner.http.handler.CustomLoginSuccessHandler;
 import com.drunar.coincorner.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +28,8 @@ import static com.drunar.coincorner.database.entity.Role.ADMIN;
 public class SecurityConfiguration {
 
     private final UserService userService;
+    private final CustomLoginFailureHandler loginFailureHandler;
+    private final CustomLoginSuccessHandler loginSuccessHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -44,6 +48,10 @@ public class SecurityConfiguration {
                         .deleteCookies("JSESSIONID"))
                 .formLogin(login -> login
                         .loginPage("/login")
+                        .usernameParameter("email")
+                        .failureHandler(loginFailureHandler)
+                        .successHandler(loginSuccessHandler)
+                        .permitAll()
                         .defaultSuccessUrl("/"))
                 .oauth2Login(config -> config
                         .loginPage("/login")
