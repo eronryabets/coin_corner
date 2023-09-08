@@ -21,7 +21,7 @@
 
 
     <div class="col-sm-3">
-    <form th:action="@{/notes/my(userId=${#authentication.principal.id})}" method="get">
+    <form th:action="@{/notes/my(userId=${#authentication.principal.user.id})}" method="get">
 
       <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon15">Title</span>
@@ -58,7 +58,7 @@
     </p>
     <div class="collapse collapse-horizontal" id="collapseWidthExample">
       <div class="card card-body" style="width: 300px;">
-        <form th:action="@{'/notes/create/' + ${#authentication.principal.id}}" method="post"
+        <form th:action="@{'/notes/create/' + ${#authentication.principal.user.id}}" method="post"
               th:object="${notes}">
 
           <div class="mb-3">
@@ -73,7 +73,7 @@
             <textarea class="form-control" id="text" name="text" rows="5" th:text="${text}" ></textarea>
           </div>
 
-          <input type="hidden" name="userId" th:value="${#authentication.principal.id}">
+          <input type="hidden" name="userId" th:value="${#authentication.principal.user.id}">
 
           <button type="submit" class="btn btn-primary">Create</button>
 
@@ -96,10 +96,10 @@
           <div class="btn-group" style="float: right;">
 
             <a class="btn btn-primary"
-               th:href="@{'/notes/' + ${#authentication.principal.id} + '/update/' + ${note.id}}">Edit</a>
+               th:href="@{'/notes/' + ${#authentication.principal.user.id} + '/update/' + ${note.id}}">Edit</a>
 
             <a class="btn btn-danger"
-               th:href="@{'/notes/' + ${#authentication.principal.id} + '/delete/' + ${note.id}}">Delete</a>
+               th:href="@{'/notes/' + ${#authentication.principal.user.id} + '/delete/' + ${note.id}}">Delete</a>
 
           </div>
         </h5>

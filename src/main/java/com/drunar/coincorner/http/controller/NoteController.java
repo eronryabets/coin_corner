@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/notes")
 @RequiredArgsConstructor
-@PreAuthorize("#userId == authentication.principal.id")
+@PreAuthorize("#userId == authentication.principal.user.id")
 public class NoteController {
 
     private final NoteService noteService;

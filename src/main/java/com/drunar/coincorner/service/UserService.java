@@ -26,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -117,12 +116,8 @@ public class UserService implements UserDetailsService {
     @Override
     public CustomUserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findUserByEmail(email)
-                .map(user -> new CustomUserDetails(
-                        user.getId(),
-                        user.getUsername(),
-                        user.getPassword(),
-                        new ArrayList<>(user.getRoles())
-                )).orElseThrow(() -> new UsernameNotFoundException("Failed to retrieve user: " + email));
+                .map(CustomUserDetails::new)
+                .orElseThrow(() -> new UsernameNotFoundException("Failed to retrieve user: " + email));
     }
 
     @Transactional

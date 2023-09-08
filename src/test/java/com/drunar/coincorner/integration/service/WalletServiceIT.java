@@ -1,5 +1,7 @@
 package com.drunar.coincorner.integration.service;
 
+import com.drunar.coincorner.database.entity.Role;
+import com.drunar.coincorner.database.entity.User;
 import com.drunar.coincorner.dto.CustomUserDetails;
 import com.drunar.coincorner.dto.UserReadDTO;
 import com.drunar.coincorner.dto.WalletCreateEditDTO;
@@ -11,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,7 +55,13 @@ public class WalletServiceIT extends IntegrationTestBase {
 
     @Test
     void findAllByUserDetails(){
-        CustomUserDetails user = new CustomUserDetails(1L,"test","123",null);
+        User newUser = User.builder()
+                .id(1L)
+                .username("test")
+                .password("123")
+                .roles(new HashSet<>(List.of(Role.USER)))
+                .build();
+        CustomUserDetails user = new CustomUserDetails(newUser);
         Optional<List<WalletReadDTO>> maybeWallets = walletService.findAllByUserDetails(user);
         maybeWallets.ifPresent( wallets -> {
             assertThat(wallets).hasSize(3);

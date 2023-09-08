@@ -1,6 +1,7 @@
 package com.drunar.coincorner.dto;
 
 import com.drunar.coincorner.database.entity.Role;
+import com.drunar.coincorner.database.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,10 +13,22 @@ import java.util.Collection;
 @AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
-    private final Long id;
-    private final String username;
-    private final String password;
-    private final Collection<? extends GrantedAuthority> authorities;
+    private final User user;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return user.getRoles();
+    }
+
+    @Override
+    public String getPassword() {
+        return user.getPassword();
+    }
+
+    @Override
+    public String getUsername() {
+        return user.getUsername();
+    }
 
     @Override
     public boolean isAccountNonExpired() {
@@ -38,6 +51,6 @@ public class CustomUserDetails implements UserDetails {
     }
 
     public boolean isAdmin(){
-        return authorities.contains(Role.ADMIN);
+        return user.getRoles().contains(Role.ADMIN);
     }
 }

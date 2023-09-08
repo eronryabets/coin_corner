@@ -48,7 +48,7 @@
                name="balance" placeholder="balance" th:value="*{balance}">
       </div>
 
-      <input type="hidden" name="ownerId" th:value="${#authentication.principal.id}">
+      <input type="hidden" name="ownerId" th:value="${#authentication.principal.user.id}">
 
       <button type="submit" class="btn btn-primary">Create</button>
 

@@ -30,24 +30,24 @@
                         <a class="nav-link" href="#">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/notes/my(userId=${#authentication.principal.id})}">Notes</a>
+                        <a class="nav-link" th:href="@{/notes/my(userId=${#authentication.principal.user.id})}">Notes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/wallets/my">Wallets</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/transactions/my(userId=${#authentication.principal.id})}">
+                        <a class="nav-link" th:href="@{/transactions/my(userId=${#authentication.principal.user.id})}">
                             Transactions</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/transactions/finances(userId=${#authentication.principal.id})}">
+                        <a class="nav-link" th:href="@{/transactions/finances(userId=${#authentication.principal.user.id})}">
                             Finances</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{'/users/' + ${#authentication.principal.id}}"
+                        <a class="nav-link" th:href="@{'/users/' + ${#authentication.principal.user.id}}"
                            th:text="${#authentication.principal.username}">Profile</a>
                     </li>
                     <li class="nav-item">

@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("#id == authentication.principal.id")
+    @PreAuthorize("#id == authentication.principal.user.id")
     public String findById(@PathVariable("id") Long id, Model model) {
         return userService.findById(id)
                 .map(user -> {

@@ -19,7 +19,7 @@
          th:text="${error.defaultMessage}">Error message</p>
     </div>
 
-    <form th:action="@{'/notes/' + ${#authentication.principal.id} + '/update/' + ${note.id}}" method="post"
+    <form th:action="@{'/notes/' + ${#authentication.principal.user.id} + '/update/' + ${note.id}}" method="post"
           th:object="${note}">
 
       <div class="mb-3">

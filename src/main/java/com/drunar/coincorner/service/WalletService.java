@@ -55,7 +55,7 @@ public class WalletService {
                 .map(walletMapper::walletToWalletReadDTO).toList();
     }
 
-    @PreAuthorize("(@walletService.doesWalletExistAndBelongsToUser(#id, authentication.principal.id)) or hasAnyAuthority('ADMIN')")
+    @PreAuthorize("(@walletService.doesWalletExistAndBelongsToUser(#id, authentication.principal.user.id)) or hasAnyAuthority('ADMIN')")
     public Optional<WalletReadDTO> findById(Long id){
         return walletRepository.findById(id).map(walletMapper::walletToWalletReadDTO);
     }
@@ -67,8 +67,8 @@ public class WalletService {
                         .collect(Collectors.toList()));
     }
 
-    public Optional<List<WalletReadDTO>> findAllByUserDetails(CustomUserDetails user) {
-        return walletRepository.findAllByOwnerUserId(user.getId())
+    public Optional<List<WalletReadDTO>> findAllByUserDetails(CustomUserDetails customUser) {
+        return walletRepository.findAllByOwnerUserId(customUser.getUser().getId())
                 .map(wallets -> wallets.stream()
                         .map(walletMapper::walletToWalletReadDTO)
                         .collect(Collectors.toList()));

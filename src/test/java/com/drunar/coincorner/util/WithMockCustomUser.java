@@ -13,4 +13,5 @@ public @interface WithMockCustomUser {
     long id() default 1L;
     String password() default "password";
     String[] roles() default {"USER"};
+
 }

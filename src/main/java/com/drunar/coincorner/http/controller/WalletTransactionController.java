@@ -55,7 +55,7 @@ public class WalletTransactionController {
     }
 
     @GetMapping("/my")
-    @PreAuthorize("#userId == authentication.principal.id")
+    @PreAuthorize("#userId == authentication.principal.user.id")
     public String findAllByUser(Model model, WalletTransactionFilter filter, Pageable pageable,
                                 @RequestParam Long userId) {
         Page<WalletTransactionDTO> page = walletTrService.findAll(filter, pageable);
@@ -162,7 +162,7 @@ public class WalletTransactionController {
     }
 
     @GetMapping("/finances")
-    @PreAuthorize("#userId == authentication.principal.id")
+    @PreAuthorize("#userId == authentication.principal.user.id")
     public String finances(Model model, WalletTransactionFilter filter, Pageable pageable,
                            @RequestParam(name = "period", required = false) String period,
                            @RequestParam Long userId,
