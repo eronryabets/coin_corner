@@ -32,6 +32,7 @@ public interface UserMapper {
     @Mapping(target = "accountNonLocked", ignore = true)
     @Mapping(target = "failedAttempt", ignore = true)
     @Mapping(target = "lockTime", ignore = true)
+    @Mapping(target = "resetPasswordToken", ignore = true)
     User userReadDTOtoUser(UserReadDTO userReadDTO);
 
     @Mapping(target = "id", ignore = true)
@@ -42,6 +43,7 @@ public interface UserMapper {
     @Mapping(target = "accountNonLocked", ignore = true)
     @Mapping(target = "failedAttempt", ignore = true)
     @Mapping(target = "lockTime", ignore = true)
+    @Mapping(target = "resetPasswordToken", ignore = true)
     User userCreateEditDTOtoUser(UserCreateEditDTO userCreateEditDTO);
 
     @AfterMapping

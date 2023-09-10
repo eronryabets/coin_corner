@@ -64,6 +64,9 @@ public class User implements BaseEntity<Long>{
     @Column(name = "lock_time")
     private LocalDateTime lockTime;
 
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
+
     public boolean isEnabled() {
         return true;
     }

@@ -37,7 +37,7 @@ public class SecurityConfiguration {
 //                .csrf().disable()
                 .authorizeHttpRequests(urlConfig -> urlConfig
                         .requestMatchers("/login", "/users/registration",
-                                "/v3/api-docs/**", "/swagger-ui/**", "/static/**").permitAll()
+                                "/v3/api-docs/**", "/swagger-ui/**", "/static/**","/forgot/**").permitAll()
                         .requestMatchers("/users/\\d+/delete").hasAuthority(ADMIN.getAuthority())
                         .requestMatchers("/admin/**").hasAuthority(ADMIN.getAuthority())
                         .anyRequest().authenticated()

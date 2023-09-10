@@ -35,6 +35,18 @@ spring:
   cache:
     jcache:
       provider: org.ehcache.jsr107.EhcacheCachingProvider
+  mail:
+    host: smtp.gmail.com
+    username: baddictor@gmail.com
+    password: hidepwd
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 
 logging:
   level:

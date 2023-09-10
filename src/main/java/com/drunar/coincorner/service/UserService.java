@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +42,7 @@ public class UserService implements UserDetailsService {
     private final ImageService imageService;
     private final UserCopyHelper userCopyHelper;
     private final UserOAuthMapper userOAuthMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public static final int MAX_FAILED_ATTEMPTS = 3;
     private static final long LOCK_TIME_DURATION = 24 * 60 * 60 * 1000; // 24 hours
@@ -182,6 +184,31 @@ public class UserService implements UserDetailsService {
 
     public User getByEmail(String email){
         return userRepository.findUserByEmail(email).orElseThrow();
+    }
+
+    @Transactional
+    public void updateResetPasswordToken(String token, String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            user.setResetPasswordToken(token);
+            userRepository.save(user);
+        } else {
+            throw new UsernameNotFoundException("Could not find any user with the email " + email);
+        }
+    }
+
+    public User getByResetPasswordToken(String token) {
+        return userRepository.findByResetPasswordToken(token);
+    }
+
+    @Transactional
+    public void updatePassword(User user, String newPassword) {
+//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//        String encodedPassword = passwordEncoder.encode(newPassword);
+        user.setPassword(passwordEncoder.encode(newPassword));
+
+        user.setResetPasswordToken(null);
+        userRepository.save(user);
     }
 
 
