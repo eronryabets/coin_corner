@@ -128,15 +128,15 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void newUserFromOAuth(OidcUserRequest userRequest){
+    public void newUserFromOAuth(OidcUserRequest userRequest) {
         Optional<User> user = userRepository.findByUsername(userRequest.getIdToken().getClaim("email"));
-        if(user.isEmpty()){
+        if (user.isEmpty()) {
             create(userOAuthMapper.map(userRequest));
         }
 
     }
-    @Transactional
 
+    @Transactional
     public boolean checkEmailIfExists(String email) {
         Optional<User> userByEmail = userRepository.findUserByEmail(email);
         return userByEmail.isPresent();
@@ -182,29 +182,27 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
-    public User getByEmail(String email){
+    public User getByEmail(String email) {
         return userRepository.findUserByEmail(email).orElseThrow();
     }
 
     @Transactional
     public void updateResetPasswordToken(String token, String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
-        if (user != null) {
-            user.setResetPasswordToken(token);
-            userRepository.save(user);
-        } else {
-            throw new UsernameNotFoundException("Could not find any user with the email " + email);
-        }
+        userRepository.findByEmail(email)
+                .ifPresentOrElse(
+                        user -> {
+                            user.setResetPasswordToken(token);
+                            userRepository.save(user);},
+                        () -> {throw new UsernameNotFoundException("Could not find any user with the email " + email);}
+                );
     }
 
-    public User getByResetPasswordToken(String token) {
+    public Optional<User> getByResetPasswordToken(String token) {
         return userRepository.findByResetPasswordToken(token);
     }
 
     @Transactional
     public void updatePassword(User user, String newPassword) {
-//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//        String encodedPassword = passwordEncoder.encode(newPassword);
         user.setPassword(passwordEncoder.encode(newPassword));
 
         user.setResetPasswordToken(null);

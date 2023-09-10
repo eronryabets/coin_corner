@@ -1,6 +1,5 @@
 package com.drunar.coincorner.http.controller;
 
-import com.drunar.coincorner.database.entity.User;
 import com.drunar.coincorner.service.UserService;
 import com.drunar.coincorner.util.Utility;
 import jakarta.mail.MessagingException;
@@ -16,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.UnsupportedEncodingException;
 
@@ -52,6 +52,38 @@ public class ForgotPasswordController {
         return "/forgot/forgot_password_form";
     }
 
+
+    @GetMapping("/reset_password")
+    public String showResetPasswordForm(@Param(value = "token") String token, Model model) {
+        return userService.getByResetPasswordToken(token)
+                .map(user -> {
+                    model.addAttribute("token", token);
+                    return "forgot/reset_password_form";
+                })
+                .orElseGet(() -> {
+                    model.addAttribute("message", "Invalid Token");
+                    return "forgot/reset_password_form";
+                });
+    }
+
+    @PostMapping("/reset_password")
+    public String processResetPassword(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
+        String token = request.getParameter("token");
+        String password = request.getParameter("password");
+
+        return userService.getByResetPasswordToken(token)
+                .map(user -> {
+                    model.addAttribute("title", "Reset your password");
+                    userService.updatePassword(user, password);
+                    redirectAttributes.addFlashAttribute("messagePwdChange", "You have successfully changed your password, please try login..");
+                    return "redirect:/login";
+                })
+                .orElseGet(() -> {
+                    redirectAttributes.addFlashAttribute("messagePwdChange", "Invalid Token");
+                    return "redirect:/login";
+                });
+    }
+
     public void sendEmail(String recipientEmail, String link)
             throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = mailSender.createMimeMessage();
@@ -75,40 +107,5 @@ public class ForgotPasswordController {
         helper.setText(content, true);
 
         mailSender.send(message);
-    }
-
-
-    @GetMapping("/reset_password")
-    public String showResetPasswordForm(@Param(value = "token") String token, Model model) {
-        User user = userService.getByResetPasswordToken(token);
-        model.addAttribute("token", token);
-
-        if (user == null) {
-            model.addAttribute("message", "Invalid Token");
-//            return "message";
-        }
-
-        return "forgot/reset_password_form";
-    }
-
-    @PostMapping("/reset_password")
-    public String processResetPassword(HttpServletRequest request, Model model) {
-        String token = request.getParameter("token");
-        String password = request.getParameter("password");
-
-        User customer = userService.getByResetPasswordToken(token);
-        model.addAttribute("title", "Reset your password");
-
-        if (customer == null) {
-            model.addAttribute("message", "Invalid Token");
-//            return "message";
-        } else {
-            userService.updatePassword(customer, password);
-
-            model.addAttribute("message", "You have successfully changed your password.");
-        }
-
-//        return "message";
-        return "user/login";
     }
 }

@@ -31,8 +31,8 @@ public interface UserRepository extends
     void updateFailedAttempts(int failAttempts, String email);
 
     @Query("SELECT c FROM User c WHERE c.email = ?1")
-    User findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
-    User findByResetPasswordToken(String token);
+    Optional<User> findByResetPasswordToken(String token);
 
 }
