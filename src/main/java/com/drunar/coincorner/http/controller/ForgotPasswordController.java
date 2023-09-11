@@ -1,7 +1,8 @@
 package com.drunar.coincorner.http.controller;
 
 import com.drunar.coincorner.service.UserService;
-import com.drunar.coincorner.util.Utility;
+import com.drunar.coincorner.util.RandomStringGenerator;
+import com.drunar.coincorner.util.WebUtility;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,11 +36,11 @@ public class ForgotPasswordController {
     @PostMapping("/forgot_password")
     public String processForgotPassword(HttpServletRequest request, Model model) {
         String email = request.getParameter("email");
-        String token = Utility.generateRandomString(30);
+        String token = RandomStringGenerator.generateRandomString(30);
 
         try {
             userService.updateResetPasswordToken(token, email);
-            String resetPasswordLink = Utility.getSiteURL(request) + "/forgot/reset_password?token=" + token;
+            String resetPasswordLink = WebUtility.getSiteURL(request) + "/forgot/reset_password?token=" + token;
             sendEmail(email, resetPasswordLink);
             model.addAttribute("message", "We have sent a reset password link to your email. Please check.");
 
