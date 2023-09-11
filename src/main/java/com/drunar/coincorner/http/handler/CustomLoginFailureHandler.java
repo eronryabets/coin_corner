@@ -23,8 +23,8 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
-        String email = request.getParameter("email");
-        User user = userService.getByEmail(email);
+        String username = request.getParameter("username");
+        User user = userService.getByUsername(username);
 
         if (user != null) {
             if (user.isEnabled() && user.isAccountNonLocked()) {

@@ -121,10 +121,10 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public CustomUserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findUserByEmail(email)
+    public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username)
                 .map(CustomUserDetails::new)
-                .orElseThrow(() -> new UsernameNotFoundException("Failed to retrieve user: " + email));
+                .orElseThrow(() -> new UsernameNotFoundException("Failed to retrieve user: " + username));
     }
 
     @Transactional
@@ -145,12 +145,12 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void increaseFailedAttempts(User user) {
         int newFailAttempts = user.getFailedAttempt() + 1;
-        userRepository.updateFailedAttempts(newFailAttempts, user.getEmail());
+        userRepository.updateFailedAttempts(newFailAttempts, user.getUsername());
     }
 
     @Transactional
-    public void resetFailedAttempts(String email) {
-        userRepository.updateFailedAttempts(0, email);
+    public void resetFailedAttempts(String username) {
+        userRepository.updateFailedAttempts(0, username);
     }
 
     @Transactional
@@ -182,8 +182,8 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
-    public User getByEmail(String email) {
-        return userRepository.findUserByEmail(email).orElseThrow();
+    public User getByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow();
     }
 
     @Transactional

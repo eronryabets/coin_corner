@@ -15,7 +15,10 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+import javax.sql.DataSource;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Set;
@@ -30,6 +33,7 @@ public class SecurityConfiguration {
     private final UserService userService;
     private final CustomLoginFailureHandler loginFailureHandler;
     private final CustomLoginSuccessHandler loginSuccessHandler;
+    private final DataSource dataSource;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -48,19 +52,29 @@ public class SecurityConfiguration {
                         .deleteCookies("JSESSIONID"))
                 .formLogin(login -> login
                         .loginPage("/login")
-                        .usernameParameter("email")
+                        .usernameParameter("username")
                         .failureHandler(loginFailureHandler)
                         .successHandler(loginSuccessHandler)
                         .permitAll()
-                        .defaultSuccessUrl("/"))
+                        .defaultSuccessUrl("/")
+                )
                 .oauth2Login(config -> config
                         .loginPage("/login")
                         .defaultSuccessUrl("/")
                         .userInfoEndpoint(userInfo -> userInfo.oidcUserService(oidcUserService()))
+                )
+                .rememberMe((remember) -> remember
+                        .tokenRepository(persistentTokenRepository())
+                        .userDetailsService(userService)
+                        .alwaysRemember(true)
+                        .tokenValiditySeconds(24*60*60*14)
+                        .key("Y4PnA7qFgMzR3Wx1oLb9")
+
                 );
 
         return http.build();
     }
+
 
     private OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
         return userRequest -> {
@@ -81,4 +95,13 @@ public class SecurityConfiguration {
                             : method.invoke(oidcUser, args));
         };
     }
+
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl tokenRepo = new JdbcTokenRepositoryImpl();
+        tokenRepo.setDataSource(dataSource);
+        return tokenRepo;
+    }
+
 }

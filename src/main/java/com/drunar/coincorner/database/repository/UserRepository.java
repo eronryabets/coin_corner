@@ -26,9 +26,9 @@ public interface UserRepository extends
 
     Optional<User> findByUsername(String username);
 
-    @Query("UPDATE User u SET u.failedAttempt = ?1 WHERE u.email = ?2")
+    @Query("UPDATE User u SET u.failedAttempt = ?1 WHERE u.username = ?2")
     @Modifying
-    void updateFailedAttempts(int failAttempts, String email);
+    void updateFailedAttempts(int failAttempts, String username);
 
     @Query("SELECT c FROM User c WHERE c.email = ?1")
     Optional<User> findByEmail(String email);
