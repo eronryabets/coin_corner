@@ -2,7 +2,7 @@ package com.drunar.coincorner.http.handler;
 
 import com.drunar.coincorner.database.entity.User;
 import com.drunar.coincorner.dto.CustomUserDetails;
-import com.drunar.coincorner.service.UserService;
+import com.drunar.coincorner.service.UserServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,7 +18,7 @@ import java.io.IOException;
 public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,

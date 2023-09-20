@@ -9,11 +9,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 
 @Service
-public class FileService {
+public class FileService implements ReportGenerator{
 
-    public ByteArrayOutputStream generateFileBytes(FinancialSummaryDTO finance,
-                                                   PageResponse<WalletTransactionDTO> transactions,
-                                                   String format) {
+    @Override
+    public ByteArrayOutputStream generateReport(FinancialSummaryDTO finance,
+                                                PageResponse<WalletTransactionDTO> transactions,
+                                                String format) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         try (PrintWriter writer = new PrintWriter(outputStream)) {

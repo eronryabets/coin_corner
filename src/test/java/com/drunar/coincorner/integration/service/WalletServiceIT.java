@@ -7,8 +7,8 @@ import com.drunar.coincorner.dto.UserReadDTO;
 import com.drunar.coincorner.dto.WalletCreateEditDTO;
 import com.drunar.coincorner.dto.WalletReadDTO;
 import com.drunar.coincorner.integration.IntegrationTestBase;
-import com.drunar.coincorner.service.UserService;
-import com.drunar.coincorner.service.WalletService;
+import com.drunar.coincorner.service.UserServiceImpl;
+import com.drunar.coincorner.service.WalletServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 
@@ -26,8 +26,8 @@ public class WalletServiceIT extends IntegrationTestBase {
     private static final Long WALLET_1 = 1L;
     private static final Long USER_1 = 1L;
 
-    private final WalletService walletService;
-    private final UserService userService;
+    private final WalletServiceImpl walletService;
+    private final UserServiceImpl userService;
 
     @Test
     void findAll(){

@@ -1,7 +1,7 @@
 package com.drunar.coincorner.http.handler;
 
 import com.drunar.coincorner.database.entity.User;
-import com.drunar.coincorner.service.UserService;
+import com.drunar.coincorner.service.UserServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,7 +18,7 @@ import java.io.IOException;
 public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
@@ -28,7 +28,7 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
 
         if (user != null) {
             if (user.isEnabled() && user.isAccountNonLocked()) {
-                if (user.getFailedAttempt() < UserService.MAX_FAILED_ATTEMPTS - 1) {
+                if (user.getFailedAttempt() < UserServiceImpl.MAX_FAILED_ATTEMPTS - 1) {
                     userService.increaseFailedAttempts(user);
                 } else {
                     userService.lock(user);

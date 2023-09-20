@@ -5,7 +5,7 @@ import com.drunar.coincorner.dto.PageResponse;
 import com.drunar.coincorner.dto.WalletCreateEditDTO;
 import com.drunar.coincorner.dto.WalletReadDTO;
 import com.drunar.coincorner.http.handler.OptionalResponseHandler;
-import com.drunar.coincorner.service.WalletService;
+import com.drunar.coincorner.service.WalletServiceImpl;
 import com.drunar.coincorner.util.InterestRate;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class WalletRestController {
 
-    private final WalletService walletService;
+    private final WalletServiceImpl walletService;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     private PageResponse<WalletReadDTO> findAll(WalletFilter filter, Pageable pageable,

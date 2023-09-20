@@ -3,7 +3,7 @@ package com.drunar.coincorner.config;
 import com.drunar.coincorner.dto.CustomUserDetails;
 import com.drunar.coincorner.http.handler.CustomLoginFailureHandler;
 import com.drunar.coincorner.http.handler.CustomLoginSuccessHandler;
-import com.drunar.coincorner.service.UserService;
+import com.drunar.coincorner.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +30,7 @@ import static com.drunar.coincorner.database.entity.Role.ADMIN;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
     private final CustomLoginFailureHandler loginFailureHandler;
     private final CustomLoginSuccessHandler loginSuccessHandler;
     private final DataSource dataSource;

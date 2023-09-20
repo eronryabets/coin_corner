@@ -6,7 +6,7 @@ import com.drunar.coincorner.dto.MoneyFormDTO;
 import com.drunar.coincorner.dto.PageResponse;
 import com.drunar.coincorner.dto.WalletTransactionDTO;
 import com.drunar.coincorner.service.CashTransferService;
-import com.drunar.coincorner.service.WalletService;
+import com.drunar.coincorner.service.WalletServiceImpl;
 import com.drunar.coincorner.service.WalletTransactionService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class WalletTransactionRestController {
 
     private final WalletTransactionService walletTrService;
-    private final WalletService walletService;
+    private final WalletServiceImpl walletService;
     private final CashTransferService cashTransferService;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)

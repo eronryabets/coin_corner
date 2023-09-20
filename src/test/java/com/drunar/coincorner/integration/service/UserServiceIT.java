@@ -4,7 +4,7 @@ import com.drunar.coincorner.database.entity.Role;
 import com.drunar.coincorner.dto.UserCreateEditDTO;
 import com.drunar.coincorner.dto.UserReadDTO;
 import com.drunar.coincorner.integration.IntegrationTestBase;
-import com.drunar.coincorner.service.UserService;
+import com.drunar.coincorner.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
@@ -21,7 +21,7 @@ class UserServiceIT extends IntegrationTestBase {
 
     private static final Long USER_1 = 1L;
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     @Test
     void findAll() {

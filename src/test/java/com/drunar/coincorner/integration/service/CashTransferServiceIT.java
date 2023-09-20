@@ -3,7 +3,7 @@ package com.drunar.coincorner.integration.service;
 import com.drunar.coincorner.dto.WalletReadDTO;
 import com.drunar.coincorner.integration.IntegrationTestBase;
 import com.drunar.coincorner.service.CashTransferService;
-import com.drunar.coincorner.service.WalletService;
+import com.drunar.coincorner.service.WalletServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @RequiredArgsConstructor
 public class CashTransferServiceIT extends IntegrationTestBase {
 
-    private final WalletService walletService;
+    private final WalletServiceImpl walletService;
     private final CashTransferService cashTransferService;
 
     private static final Long WALLET_1 = 1L;

@@ -5,7 +5,7 @@ import com.drunar.coincorner.dto.PageResponse;
 import com.drunar.coincorner.dto.UserCreateEditDTO;
 import com.drunar.coincorner.dto.UserReadDTO;
 import com.drunar.coincorner.http.handler.OptionalResponseHandler;
-import com.drunar.coincorner.service.UserService;
+import com.drunar.coincorner.service.UserServiceImpl;
 import com.drunar.coincorner.validation.group.CreateActions;
 import com.drunar.coincorner.validation.group.UpdateAction;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,7 +29,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserRestController {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public PageResponse<UserReadDTO> findAll(UserFilter filter, Pageable pageable) {

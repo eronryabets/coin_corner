@@ -2,7 +2,7 @@ package com.drunar.coincorner.aop;
 
 import com.drunar.coincorner.dto.WalletReadDTO;
 import com.drunar.coincorner.dto.WalletTransactionDTO;
-import com.drunar.coincorner.service.WalletService;
+import com.drunar.coincorner.service.WalletServiceImpl;
 import com.drunar.coincorner.service.WalletTransactionService;
 import com.drunar.coincorner.util.TransactionThreadLocal;
 import com.drunar.coincorner.util.WalletTransactionEnricher;
@@ -22,7 +22,7 @@ import java.math.BigDecimal;
 public class TransactionLoggingAspect {
 
     private final WalletTransactionService walletTrService;
-    private final WalletService walletService;
+    private final WalletServiceImpl walletService;
 
 
     @Around(value = "@annotation(LogTransaction) && args(walletId, amount)")

@@ -37,7 +37,7 @@ public class FinanceReportRestController {
                 (PageResponse<WalletTransactionDTO>) session.getAttribute("transactionsData");
 
         try {
-            ByteArrayOutputStream outputStream = fileService.generateFileBytes(financeData, transactionsData, format);
+            ByteArrayOutputStream outputStream = fileService.generateReport(financeData, transactionsData, format);
 
             if (outputStream != null) {
                 ByteArrayResource resource = new ByteArrayResource(outputStream.toByteArray());

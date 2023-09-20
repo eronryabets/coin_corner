@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collections;
 
 @Service
-public class GetPOJOExchangeRates {
+public class GetPOJOExchangeRates implements ExchangeRatesProvider{
 
     private final String UrlExchangeRates;
 
@@ -22,6 +22,7 @@ public class GetPOJOExchangeRates {
         this.restTemplate = restTemplateBuilder.build();
     }
 
+    @Override
     public ExchangeRatesDTO[] getArrayRates() {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
