@@ -17,7 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,8 +55,6 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    @PreAuthorize("(@walletServiceImpl.doesWalletExistAndBelongsToUser(#id, authentication.principal.user.id))" +
-            " or hasAnyAuthority('ADMIN')")
     public Optional<WalletReadDTO> findById(Long id){
         return walletRepository.findById(id).map(walletMapper::walletToWalletReadDTO);
     }
@@ -118,7 +115,6 @@ public class WalletServiceImpl implements WalletService {
         return walletRepository.findById(id)
                 .map(entity -> {
                     walletRepository.delete(entity);
-                    walletRepository.flush();
                     return true;
                 }).orElse(false);
     }

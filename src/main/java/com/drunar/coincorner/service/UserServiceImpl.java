@@ -98,14 +98,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Transactional
     public boolean delete(Long id) {
         return userRepository.findById(id)
                 .map(entity -> {
                     imageService.delete(entity.getImage());
                     userRepository.delete(entity);
-                    userRepository.flush();
                     return true;
                 }).orElse(false);
     }

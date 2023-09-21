@@ -6,6 +6,7 @@ import com.drunar.coincorner.dto.*;
 import com.drunar.coincorner.service.CashTransferService;
 import com.drunar.coincorner.service.WalletService;
 import com.drunar.coincorner.service.WalletTransactionService;
+import com.drunar.coincorner.util.DateRangeCalculator;
 import com.drunar.coincorner.util.FinancialSummaryBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -33,6 +34,7 @@ public class WalletTransactionController {
     private final WalletService walletService;
     private final CashTransferService cashTransferService;
     private final FinancialSummaryBuilder financialSummaryBuilder;
+    private final DateRangeCalculator dateRangeCalculator;
 
     @GetMapping
     public String findAll(Model model, WalletTransactionFilter filter, Pageable pageable) {
@@ -164,10 +166,11 @@ public class WalletTransactionController {
     @GetMapping("/finances")
     @PreAuthorize("#userId == authentication.principal.user.id")
     public String finances(Model model, WalletTransactionFilter filter, Pageable pageable,
-                           @RequestParam(name = "period", required = false) String period,
+                           @RequestParam(name = "period", required = false,
+                                   defaultValue = "default") String period,
                            @RequestParam Long userId,
                            HttpServletRequest request) {
-        LocalDate[] dateRange = walletTrService.calculateDateRange(period);
+        LocalDate[] dateRange = dateRangeCalculator.calculateDateRange(period);
         LocalDate startDate = dateRange[0];
         LocalDate endDate = dateRange[1];
 

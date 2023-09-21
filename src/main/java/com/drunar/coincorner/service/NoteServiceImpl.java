@@ -86,7 +86,6 @@ public class NoteServiceImpl implements NoteService{
         return noteRepository.findById(id)
                 .map(entity -> {
                     noteRepository.delete(entity);
-                    noteRepository.flush();
                     return true;
                 }).orElse(false);
     }

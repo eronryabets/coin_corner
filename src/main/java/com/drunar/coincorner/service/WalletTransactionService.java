@@ -18,8 +18,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -75,35 +73,6 @@ public class WalletTransactionService {
                 .map(walletTransactionMapper::walletTransactionToWalletTransactionDTO)
                 .orElseThrow();
     }
-
-    public LocalDate[] calculateDateRange(String period) {
-        LocalDate startDate = null;
-        LocalDate endDate = LocalDate.now();
-
-        if ("lastWeek".equals(period)) {
-            startDate = endDate.minusWeeks(1).with(DayOfWeek.MONDAY);
-            endDate = endDate.minusWeeks(1).with(DayOfWeek.SUNDAY);
-        } else if ("currentWeek".equals(period)) {
-            startDate = endDate.with(DayOfWeek.MONDAY);
-        } else if ("lastMonth".equals(period)) {
-            startDate = endDate.minusMonths(1).withDayOfMonth(1);
-            endDate = endDate.minusMonths(1).withDayOfMonth(1).plusMonths(1).minusDays(1);
-        } else if ("currentMonth".equals(period)) {
-            startDate = endDate.withDayOfMonth(1);
-        } else if ("lastQuarter".equals(period)) {
-            int currentMonth = endDate.getMonthValue();
-            int currentQuarterStartMonth = (currentMonth - 1) / 3 * 3 + 1;
-            startDate = LocalDate.of(endDate.getYear(), currentQuarterStartMonth, 1).minusMonths(3);
-            endDate = startDate.plusMonths(3).minusDays(1);
-        } else if ("currentQuarter".equals(period)) {
-            int currentMonth = endDate.getMonthValue();
-            int currentQuarterStartMonth = (currentMonth - 1) / 3 * 3 + 1;
-            startDate = LocalDate.of(endDate.getYear(), currentQuarterStartMonth, 1);
-        }
-
-        return new LocalDate[]{startDate, endDate};
-    }
-
 
 
 }
